@@ -665,9 +665,11 @@ function setMode(m){
  document.getElementById('authSubtitle').textContent=m==='register'?'Créez votre espace de recherche local.':'Accédez à votre espace de recherche.';
 }
 function enterApp(){
- currentUser=document.getElementById('name').value.trim() || document.getElementById('email').value.split('@')[0] || 'chercheur';
- document.getElementById('userLabel').textContent=currentUser;
- showPage('app'); renderResults(demoData); toast(mode==='register'?'Compte de démonstration créé':'Connexion réussie');
+  currentUser=document.getElementById('name').value.trim() || document.getElementById('email').value.split('@')[0] || 'chercheur';
+  var userLabel = document.getElementById('userLabel');
+  if(userLabel) userLabel.textContent=currentUser;
+  showPage('advsearch');
+  toast(mode==='register'?'Compte créé':'Connexion réussie');
 }
 function renderResults(rows){
  const body=document.getElementById('resultBody');
