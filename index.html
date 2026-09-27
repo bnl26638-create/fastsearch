@@ -206,6 +206,15 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
 .chatMsg.me .meta .name{color:#54a7ff}
 .chatMsg.me .text{background:rgba(84,167,255,.08);border-color:rgba(84,167,255,.25)}
 
+.chatTyping{
+  padding:0 16px 8px;
+  font-size:11px;
+  color:#8e8789;
+  font-style:italic;
+  min-height:16px;
+  font-family:ui-monospace,monospace;
+}
+
 .chatInputBar{display:flex;gap:8px;padding:12px 14px;border-top:1px solid rgba(255,42,59,.15);background:rgba(0,0,0,.3)}
 .chatInputBar input{flex:1;padding:11px 14px;background:#090506;border:1px solid #32151a;border-radius:10px;color:#fff;font-size:13px;font-family:inherit;outline:none}
 .chatInputBar input:focus{border-color:var(--red);box-shadow:0 0 0 3px rgba(255,30,50,.1)}
@@ -409,6 +418,7 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
       Aucun message pour l'instant.<br>Sois le premier à écrire !
     </div>
   </div>
+  <div class="chatTyping" id="chatTyping"></div>
   <form class="chatInputBar" id="chatForm">
     <input type="text" id="chatInput" placeholder="Écris ton message..." maxlength="500" autocomplete="off">
     <button class="chatSendBtn" type="submit" id="chatSend">
@@ -430,6 +440,8 @@ let currentUser = null;
 let chatOpen = false;
 let chatEventSource = null;
 let presenceSource = null;
+let typingUsers = {};
+let lastTypingSent = 0;
 
 // ============================================
 // NAV
@@ -454,7 +466,7 @@ function toast(msg){
 }
 
 // ============================================
-// PRÉSENCE — nombre de personnes sur le site
+// PRÉSENCE
 // ============================================
 function startPresence(){
   if(presenceSource) return;
@@ -642,6 +654,8 @@ function closeChat(){
   chatOpen = false;
   document.getElementById('chatPanel').classList.remove('open');
   stopChatStream();
+  typingUsers = {};
+  renderTypingIndicator();
 }
 
 function startChatStream(){
@@ -653,6 +667,8 @@ function startChatStream(){
         const data = JSON.parse(e.data);
         if(data.type === 'message'){
           appendMessage(data.message);
+        } else if(data.type === 'typing'){
+          handleTypingEvent(data.username, data.isTyping);
         }
       } catch(err){}
     };
@@ -698,6 +714,12 @@ function appendMessage(m){
   el.innerHTML = '<div class="meta"><span class="name">'+escapeHtml(m.username)+'</span><span class="time">'+time+'</span></div><div class="text">'+escapeHtml(m.text)+'</div>';
   container.appendChild(el);
 
+  // Retire l'auteur de la liste typing dès qu'il envoie
+  if(typingUsers[m.username]){
+    delete typingUsers[m.username];
+    renderTypingIndicator();
+  }
+
   if(chatOpen) scrollChatBottom();
 }
 
@@ -713,6 +735,7 @@ async function sendMessage(e){
   if(!text || !currentUser) return;
 
   input.value = '';
+  lastTypingSent = 0;
   try {
     const r = await fetch('/api/chat/messages', {
       method: 'POST',
@@ -726,6 +749,57 @@ async function sendMessage(e){
   } catch(err){
     toast('Erreur réseau');
   }
+}
+
+// ============================================
+// TYPING INDICATOR
+// ============================================
+function handleTypingEvent(username, isTyping){
+  if(!username) return;
+
+  if(isTyping){
+    typingUsers[username] = Date.now();
+    renderTypingIndicator();
+    setTimeout(() => {
+      if(typingUsers[username] && Date.now() - typingUsers[username] >= 2900){
+        delete typingUsers[username];
+        renderTypingIndicator();
+      }
+    }, 3000);
+  } else {
+    delete typingUsers[username];
+    renderTypingIndicator();
+  }
+}
+
+function renderTypingIndicator(){
+  const el = document.getElementById('chatTyping');
+  if(!el) return;
+
+  const users = Object.keys(typingUsers).filter(u => u !== currentUser);
+
+  if(users.length === 0){
+    el.textContent = '';
+    return;
+  }
+
+  if(users.length === 1){
+    el.textContent = users[0] + ' est en train d\'écrire...';
+  } else if(users.length === 2){
+    el.textContent = users[0] + ' et ' + users[1] + ' sont en train d\'écrire...';
+  } else {
+    el.textContent = 'Plusieurs personnes sont en train d\'écrire...';
+  }
+}
+
+async function sendTyping(){
+  if(!currentUser) return;
+  const now = Date.now();
+  if(now - lastTypingSent < 1500) return;
+  lastTypingSent = now;
+  try {
+    await fetch('/api/chat/typing', { method: 'POST' });
+  } catch(e){}
 }
 
 // ============================================
@@ -902,6 +976,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
   document.getElementById('chatClose').addEventListener('click', closeChat);
   document.getElementById('chatForm').addEventListener('submit', sendMessage);
+  document.getElementById('chatInput').addEventListener('input', sendTyping);
 
   fetch('/api/stats').then(r => r.json()).then(d => {
     document.getElementById('indexPill').textContent = (d.personnes || 0).toLocaleString('fr-FR');
