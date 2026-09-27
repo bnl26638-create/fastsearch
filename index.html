@@ -98,6 +98,8 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
 .field label{display:block;font-size:13px;color:#b9b0b2;margin-bottom:7px}
 .field input,.field select,.field textarea{width:100%;padding:14px 15px;background:#090506;border:1px solid #32151a;border-radius:12px;color:#fff;outline:none;font-family:inherit}
 .field input:focus,.field select:focus,.field textarea:focus{border-color:#ff3146;box-shadow:0 0 0 3px rgba(255,30,50,.09)}
+.field textarea{resize:vertical;min-height:80px}
+.field select{cursor:pointer}
 .submit{width:100%;padding:14px;border:0;border-radius:12px;background:linear-gradient(135deg,#ff152e,#ff4857);color:#fff;font-weight:800;margin-top:8px;font-family:inherit}
 .submit:disabled{opacity:.6;cursor:not-allowed}
 .check{font-size:12px;color:#8d8587;margin:12px 0}.check input{accent-color:var(--red)}
@@ -244,10 +246,6 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
     <button data-page="advsearch">
       <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
       Recherche
-    </button>
-    <button data-page="api">
-      <svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
-      API
     </button>
     <button data-page="delete">
       <svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
@@ -727,16 +725,92 @@ async function sendMessage(e){
 }
 
 // ============================================
-// INFO
+// INFO / SUPPRESSION
 // ============================================
 function infoPage(kind){
   const content = {
-    api: '<h2>API</h2><p class="muted">Espace API.</p>',
-    delete: '<h2>Suppression</h2><p class="muted">Interface de demande de retrait.</p><button class="submit" onclick="toast(\'Demande enregistrée\')">Envoyer</button>',
-    shop: '<h2>Boutique</h2><p class="muted">Maquettes d\'abonnements.</p>'
+    delete: `
+      <h2 style="margin-top:0">Demande de suppression</h2>
+      <p class="muted" style="text-align:left;margin-bottom:24px">
+        Vous pouvez demander la suppression de vos données personnelles présentes dans notre système.
+        Conformément au RGPD, votre demande sera traitée dans un délai maximum de <b style="color:#fff">30 jours</b>.
+      </p>
+
+      <form id="deleteForm">
+        <div class="field">
+          <label>Nom complet *</label>
+          <input id="del-nom" placeholder="Votre nom et prénom" required>
+        </div>
+
+        <div class="field">
+          <label>Email de contact *</label>
+          <input id="del-email" type="email" placeholder="vous@exemple.com" required>
+        </div>
+
+        <div class="field">
+          <label>Type de données à supprimer *</label>
+          <select id="del-type" required>
+            <option value="">— Choisir —</option>
+            <option>Toutes mes données</option>
+            <option>Données d'état civil (nom, prénom)</option>
+            <option>Données de contact (email, téléphone)</option>
+            <option>Données d'adresse</option>
+            <option>Données bancaires (IBAN)</option>
+            <option>Données de réseaux sociaux</option>
+            <option>Autre (préciser en commentaire)</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label>Motif (optionnel)</label>
+          <textarea id="del-motif" rows="3" placeholder="Raison de votre demande..."></textarea>
+        </div>
+
+        <div class="check">
+          <label>
+            <input type="checkbox" id="del-confirm" required>
+            Je certifie être la personne concernée ou disposer d'une autorisation légale.
+          </label>
+        </div>
+
+        <div class="check">
+          <label>
+            <input type="checkbox" id="del-understand" required>
+            Je comprends que la suppression est définitive et irréversible.
+          </label>
+        </div>
+
+        <button type="submit" class="submit" id="del-submit">Envoyer la demande</button>
+      </form>
+
+      <p class="muted" style="margin-top:20px;font-size:12px">
+        Un email de confirmation vous sera envoyé. Conservez-le comme preuve de votre demande.
+      </p>
+    `,
+    shop: '<h2 style="margin-top:0">Boutique</h2><p class="muted">Maquettes d\'abonnements — démo.</p>'
   };
-  document.getElementById('infoContent').innerHTML = content[kind];
+
+  document.getElementById('infoContent').innerHTML = content[kind] || '';
   showPage('info');
+
+  if(kind === 'delete'){
+    const form = document.getElementById('deleteForm');
+    if(form){
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const btn = document.getElementById('del-submit');
+        btn.disabled = true;
+        btn.textContent = 'Envoi en cours...';
+        setTimeout(() => {
+          btn.disabled = false;
+          btn.textContent = 'Envoyer la demande';
+          const ref = 'DEL-' + Date.now().toString(36).toUpperCase();
+          toast('Demande enregistrée · Réf ' + ref);
+          form.reset();
+        }, 900);
+      });
+    }
+  }
 }
 
 // ============================================
@@ -748,7 +822,6 @@ document.addEventListener('DOMContentLoaded', () => {
       const p = b.dataset.page;
       if(p === 'home') showPage('home');
       else if(p === 'advsearch'){ if(!currentUser){ toast('Connecte-toi'); openAuth(false); } else showPage('advsearch'); }
-      else if(p === 'api') infoPage('api');
       else if(p === 'delete') infoPage('delete');
       else if(p === 'shop') infoPage('shop');
     });
