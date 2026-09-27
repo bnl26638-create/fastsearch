@@ -265,138 +265,6 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
 .mobileMenu button svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .mobileMenu button:hover,.mobileMenu button.active{background:rgba(255,32,51,.12);color:#fff}
 
-/* ===== MENU UTILISATEUR ===== */
-.userMenu{position:relative}
-.userBtn{
-  background:transparent;
-  border:1px solid var(--line);
-  color:#fff;
-  padding:8px 14px;
-  border-radius:20px;
-  font-size:13px;
-  font-weight:600;
-  cursor:pointer;
-  display:inline-flex;
-  align-items:center;
-  gap:8px;
-  font-family:inherit;
-  transition:all .15s;
-}
-.userBtn:hover{background:rgba(255,25,45,.1);border-color:var(--red)}
-.userBtn .avatar-mini{
-  width:22px;height:22px;border-radius:50%;
-  background:linear-gradient(135deg,var(--red),#ff4555);
-  color:#fff;
-  font-size:11px;font-weight:900;
-  display:flex;align-items:center;justify-content:center;
-}
-.userBtn .caret{
-  width:10px;height:10px;
-  stroke:currentColor;fill:none;stroke-width:2.5;
-  transition:transform .2s;
-}
-.userMenu.open .userBtn .caret{transform:rotate(180deg)}
-
-.userDropdown{
-  position:absolute;
-  top:calc(100% + 10px);right:0;
-  min-width:220px;
-  background:linear-gradient(180deg,rgba(15,5,7,.99),rgba(8,3,4,.99));
-  border:1px solid var(--line);
-  border-radius:14px;
-  padding:8px;
-  box-shadow:0 20px 60px rgba(0,0,0,.7),0 0 40px rgba(255,25,45,.15);
-  z-index:60;
-  transform:translateY(-8px) scale(.96);
-  opacity:0;
-  pointer-events:none;
-  transition:all .2s cubic-bezier(.4,0,.2,1);
-  transform-origin:top right;
-}
-.userMenu.open .userDropdown{transform:none;opacity:1;pointer-events:auto}
-.userDropdown .uhead{
-  padding:12px 14px;
-  border-bottom:1px solid var(--line);
-  margin-bottom:6px;
-}
-.userDropdown .uhead .uname{
-  font-weight:800;font-size:14px;color:#fff;
-  display:flex;align-items:center;gap:8px;
-}
-.userDropdown .uhead .uplan{
-  display:inline-block;
-  margin-top:6px;
-  font-size:9px;
-  font-weight:800;
-  letter-spacing:1.5px;
-  padding:3px 8px;
-  border-radius:20px;
-  background:rgba(255,42,59,.15);
-  color:#ff6b7a;
-  border:1px solid rgba(255,42,59,.4);
-  text-transform:uppercase;
-}
-.userDropdown .uplan.pro{
-  background:linear-gradient(135deg,#ff1830,#ff4555);
-  color:#fff;
-  border-color:#ff4555;
-  box-shadow:0 0 15px rgba(255,25,48,.4);
-}
-.userDropdown button{
-  display:flex;width:100%;align-items:center;gap:10px;
-  padding:10px 14px;border-radius:8px;
-  background:transparent;border:0;color:#d9d4d6;
-  font-size:13px;font-weight:500;
-  cursor:pointer;font-family:inherit;
-  text-align:left;
-}
-.userDropdown button:hover{background:rgba(255,25,45,.1);color:#fff}
-.userDropdown button svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-.userDropdown button.danger{color:#ff6b7a}
-.userDropdown button.danger:hover{background:rgba(255,25,45,.15)}
-.userDropdown .sep{height:1px;background:var(--line);margin:6px 8px}
-
-/* Page profil */
-.profilHeader{
-  display:flex;align-items:center;gap:20px;
-  padding-bottom:24px;
-  border-bottom:1px solid var(--line);
-  margin-bottom:24px;
-}
-.profilAvatar{
-  width:80px;height:80px;border-radius:50%;
-  background:linear-gradient(135deg,var(--red),#ff4555);
-  display:flex;align-items:center;justify-content:center;
-  font-size:34px;font-weight:900;color:#fff;
-  flex-shrink:0;
-  box-shadow:0 0 40px rgba(255,25,48,.5);
-}
-.profilInfo h2{margin:0 0 6px;font-size:24px;color:#fff}
-.profilInfo p{margin:0;color:var(--muted);font-size:13px}
-
-.profilGrid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-  gap:14px;
-  margin-bottom:24px;
-}
-.profilCard{
-  background:rgba(15,5,7,.6);
-  border:1px solid var(--line);
-  border-radius:12px;
-  padding:18px;
-}
-.profilCard .label{
-  font-family:ui-monospace,monospace;
-  font-size:10px;
-  color:var(--muted);
-  letter-spacing:2px;
-  text-transform:uppercase;
-  margin-bottom:8px;
-}
-.profilCard .value{font-size:16px;font-weight:700;color:#fff}
-.profilCard .value.pro{color:#ff6b7a}
-
 @media(max-width:700px){.accInner{grid-template-columns:1fr}.advFooter{flex-wrap:wrap}.btnSearch{flex:1}}
 @media(max-width:560px){h1{font-size:54px;letter-spacing:-3px}.subtitle{font-size:18px}.actions{width:100%}.bigbtn{width:100%}.chatPanel{right:12px;bottom:88px;width:calc(100vw - 24px)}}
 @media(max-width:900px){
@@ -405,7 +273,6 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
   .page{padding:35px 18px}
   .burger{display:inline-flex}
   .status{display:none}
-  .userDropdown{right:-60px}
 }
 </style>
 </head>
@@ -440,39 +307,6 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
   <div class="navright">
     <div class="status"><span class="dot"></span><span id="recordCount">0</span></div>
     <button class="cta" id="loginNav">Se connecter</button>
-    <div class="userMenu hidden" id="userMenu">
-      <button class="userBtn" id="userBtn" type="button">
-        <span class="avatar-mini" id="userAvatarMini">?</span>
-        <span id="userNameDisplay">user</span>
-        <svg class="caret" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
-      </button>
-      <div class="userDropdown" id="userDropdown">
-        <div class="uhead">
-          <div class="uname">
-            <span class="avatar-mini" id="userAvatarDrop">?</span>
-            <span id="userNameDrop">user</span>
-          </div>
-          <span class="uplan" id="userPlanBadge">FREE</span>
-        </div>
-        <button data-action="profile">
-          <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-          Mon profil
-        </button>
-        <button data-action="settings">
-          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
-          Paramètres
-        </button>
-        <button data-action="shop">
-          <svg viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
-          Mon abonnement
-        </button>
-        <div class="sep"></div>
-        <button data-action="logout" class="danger">
-          <svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
-          Déconnexion
-        </button>
-      </div>
-    </div>
     <button class="burger" id="burgerBtn" type="button" title="Menu">
       <svg viewBox="0 0 24 24"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
     </button>
@@ -785,31 +619,20 @@ async function submitAuth(e){
 
 function updateAuthUI(){
   const loginBtn = document.getElementById('loginNav');
-  const userMenu = document.getElementById('userMenu');
   if(currentUser){
-    loginBtn.classList.add('hidden');
-    userMenu.classList.remove('hidden');
-    const initial = currentUser.charAt(0).toUpperCase();
-    document.getElementById('userAvatarMini').textContent = initial;
-    document.getElementById('userAvatarDrop').textContent = initial;
-    document.getElementById('userNameDisplay').textContent = currentUser;
-    document.getElementById('userNameDrop').textContent = currentUser;
+    loginBtn.textContent = '● ' + currentUser;
+    loginBtn.onclick = async () => {
+      await fetch('/api/logout', { method: 'POST' });
+      currentUser = null;
+      closeChat();
+      updateAuthUI();
+      showPage('home');
+      toast('Déconnexion effectuée');
+    };
   } else {
-    loginBtn.classList.remove('hidden');
-    userMenu.classList.add('hidden');
     loginBtn.textContent = 'Se connecter';
     loginBtn.onclick = () => openAuth(false);
   }
-}
-
-async function doLogout(){
-  await fetch('/api/logout', { method: 'POST' });
-  currentUser = null;
-  closeChat();
-  document.getElementById('userMenu').classList.remove('open');
-  updateAuthUI();
-  showPage('home');
-  toast('Déconnexion effectuée');
 }
 
 async function checkSession(){
@@ -1049,72 +872,10 @@ async function sendTyping(){
 }
 
 // ============================================
-// INFO / SUPPRESSION / BOUTIQUE / PROFIL
+// INFO / SUPPRESSION / BOUTIQUE
 // ============================================
 function infoPage(kind){
   const content = {
-    profile: `
-      <div class="profilHeader">
-        <div class="profilAvatar" id="profilAvatar">?</div>
-        <div class="profilInfo">
-          <h2 id="profilName">user</h2>
-          <p>Membre de FastSearch</p>
-        </div>
-      </div>
-
-      <div class="profilGrid">
-        <div class="profilCard">
-          <div class="label">Nom d'utilisateur</div>
-          <div class="value" id="profilUsername">user</div>
-        </div>
-        <div class="profilCard">
-          <div class="label">Plan actuel</div>
-          <div class="value pro" id="profilPlan">FREE</div>
-        </div>
-        <div class="profilCard">
-          <div class="label">Statut</div>
-          <div class="value" style="color:#2df0ae">● En ligne</div>
-        </div>
-        <div class="profilCard">
-          <div class="label">Rôle</div>
-          <div class="value">Utilisateur</div>
-        </div>
-      </div>
-
-      <p class="muted" style="text-align:left;font-size:13px;line-height:1.7">
-        Ceci est votre espace personnel. Les informations affichées ici sont celles de votre compte.
-        Pour modifier vos préférences, rendez-vous dans <b style="color:#fff">Paramètres</b>.
-      </p>
-    `,
-
-    settings: `
-      <h2 style="margin-top:0">Paramètres</h2>
-      <p class="muted" style="text-align:left;margin-bottom:24px">
-        Gère les préférences de ton compte.
-      </p>
-
-      <div class="field">
-        <label>Nom d'utilisateur</label>
-        <input value="${escapeHtml(currentUser || '')}" disabled>
-      </div>
-
-      <div class="field">
-        <label>Nouveau mot de passe</label>
-        <input type="password" placeholder="••••••••">
-      </div>
-
-      <div class="field">
-        <label>Confirmer le nouveau mot de passe</label>
-        <input type="password" placeholder="••••••••">
-      </div>
-
-      <button class="submit" onclick="toast('Enregistré (démo)')">Enregistrer</button>
-
-      <p class="muted" style="margin-top:20px;font-size:12px">
-        Certaines fonctionnalités sont en cours de développement.
-      </p>
-    `,
-
     delete: `
       <h2 style="margin-top:0">Demande de suppression</h2>
       <p class="muted" style="text-align:left;margin-bottom:24px">
@@ -1218,13 +979,6 @@ function infoPage(kind){
   document.getElementById('infoContent').innerHTML = content[kind] || '';
   showPage('info');
 
-  if(kind === 'profile'){
-    const initial = (currentUser || '?').charAt(0).toUpperCase();
-    document.getElementById('profilAvatar').textContent = initial;
-    document.getElementById('profilName').textContent = currentUser || 'user';
-    document.getElementById('profilUsername').textContent = currentUser || 'user';
-  }
-
   if(kind === 'delete'){
     const form = document.getElementById('deleteForm');
     if(form){
@@ -1276,31 +1030,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     mobileMenu.querySelectorAll('button').forEach(b => {
       b.addEventListener('click', () => mobileMenu.classList.remove('open'));
-    });
-  }
-
-  // Menu utilisateur
-  const userBtn = document.getElementById('userBtn');
-  const userMenuEl = document.getElementById('userMenu');
-  const userDropdown = document.getElementById('userDropdown');
-
-  if(userBtn){
-    userBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      userMenuEl.classList.toggle('open');
-    });
-    document.addEventListener('click', (e) => {
-      if(!userMenuEl.contains(e.target)) userMenuEl.classList.remove('open');
-    });
-    userDropdown.querySelectorAll('button[data-action]').forEach(b => {
-      b.addEventListener('click', () => {
-        const action = b.dataset.action;
-        userMenuEl.classList.remove('open');
-        if(action === 'logout') doLogout();
-        else if(action === 'profile') infoPage('profile');
-        else if(action === 'settings') infoPage('settings');
-        else if(action === 'shop') infoPage('shop');
-      });
     });
   }
 
