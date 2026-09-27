@@ -88,7 +88,7 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
 /* ===== AUTH ===== */
 .authWrap{max-width:1180px;margin:0 auto}
 .authCard{max-width:470px;margin:50px auto;background:linear-gradient(145deg,rgba(24,8,11,.96),rgba(8,4,5,.96));border:1px solid var(--line);border-radius:24px;padding:32px;box-shadow:var(--shadow)}
-.authCard.wide{max-width:1100px}
+.authCard.wide{max-width:900px}
 .logoMini{font-weight:900;font-size:25px;text-align:center;margin-bottom:8px;display:flex;align-items:center;justify-content:center;gap:10px}
 .logoMini svg{width:22px;height:22px;color:var(--red);filter:drop-shadow(0 0 9px var(--red))}
 .muted{text-align:center;color:var(--muted);font-size:14px;line-height:1.5}
@@ -333,7 +333,6 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
           <div class="fieldAdv"><div class="fieldAdvHead"><label>Code postal</label><span class="help">?</span></div><div class="fieldAdvInputWrap"><input data-field="code_postal" placeholder="75001"></div></div>
           <div class="fieldAdv"><div class="fieldAdvHead"><label>Pays</label><span class="help">?</span></div><div class="fieldAdvInputWrap"><input data-field="pays" placeholder="France"></div></div>
           <div class="fieldAdv"><div class="fieldAdvHead"><label>Adresse IP</label><span class="help">?</span></div><div class="fieldAdvInputWrap"><input data-field="ip" placeholder="192.168.1.1"></div></div>
-          <div class="fieldAdv"><div class="fieldAdvHead"><label>Rayon</label><span class="help">?</span></div><div class="rayonBox">Dans un rayon de <input type="number" id="rayonKm" value="25" min="1" max="500"> km autour de <input type="text" id="rayonVille" value="Marseille" style="flex:1;min-width:120px;text-align:left"></div></div>
         </div></div>
       </div>
       <div class="acc">
@@ -611,8 +610,6 @@ async function doAdvSearch(){
 
 function clearAdvSearch(){
   document.querySelectorAll('[data-field]').forEach(inp => inp.value = '');
-  document.getElementById('rayonKm').value = 25;
-  document.getElementById('rayonVille').value = 'Marseille';
   document.getElementById('advResults').innerHTML = '';
   toast('Formulaire effacé');
 }
@@ -795,53 +792,36 @@ function infoPage(kind){
         Débloque des fonctionnalités avancées. Résiliation en un clic, sans engagement.
       </p>
 
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-bottom:24px">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;margin-bottom:24px">
 
-        <div style="background:rgba(15,5,7,.6);border:1px solid rgba(255,42,59,.2);border-radius:16px;padding:24px;display:flex;flex-direction:column">
+        <div style="background:rgba(15,5,7,.6);border:1px solid rgba(255,42,59,.2);border-radius:16px;padding:28px;display:flex;flex-direction:column">
           <div style="font-family:ui-monospace,monospace;font-size:11px;color:#8e8789;letter-spacing:2px;margin-bottom:12px">FREE</div>
-          <div style="font-size:32px;font-weight:900;color:#fff;margin-bottom:4px">0€<span style="font-size:13px;color:#8e8789;font-weight:500">/mois</span></div>
+          <div style="font-size:36px;font-weight:900;color:#fff;margin-bottom:4px">0€<span style="font-size:13px;color:#8e8789;font-weight:500">/mois</span></div>
           <p style="font-size:12px;color:#9a9295;margin:8px 0 20px;line-height:1.5">Pour découvrir la plateforme.</p>
-          <ul style="list-style:none;padding:0;margin:0 0 20px;font-size:12px;color:#b9b0b2;line-height:2;flex:1">
+          <ul style="list-style:none;padding:0;margin:0 0 20px;font-size:13px;color:#b9b0b2;line-height:2;flex:1">
             <li>✓ 10 recherches / jour</li>
             <li>✓ Recherche basique</li>
-            <li>✓ Historique 24h</li>
+            <li>✓ Export CSV / JSON</li>
             <li>✓ Chat public</li>
-            <li style="color:#5c5456">✗ Export de données</li>
-            <li style="color:#5c5456">✗ Recherche IA</li>
+            <li style="color:#5c5456">✗ Toutes les sections</li>
+            <li style="color:#5c5456">✗ Assistant IA</li>
           </ul>
           <button class="submit" onclick="toast('Plan Free déjà actif')" style="margin:0">Plan actuel</button>
         </div>
 
-        <div style="background:linear-gradient(145deg,rgba(40,10,15,.95),rgba(20,5,8,.95));border:2px solid #ff1830;border-radius:16px;padding:24px;display:flex;flex-direction:column;position:relative;box-shadow:0 0 40px rgba(255,24,48,.3)">
-          <div style="position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,#ff1830,#ff4555);color:#fff;font-size:10px;font-weight:800;letter-spacing:1.5px;padding:4px 12px;border-radius:20px">POPULAIRE</div>
+        <div style="background:linear-gradient(145deg,rgba(40,10,15,.95),rgba(20,5,8,.95));border:2px solid #ff1830;border-radius:16px;padding:28px;display:flex;flex-direction:column;position:relative;box-shadow:0 0 40px rgba(255,24,48,.3)">
+          <div style="position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,#ff1830,#ff4555);color:#fff;font-size:10px;font-weight:800;letter-spacing:1.5px;padding:4px 12px;border-radius:20px">RECOMMANDÉ</div>
           <div style="font-family:ui-monospace,monospace;font-size:11px;color:#ff6b7a;letter-spacing:2px;margin-bottom:12px">PRO</div>
-          <div style="font-size:32px;font-weight:900;color:#fff;margin-bottom:4px">9,99€<span style="font-size:13px;color:#8e8789;font-weight:500">/mois</span></div>
+          <div style="font-size:36px;font-weight:900;color:#fff;margin-bottom:4px">9,99€<span style="font-size:13px;color:#8e8789;font-weight:500">/mois</span></div>
           <p style="font-size:12px;color:#9a9295;margin:8px 0 20px;line-height:1.5">Pour les utilisateurs réguliers.</p>
-          <ul style="list-style:none;padding:0;margin:0 0 20px;font-size:12px;color:#b9b0b2;line-height:2;flex:1">
-            <li>✓ 500 recherches / jour</li>
+          <ul style="list-style:none;padding:0;margin:0 0 20px;font-size:13px;color:#b9b0b2;line-height:2;flex:1">
+            <li>✓ Recherches illimitées</li>
             <li>✓ Toutes les sections</li>
-            <li>✓ Recherche par rayon</li>
+            <li>✓ <b style="color:#ff6b7a">Assistant IA</b> à disposition</li>
             <li>✓ Export CSV / JSON</li>
-            <li>✓ Historique illimité</li>
             <li>✓ Badge PRO dans le chat</li>
           </ul>
           <button class="submit" onclick="subscribe('PRO')" style="margin:0">Passer à PRO</button>
-        </div>
-
-        <div style="background:linear-gradient(145deg,rgba(40,30,5,.9),rgba(20,15,3,.9));border:1px solid rgba(255,213,42,.4);border-radius:16px;padding:24px;display:flex;flex-direction:column">
-          <div style="font-family:ui-monospace,monospace;font-size:11px;color:#ffd52a;letter-spacing:2px;margin-bottom:12px">ELITE</div>
-          <div style="font-size:32px;font-weight:900;color:#fff;margin-bottom:4px">29,99€<span style="font-size:13px;color:#8e8789;font-weight:500">/mois</span></div>
-          <p style="font-size:12px;color:#9a9295;margin:8px 0 20px;line-height:1.5">Pour les professionnels.</p>
-          <ul style="list-style:none;padding:0;margin:0 0 20px;font-size:12px;color:#b9b0b2;line-height:2;flex:1">
-            <li>✓ Recherches illimitées</li>
-            <li>✓ Tout PRO inclus</li>
-            <li>✓ Recherche IA</li>
-            <li>✓ Accès API</li>
-            <li>✓ Alertes temps réel</li>
-            <li>✓ Support Discord privé</li>
-            <li>✓ Badge ELITE doré</li>
-          </ul>
-          <button class="submit" onclick="subscribe('ELITE')" style="margin:0;background:linear-gradient(135deg,#d4a017,#ffd52a);color:#000">Passer à ELITE</button>
         </div>
 
       </div>
