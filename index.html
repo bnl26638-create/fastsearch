@@ -71,7 +71,6 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
 
 .subtitle{font-size:22px;color:#eee;max-width:800px;margin:0 auto 10px}
 .subtitle b{color:var(--red2)}
-.tagline{color:#8e8789;font-size:15px;max-width:740px;line-height:1.6}
 .actions{display:flex;gap:14px;margin-top:36px;flex-wrap:wrap;justify-content:center}
 .bigbtn{padding:17px 26px;border-radius:14px;border:1px solid rgba(255,41,58,.42);background:rgba(30,8,11,.75);color:#fff!important;font-weight:750;min-width:235px;box-shadow:0 0 25px rgba(255,20,40,.06);display:inline-flex;align-items:center;justify-content:center;gap:10px;text-decoration:none;cursor:pointer}
 .bigbtn svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
@@ -81,8 +80,6 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
 .feature{display:flex;align-items:center;gap:8px}
 .feature svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .ic.cyan{color:#18e7c0}.ic.yellow{color:#ffe229}.ic.pink{color:#ff4050}
-.tor{margin-top:30px;border:1px solid rgba(255,36,53,.35);padding:9px 16px;border-radius:22px;color:#aaa;font-size:13px;display:inline-flex;align-items:center;gap:8px}
-.tor svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .gridbg{position:absolute;inset:auto 0 0;height:180px;background-image:linear-gradient(rgba(255,30,50,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(255,30,50,.045) 1px,transparent 1px);background-size:40px 40px;mask-image:linear-gradient(transparent,#000)}
 
 /* ===== AUTH ===== */
@@ -138,9 +135,6 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
 .fieldAdvInputWrap input,.fieldAdvInputWrap select{flex:1;min-width:0;padding:12px 14px;background:#090506;border:1px solid #32151a;border-radius:10px;color:#fff;font-size:14px;font-family:inherit;outline:none;transition:all .15s}
 .fieldAdvInputWrap input:focus,.fieldAdvInputWrap select:focus{border-color:var(--red);box-shadow:0 0 0 3px rgba(255,30,50,.1)}
 .fieldAdvInputWrap input::placeholder{color:#5c5456}
-.iaBtn{flex-shrink:0;width:42px;border:1px solid rgba(255,42,59,.35);background:rgba(255,25,45,.08);color:var(--red);border-radius:10px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s}
-.iaBtn svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-.iaBtn:hover{background:rgba(255,25,45,.18);border-color:var(--red)}
 .advFooter{display:flex;gap:12px;padding:18px 22px 22px;border-top:1px solid rgba(255,42,59,.12);background:rgba(0,0,0,.25)}
 .btnSearch{background:linear-gradient(135deg,var(--red),#ff4555);color:#fff;border:0;padding:15px 32px;border-radius:12px;font-size:15px;font-weight:800;cursor:pointer;display:flex;align-items:center;gap:10px;box-shadow:0 0 30px rgba(255,25,48,.3);transition:all .15s;font-family:inherit}
 .btnSearch svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
@@ -266,7 +260,6 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
   <div class="pill"><span class="dot"></span> <span id="indexPill">0</span> enregistrements indexés</div>
   <h1><span class="glow">FastSearch</span></h1>
   <p class="subtitle">La plateforme OSINT pour <b>les chercheurs sécurité.</b></p>
-  <p class="tagline">Interface de recherche moderne. Prototype front-end relié à un backend Node.js.</p>
   <div class="actions">
     <button class="bigbtn primary" id="startSearch">
       <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
@@ -282,10 +275,6 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
     <div class="feature"><span class="ic yellow"><svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span> Backend Node.js + sessions</div>
     <div class="feature"><span class="ic pink"><svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></span> Recherche avancée</div>
   </div>
-  <div class="tor">
-    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-    Prototype · Démo technique
-  </div>
   <div class="gridbg"></div>
 </section>
 
@@ -300,10 +289,10 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
           <div class="accArrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div>
         </div>
         <div class="accBody"><div class="accInner">
-          <div class="fieldAdv"><div class="fieldAdvHead"><label>Nom</label><span class="help" title="Nom de famille">?</span></div><div class="fieldAdvInputWrap"><input data-field="nom" placeholder="Dupont"><button class="iaBtn" type="button"><svg viewBox="0 0 24 24"><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.93 4.93l2.12 2.12M16.95 16.95l2.12 2.12M4.93 19.07l2.12-2.12M16.95 7.05l2.12-2.12"/><circle cx="12" cy="12" r="3"/></svg></button></div></div>
-          <div class="fieldAdv"><div class="fieldAdvHead"><label>Prénom</label><span class="help">?</span></div><div class="fieldAdvInputWrap"><input data-field="prenom" placeholder="Jean"><button class="iaBtn" type="button"><svg viewBox="0 0 24 24"><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.93 4.93l2.12 2.12M16.95 16.95l2.12 2.12M4.93 19.07l2.12-2.12M16.95 7.05l2.12-2.12"/><circle cx="12" cy="12" r="3"/></svg></button></div></div>
-          <div class="fieldAdv"><div class="fieldAdvHead"><label>Nom de naissance</label><span class="help">?</span></div><div class="fieldAdvInputWrap"><input data-field="nom_naissance" placeholder="Martin"><button class="iaBtn" type="button"><svg viewBox="0 0 24 24"><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.93 4.93l2.12 2.12M16.95 16.95l2.12 2.12M4.93 19.07l2.12-2.12M16.95 7.05l2.12-2.12"/><circle cx="12" cy="12" r="3"/></svg></button></div></div>
-          <div class="fieldAdv"><div class="fieldAdvHead"><label>Nom affiché</label><span class="help">?</span></div><div class="fieldAdvInputWrap"><input data-field="nom_affiche" placeholder="Jean Dupont"><button class="iaBtn" type="button"><svg viewBox="0 0 24 24"><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.93 4.93l2.12 2.12M16.95 16.95l2.12 2.12M4.93 19.07l2.12-2.12M16.95 7.05l2.12-2.12"/><circle cx="12" cy="12" r="3"/></svg></button></div></div>
+          <div class="fieldAdv"><div class="fieldAdvHead"><label>Nom</label><span class="help" title="Nom de famille">?</span></div><div class="fieldAdvInputWrap"><input data-field="nom" placeholder="Dupont"></div></div>
+          <div class="fieldAdv"><div class="fieldAdvHead"><label>Prénom</label><span class="help">?</span></div><div class="fieldAdvInputWrap"><input data-field="prenom" placeholder="Jean"></div></div>
+          <div class="fieldAdv"><div class="fieldAdvHead"><label>Nom de naissance</label><span class="help">?</span></div><div class="fieldAdvInputWrap"><input data-field="nom_naissance" placeholder="Martin"></div></div>
+          <div class="fieldAdv"><div class="fieldAdvHead"><label>Nom affiché</label><span class="help">?</span></div><div class="fieldAdvInputWrap"><input data-field="nom_affiche" placeholder="Jean Dupont"></div></div>
         </div></div>
       </div>
       <div class="acc">
