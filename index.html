@@ -418,7 +418,7 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
 </div>
 
 <div id="toast" class="toast"></div>
-<footer class="footer">FastSearch — prototype front-end relié à un backend Node.js</footer>
+<footer class="footer">FastSearch</footer>
 
 <script>
 // ============================================
@@ -429,6 +429,7 @@ let mode = 'login';
 let currentUser = null;
 let chatOpen = false;
 let chatEventSource = null;
+let presenceSource = null;
 
 // ============================================
 // NAV
@@ -450,6 +451,25 @@ function toast(msg){
   x.classList.add('show');
   clearTimeout(x._t);
   x._t = setTimeout(() => x.classList.remove('show'), 2500);
+}
+
+// ============================================
+// PRÉSENCE — nombre de personnes sur le site
+// ============================================
+function startPresence(){
+  if(presenceSource) return;
+  try {
+    presenceSource = new EventSource('/api/presence/stream');
+    presenceSource.onmessage = (e) => {
+      try {
+        const data = JSON.parse(e.data);
+        if(data.type === 'presence'){
+          const el = document.getElementById('recordCount');
+          if(el) el.textContent = data.count;
+        }
+      } catch(err){}
+    };
+  } catch(e){}
 }
 
 // ============================================
@@ -884,11 +904,11 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('chatForm').addEventListener('submit', sendMessage);
 
   fetch('/api/stats').then(r => r.json()).then(d => {
-    document.getElementById('recordCount').textContent = (d.personnes || 0).toLocaleString('fr-FR');
     document.getElementById('indexPill').textContent = (d.personnes || 0).toLocaleString('fr-FR');
   }).catch(()=>{});
 
   checkSession();
+  startPresence();
   showPage('home');
 });
 </script>
