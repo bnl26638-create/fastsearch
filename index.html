@@ -517,7 +517,7 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
   <h1><span class="glow">FastSearch</span></h1>
   <p class="subtitle" id="homeSubtitle">La plateforme OSINT pour <b>les chercheurs sécurité.</b></p>
   <div class="actions">
-    <button class="bigbtn primary" id="startSearch">
+    <button class="bigbtn primary" id="startSearch" onclick="openAuth(false)">
       <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
       <span id="startSearchLabel">Se connecter pour rechercher</span>
     </button>
@@ -825,7 +825,6 @@ function updateAuthUI(){
     applyAvatarToEl(document.getElementById('userAvatarMini'), currentAvatar, initial);
     applyAvatarToEl(document.getElementById('userAvatarDrop'), currentAvatar, initial);
 
-    // Adapte la home pour un utilisateur connecté
     if(startLabel) startLabel.textContent = 'Lancer une recherche';
     if(subtitle) subtitle.innerHTML = 'Content de te revoir, <b>' + escapeHtml(currentUser) + '</b>.';
     if(startBtn){
@@ -837,7 +836,6 @@ function updateAuthUI(){
     loginBtn.textContent = 'Se connecter';
     loginBtn.onclick = () => openAuth(false);
 
-    // Remet la home à son état initial
     if(startLabel) startLabel.textContent = 'Se connecter pour rechercher';
     if(subtitle) subtitle.innerHTML = 'La plateforme OSINT pour <b>les chercheurs sécurité.</b>';
     if(startBtn){
