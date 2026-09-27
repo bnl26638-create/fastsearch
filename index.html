@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>FastSearch — OSINT Research Platform</title>
-<meta name="description" content="FastSearch — interface de recherche OSINT moderne. Démo avec données synthétiques.">
+<meta name="description" content="FastSearch — interface de recherche OSINT moderne.">
 <style>
 :root{
   --bg:#050203;--bg2:#0b0204;--panel:rgba(17,8,10,.82);--panel2:rgba(25,10,13,.9);
@@ -14,7 +14,7 @@
 }
 *{box-sizing:border-box} html{scroll-behavior:smooth}
 body{margin:0;background:radial-gradient(circle at 50% 18%,#2a0005 0,#100103 28%,#050203 62%);color:var(--white);font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;min-height:100vh}
-button,input,select{font:inherit}button{cursor:pointer}
+button,input,select,textarea{font:inherit}button{cursor:pointer}
 .hidden{display:none!important}
 .nav{position:fixed;z-index:20;top:7px;left:0;right:0;height:54px;margin:0;border:1px solid rgba(255,34,52,.38);border-radius:28px;background:rgba(7,3,4,.84);backdrop-filter:blur(18px);display:flex;align-items:center;padding:0 14px;gap:8px;box-shadow:0 8px 40px rgba(0,0,0,.35)}
 .brand{display:flex;align-items:center;gap:10px;font-weight:850;font-size:17px;padding:0 12px}
@@ -50,41 +50,19 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
 .logoMini{font-weight:900;font-size:25px;text-align:center;margin-bottom:8px}.authCard h2{text-align:center;margin:8px 0;font-size:30px}
 .muted{text-align:center;color:var(--muted);font-size:14px;line-height:1.5}
 .tabs{display:flex;background:#0d0708;border:1px solid #291013;border-radius:12px;padding:4px;margin:24px 0}
-.tabs button{flex:1;border:0;background:transparent;color:#aaa;padding:11px;border-radius:9px}.tabs button.active{background:#281014;color:#fff}
+.tabs button{flex:1;border:0;background:transparent;color:#aaa;padding:11px;border-radius:9px;font-family:inherit}
+.tabs button.active{background:#281014;color:#fff}
 .field{margin:14px 0}.field label{display:block;font-size:13px;color:#b9b0b2;margin-bottom:7px}
-.field input,.field select{width:100%;padding:14px 15px;background:#090506;border:1px solid #32151a;border-radius:12px;color:#fff;outline:none}
-.field input:focus,.field select:focus{border-color:#ff3146;box-shadow:0 0 0 3px rgba(255,30,50,.09)}
-.submit{width:100%;padding:14px;border:0;border-radius:12px;background:linear-gradient(135deg,#ff152e,#ff4857);color:#fff;font-weight:800;margin-top:8px}
+.field input,.field select,.field textarea{width:100%;padding:14px 15px;background:#090506;border:1px solid #32151a;border-radius:12px;color:#fff;outline:none;font-family:inherit}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:#ff3146;box-shadow:0 0 0 3px rgba(255,30,50,.09)}
+.submit{width:100%;padding:14px;border:0;border-radius:12px;background:linear-gradient(135deg,#ff152e,#ff4857);color:#fff;font-weight:800;margin-top:8px;font-family:inherit}
+.submit:disabled{opacity:.6;cursor:not-allowed}
 .check{font-size:12px;color:#8d8587;margin:12px 0}.check input{accent-color:var(--red)}
-.dashboard{display:grid;grid-template-columns:250px 1fr;gap:18px;max-width:1400px;margin:25px auto}
-.side{border:1px solid var(--line);border-radius:18px;background:rgba(13,6,8,.86);padding:15px;height:calc(100vh - 110px);position:sticky;top:75px}
-.side h3{font-size:13px;color:#777;margin:10px 12px}
-.side button{width:100%;text-align:left;padding:12px;border:0;background:transparent;color:#bbb;border-radius:10px;margin:2px 0}
-.side button:hover,.side button.sel{background:rgba(255,25,44,.12);color:#fff}
-.content{min-width:0}.topbar{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:18px}
-.topbar h2{margin:0;font-size:25px}.userBadge{border:1px solid #32151a;padding:9px 12px;border-radius:12px;color:#c9c0c2;font-size:13px}
-.searchBox{display:flex;gap:8px;background:rgba(16,7,9,.9);border:1px solid rgba(255,38,55,.45);border-radius:16px;padding:8px;box-shadow:0 0 35px rgba(255,20,40,.08)}
-.searchBox input{flex:1;background:transparent;border:0;outline:0;color:#fff;padding:12px 13px;font-size:16px}.searchBox select{width:145px;background:#0b0506;border:1px solid #311419;color:#bbb;border-radius:10px;padding:0 10px}
-.searchBtn{border:0;border-radius:11px;background:var(--red);color:#fff;font-weight:800;padding:0 23px}
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:16px 0}
-.stat{border:1px solid #281217;background:rgba(14,7,9,.8);border-radius:15px;padding:16px}.stat .n{font-size:24px;font-weight:850}.stat small{color:#837b7e}
-.results{border:1px solid #2b1217;border-radius:17px;overflow:hidden;background:rgba(10,5,6,.85)}
-.resultHead,.resultRow{display:grid;grid-template-columns:1.2fr 1.2fr 1fr 1fr 80px;gap:10px;align-items:center;padding:14px 17px}
-.resultHead{font-size:12px;color:#7f7779;background:#0f0709;text-transform:uppercase;letter-spacing:.08em}
-.resultRow{border-top:1px solid #211014;font-size:13px}.resultRow:hover{background:rgba(255,25,45,.045)}
-.badge{display:inline-flex;padding:5px 8px;border-radius:7px;font-size:11px;background:#1a0b0e;color:#c5bbbd;border:1px solid #3a151c}
-.ok{color:var(--green)}.warn{color:#ffce52}.danger{color:#ff5665}
-.actionsSmall{display:flex;gap:5px}.iconBtn{border:1px solid #35151b;background:#120709;color:#aaa;border-radius:8px;padding:7px}
-.panelGrid{display:grid;grid-template-columns:1.5fr 1fr;gap:16px;margin-top:16px}
-.panel{border:1px solid #2b1217;border-radius:17px;background:rgba(12,6,8,.86);padding:18px}.panel h3{margin:0 0 14px}
-.bar{height:9px;background:#190b0e;border-radius:20px;overflow:hidden}.bar i{display:block;height:100%;background:linear-gradient(90deg,#ff1630,#ff6470);border-radius:20px}
-.activity{display:flex;gap:10px;padding:11px 0;border-bottom:1px solid #201013;font-size:13px;color:#aaa}.activity:last-child{border:0}
-.empty{text-align:center;padding:55px;color:#777}
-.toast{position:fixed;right:20px;bottom:20px;z-index:50;background:#120709;border:1px solid #5a1820;border-radius:12px;padding:13px 16px;box-shadow:0 15px 45px #000;transform:translateY(20px);opacity:0;transition:.25s}.toast.show{transform:none;opacity:1}
-.modal{position:fixed;inset:0;background:rgba(0,0,0,.72);backdrop-filter:blur(8px);z-index:40;display:flex;align-items:center;justify-content:center;padding:20px}
-.modalBox{width:min(650px,100%);background:#0d0608;border:1px solid #521923;border-radius:18px;padding:24px;box-shadow:0 30px 100px #000}
-.modalBox pre{white-space:pre-wrap;background:#070304;padding:15px;border-radius:12px;color:#bfb6b8;font-size:12px;line-height:1.55;max-height:420px;overflow:auto}
-.close{float:right;background:transparent;border:0;color:#aaa;font-size:22px}
+.authMsg{margin:14px 0 0;text-align:center;font-size:13px;min-height:18px;font-family:ui-monospace,monospace}
+.authMsg.error{color:#ff5665}
+.authMsg.success{color:var(--green)}
+.toast{position:fixed;right:20px;bottom:20px;z-index:50;background:#120709;border:1px solid #5a1820;border-radius:12px;padding:13px 16px;box-shadow:0 15px 45px #000;transform:translateY(20px);opacity:0;transition:.25s;pointer-events:none;font-size:13px;max-width:340px}
+.toast.show{transform:none;opacity:1}
 .footer{text-align:center;color:#575052;font-size:12px;padding:20px}
 
 /* ============ RECHERCHE AVANCÉE ============ */
@@ -147,18 +125,10 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
   display:flex;align-items:center;justify-content:center;
   color:var(--red);font-size:16px;
 }
-.accTitle{
-  flex:1;font-size:16px;font-weight:700;color:#fff;
-}
-.accArrow{
-  color:#7a7173;font-size:13px;
-  transition:transform .25s ease;
-}
+.accTitle{flex:1;font-size:16px;font-weight:700;color:#fff}
+.accArrow{color:#7a7173;font-size:13px;transition:transform .25s ease}
 .acc.open .accArrow{transform:rotate(180deg)}
-.accBody{
-  max-height:0;overflow:hidden;
-  transition:max-height .35s ease;
-}
+.accBody{max-height:0;overflow:hidden;transition:max-height .35s ease}
 .acc.open .accBody{max-height:1500px}
 .accInner{
   padding:4px 20px 22px;
@@ -167,12 +137,8 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
   gap:16px;
 }
 .fieldAdv{display:flex;flex-direction:column;gap:8px}
-.fieldAdvHead{
-  display:flex;align-items:center;gap:6px;
-}
-.fieldAdvHead label{
-  font-size:12px;color:#b9b0b2;font-weight:600;
-}
+.fieldAdvHead{display:flex;align-items:center;gap:6px}
+.fieldAdvHead label{font-size:12px;color:#b9b0b2;font-weight:600}
 .fieldAdvHead .help{
   width:14px;height:14px;border-radius:50%;
   background:rgba(255,42,59,.15);
@@ -182,9 +148,7 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
   font-size:9px;font-weight:800;cursor:help;
   margin-left:2px;
 }
-.fieldAdvInputWrap{
-  display:flex;gap:6px;align-items:stretch;
-}
+.fieldAdvInputWrap{display:flex;gap:6px;align-items:stretch}
 .fieldAdvInputWrap input,
 .fieldAdvInputWrap select{
   flex:1;min-width:0;
@@ -205,39 +169,27 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
 }
 .fieldAdvInputWrap input::placeholder{color:#5c5456}
 .iaBtn{
-  flex-shrink:0;
-  width:42px;
+  flex-shrink:0;width:42px;
   border:1px solid rgba(255,42,59,.35);
   background:rgba(255,25,45,.08);
   color:var(--red);
   border-radius:10px;
-  cursor:pointer;
-  font-size:15px;
+  cursor:pointer;font-size:15px;
   display:flex;align-items:center;justify-content:center;
   transition:all .15s;
 }
-.iaBtn:hover{
-  background:rgba(255,25,45,.18);
-  border-color:var(--red);
-}
+.iaBtn:hover{background:rgba(255,25,45,.18);border-color:var(--red)}
 .rayonBox{
   display:flex;flex-wrap:wrap;gap:8px;align-items:center;
-  padding:12px 14px;
-  background:#090506;
-  border:1px solid #32151a;
-  border-radius:10px;
+  padding:12px 14px;background:#090506;
+  border:1px solid #32151a;border-radius:10px;
   font-size:13px;color:#b9b0b2;
 }
 .rayonBox input{
-  width:70px;
-  padding:6px 10px;
-  background:#14090b;
-  border:1px solid #3a1a20;
-  border-radius:6px;
-  color:#fff;
-  font-size:13px;
-  text-align:center;
-  outline:none;
+  width:70px;padding:6px 10px;
+  background:#14090b;border:1px solid #3a1a20;
+  border-radius:6px;color:#fff;font-size:13px;
+  text-align:center;outline:none;
 }
 .rayonBox input:focus{border-color:var(--red)}
 .advFooter{
@@ -248,54 +200,51 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
 }
 .btnSearch{
   background:linear-gradient(135deg,var(--red),#ff4555);
-  color:#fff;
-  border:0;
-  padding:15px 32px;
-  border-radius:12px;
+  color:#fff;border:0;
+  padding:15px 32px;border-radius:12px;
   font-size:15px;font-weight:800;
-  cursor:pointer;
-  display:flex;align-items:center;gap:10px;
+  cursor:pointer;display:flex;align-items:center;gap:10px;
   box-shadow:0 0 30px rgba(255,25,48,.3);
-  transition:all .15s;
-  font-family:inherit;
+  transition:all .15s;font-family:inherit;
 }
 .btnSearch:hover{transform:translateY(-2px);filter:brightness(1.08)}
+.btnSearch:disabled{opacity:.6;cursor:not-allowed;transform:none}
 .btnClear{
-  background:transparent;
-  color:#8e8789;
+  background:transparent;color:#8e8789;
   border:1px solid #32151a;
-  padding:15px 26px;
-  border-radius:12px;
+  padding:15px 26px;border-radius:12px;
   font-size:15px;font-weight:600;
-  cursor:pointer;
-  transition:all .15s;
+  cursor:pointer;transition:all .15s;
   font-family:inherit;
 }
 .btnClear:hover{color:#fff;border-color:#521923;background:rgba(255,25,45,.05)}
+.noResult{
+  margin:0 22px 20px;
+  padding:48px 30px;
+  background:rgba(20,8,10,.5);
+  border:1px solid rgba(255,42,59,.2);
+  border-radius:14px;
+  text-align:center;
+  animation:fadeIn .3s ease;
+}
+.noResult .ico{font-size:44px;margin-bottom:16px;opacity:.4;color:var(--red)}
+.noResult .title{font-size:17px;font-weight:700;color:#fff;margin-bottom:10px}
+.noResult .hint{font-size:13px;color:#8e8789;line-height:1.6;max-width:500px;margin:0 auto}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 
-/* Chat flottant */
 .floatChat{
-  position:fixed;
-  right:24px;bottom:24px;
-  width:56px;height:56px;
-  border-radius:50%;
+  position:fixed;right:24px;bottom:24px;
+  width:56px;height:56px;border-radius:50%;
   background:linear-gradient(135deg,var(--red),#ff4555);
-  border:0;
-  color:#fff;
-  font-size:22px;
-  cursor:pointer;
+  border:0;color:#fff;font-size:22px;cursor:pointer;
   box-shadow:0 8px 30px rgba(255,25,48,.5);
-  z-index:30;
-  transition:transform .2s;
+  z-index:30;transition:transform .2s;
   display:flex;align-items:center;justify-content:center;
 }
 .floatChat:hover{transform:scale(1.1)}
 
 @media(max-width:900px){
  .navlinks{display:none}.nav{margin:0 5px}.page{padding:35px 18px}
- .dashboard{grid-template-columns:1fr}.side{display:none}.stats{grid-template-columns:1fr 1fr}.panelGrid{grid-template-columns:1fr}
- .resultHead{display:none}.resultRow{grid-template-columns:1fr 1fr}.resultRow>*:nth-child(5){grid-column:2}
- .searchBox{flex-wrap:wrap}.searchBox select{width:100%;height:43px}.searchBtn{height:45px;flex:1}
 }
 @media(max-width:700px){
   .advTabs{overflow-x:auto;padding:12px 14px 0}
@@ -304,7 +253,7 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
   .advFooter{flex-wrap:wrap}
   .btnSearch{flex:1}
 }
-@media(max-width:560px){h1{font-size:54px;letter-spacing:-3px}.subtitle{font-size:18px}.stats{grid-template-columns:1fr}.features{flex-direction:column;gap:10px}.actions{width:100%}.bigbtn{width:100%}}
+@media(max-width:560px){h1{font-size:54px;letter-spacing:-3px}.subtitle{font-size:18px}.actions{width:100%}.bigbtn{width:100%}}
 </style>
 </head>
 <body>
@@ -318,31 +267,30 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
     <button data-page="shop">🛒 Boutique</button>
   </div>
   <div class="navright">
-    <div class="status"><span class="dot"></span><span id="recordCount">11 102 948 353</span></div>
+    <div class="status"><span class="dot"></span><span id="recordCount">0</span></div>
     <button class="cta" id="loginNav">Se connecter</button>
   </div>
 </header>
 
 <main>
 <section id="home" class="page home">
-  <div class="pill"><span class="dot"></span> <span id="indexPill">11 102 948 353</span> enregistrements indexés</div>
+  <div class="pill"><span class="dot"></span> <span id="indexPill">0</span> enregistrements indexés</div>
   <h1 class="glow">FastSearch</h1>
   <p class="subtitle">La plateforme OSINT pour <b>les chercheurs sécurité.</b></p>
-  <p class="tagline">Une interface rapide pour organiser vos recherches, vos indicateurs et vos investigations. Cette version front-end fonctionne avec des données de démonstration synthétiques.</p>
+  <p class="tagline">Interface de recherche moderne. Prototype front-end relié à un backend Node.js.</p>
   <div class="actions">
     <button class="bigbtn primary" id="startSearch">⌕ Se connecter pour rechercher</button>
-    <button class="bigbtn" onclick="toast('Invitation Discord — démo')">◉ Rejoindre le Discord <span class="badge">57 045</span></button>
+    <button class="bigbtn" onclick="toast('Invitation Discord — démo')">◉ Rejoindre le Discord</button>
   </div>
   <div class="features">
-    <div class="feature"><span class="ic cyan">▤</span> 10 milliards+ de lignes</div>
-    <div class="feature"><span class="ic yellow">▣</span> Crypto anonyme & PayPal</div>
-    <div class="feature"><span class="ic pink">ϟ</span> Accès immédiat</div>
+    <div class="feature"><span class="ic cyan">▤</span> Interface haute performance</div>
+    <div class="feature"><span class="ic yellow">▣</span> Backend Node.js + sessions</div>
+    <div class="feature"><span class="ic pink">ϟ</span> Recherche avancée</div>
   </div>
-  <div class="tor">◈ Accessible via Tor</div>
+  <div class="tor">◈ Prototype · Démo technique</div>
   <div class="gridbg"></div>
 </section>
 
-<!-- ============ RECHERCHE AVANCÉE ============ -->
 <section id="advsearch" class="page hidden">
   <div class="advSearch">
     <div class="advTabs">
@@ -351,9 +299,7 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
       <button class="advTab" data-tab="ia">🤖 IA OSINT</button>
     </div>
 
-    <div class="advBody" id="tabContent">
-
-      <!-- État civil -->
+    <div class="advBody">
       <div class="acc open">
         <div class="accHead">
           <div class="accIco">👤</div>
@@ -365,34 +311,33 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
             <div class="fieldAdvHead"><label>Nom</label><span class="help" title="Nom de famille">?</span></div>
             <div class="fieldAdvInputWrap">
               <input data-field="nom" placeholder="Dupont">
-              <button class="iaBtn" title="Recherche IA">🤖</button>
+              <button class="iaBtn" title="Recherche IA" type="button">🤖</button>
             </div>
           </div>
           <div class="fieldAdv">
             <div class="fieldAdvHead"><label>Prénom</label><span class="help" title="Prénom usuel">?</span></div>
             <div class="fieldAdvInputWrap">
               <input data-field="prenom" placeholder="Jean">
-              <button class="iaBtn" title="Recherche IA">🤖</button>
+              <button class="iaBtn" title="Recherche IA" type="button">🤖</button>
             </div>
           </div>
           <div class="fieldAdv">
             <div class="fieldAdvHead"><label>Nom de naissance</label><span class="help" title="Nom avant mariage">?</span></div>
             <div class="fieldAdvInputWrap">
               <input data-field="nom_naissance" placeholder="Martin">
-              <button class="iaBtn" title="Recherche IA">🤖</button>
+              <button class="iaBtn" title="Recherche IA" type="button">🤖</button>
             </div>
           </div>
           <div class="fieldAdv">
             <div class="fieldAdvHead"><label>Nom affiché</label><span class="help" title="Pseudonyme public">?</span></div>
             <div class="fieldAdvInputWrap">
               <input data-field="nom_affiche" placeholder="Jean Dupont">
-              <button class="iaBtn" title="Recherche IA">🤖</button>
+              <button class="iaBtn" title="Recherche IA" type="button">🤖</button>
             </div>
           </div>
         </div></div>
       </div>
 
-      <!-- Origine -->
       <div class="acc">
         <div class="accHead">
           <div class="accIco">📅</div>
@@ -415,7 +360,6 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
         </div></div>
       </div>
 
-      <!-- Coordonnées -->
       <div class="acc">
         <div class="accHead">
           <div class="accIco">✉</div>
@@ -435,14 +379,9 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
             <div class="fieldAdvHead"><label>Téléphone fixe</label><span class="help" title="Fixe">?</span></div>
             <div class="fieldAdvInputWrap"><input data-field="tel_fixe" placeholder="0123456789"></div>
           </div>
-          <div class="fieldAdv">
-            <div class="fieldAdvHead"><label>Mot de passe</label><span class="help" title="Mot de passe divulgué">?</span></div>
-            <div class="fieldAdvInputWrap"><input data-field="password" placeholder="motdepasse123"></div>
-          </div>
         </div></div>
       </div>
 
-      <!-- Adresse -->
       <div class="acc">
         <div class="accHead">
           <div class="accIco">📍</div>
@@ -482,7 +421,6 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
         </div></div>
       </div>
 
-      <!-- Jeux & Réseaux -->
       <div class="acc">
         <div class="accHead">
           <div class="accIco">🎮</div>
@@ -509,7 +447,6 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
         </div></div>
       </div>
 
-      <!-- Autres données -->
       <div class="acc">
         <div class="accHead">
           <div class="accIco">＋</div>
@@ -543,8 +480,9 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
           </div>
         </div></div>
       </div>
-
     </div>
+
+    <div id="advResults"></div>
 
     <div class="advFooter">
       <button class="btnSearch" id="advDoSearch">🔍 Rechercher</button>
@@ -559,60 +497,17 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
       <div class="logoMini"><span class="bolt">ϟ</span> FastSearch</div>
       <p class="muted" id="authSubtitle">Accédez à votre espace de recherche.</p>
       <div class="tabs">
-        <button class="active" id="tabLogin">Connexion</button>
-        <button id="tabRegister">Créer un compte</button>
+        <button class="active" id="tabLogin" type="button">Connexion</button>
+        <button id="tabRegister" type="button">Créer un compte</button>
       </div>
       <form id="authForm">
-        <div class="field hidden" id="nameField"><label>Nom d'affichage</label><input id="name" placeholder="Votre pseudo"></div>
-        <div class="field"><label>Email</label><input id="email" type="email" required placeholder="vous@exemple.com"></div>
-        <div class="field"><label>Mot de passe</label><input id="password" type="password" required minlength="6" placeholder="••••••••"></div>
+        <div class="field"><label>Nom d'utilisateur</label><input id="username" required placeholder="votre_pseudo" minlength="3"></div>
+        <div class="field"><label>Mot de passe</label><input id="password" type="password" required minlength="4" placeholder="••••••••"></div>
         <div class="field hidden" id="confirmField"><label>Confirmer le mot de passe</label><input id="confirm" type="password" placeholder="••••••••"></div>
-        <div class="check"><label><input type="checkbox" checked> J'accepte les conditions de démonstration.</label></div>
-        <button class="submit" id="authSubmit">Se connecter</button>
+        <div class="check"><label><input type="checkbox" required> J'accepte les conditions d'utilisation.</label></div>
+        <button class="submit" id="authSubmit" type="submit">Se connecter</button>
       </form>
-      <p class="muted" style="margin-top:18px;font-size:12px">Démo locale : aucun compte réel ni mot de passe n'est transmis à un serveur.</p>
-    </div>
-  </div>
-</section>
-
-<section id="app" class="page hidden">
-  <div class="dashboard">
-    <aside class="side">
-      <div class="brand" style="padding:7px 10px 16px">ϟ FastSearch</div>
-      <h3>ESPACE</h3>
-      <button class="sel" data-view="overview">▦ Vue générale</button>
-      <button data-view="searchView">⌕ Nouvelle recherche</button>
-      <button data-view="history">◷ Historique</button>
-      <button data-view="saved">★ Recherches sauvegardées</button>
-      <h3>OUTILS</h3>
-      <button data-view="apiView">‹› API</button>
-      <button data-view="settings">⚙ Paramètres</button>
-      <button id="logout">↪ Déconnexion</button>
-      <div style="position:absolute;bottom:18px;color:#62595b;font-size:11px;padding:0 12px">v1.0 • Demo UI</div>
-    </aside>
-    <div class="content">
-      <div class="topbar"><div><h2 id="viewTitle">Vue générale</h2><div style="color:#71696b;font-size:13px;margin-top:3px">Centre de recherche sécurisé</div></div><div class="userBadge">● <span id="userLabel">chercheur</span></div></div>
-      <div class="searchBox">
-        <input id="query" placeholder="Rechercher dans les données de démonstration…">
-        <select id="type"><option value="all">Tous les types</option><option>Email</option><option>Téléphone</option><option>Domaine</option><option>IP</option><option>Identifiant</option></select>
-        <button class="searchBtn" id="doSearch">Rechercher</button>
-      </div>
-      <div class="stats">
-        <div class="stat"><small>Requêtes ce mois</small><div class="n">128</div></div>
-        <div class="stat"><small>Résultats trouvés</small><div class="n">4 291</div></div>
-        <div class="stat"><small>Temps moyen</small><div class="n">84ms</div></div>
-        <div class="stat"><small>Crédits restants</small><div class="n">9 872</div></div>
-      </div>
-      <div id="viewArea">
-        <div class="results">
-          <div class="resultHead"><div>Valeur</div><div>Type</div><div>Source</div><div>Statut</div><div></div></div>
-          <div id="resultBody"></div>
-        </div>
-        <div class="panelGrid">
-          <div class="panel"><h3>Activité de recherche</h3><div class="activity"><span class="ok">●</span> Index synchronisé <span style="margin-left:auto">il y a 2 min</span></div><div class="activity"><span class="ok">●</span> Nouvelle recherche exécutée <span style="margin-left:auto">il y a 8 min</span></div><div class="activity"><span class="warn">●</span> Limite API surveillée <span style="margin-left:auto">il y a 21 min</span></div></div>
-          <div class="panel"><h3>Utilisation</h3><div style="display:flex;justify-content:space-between;color:#888;font-size:12px"><span>Crédits</span><span>19%</span></div><div class="bar" style="margin-top:9px"><i style="width:19%"></i></div><p style="color:#777;font-size:12px;line-height:1.5">Les données affichées dans cette démo sont fictives et destinées à tester l'interface.</p></div>
-        </div>
-      </div>
+      <p class="authMsg" id="authMsg"></p>
     </div>
   </div>
 </section>
@@ -626,164 +521,343 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
 </section>
 </main>
 
-<button class="floatChat" title="Support / Chat">💬</button>
-
-<div id="modal" class="modal hidden">
-  <div class="modalBox"><button class="close" onclick="closeModal()">×</button><h3 id="modalTitle">Détail</h3><pre id="modalText"></pre></div>
-</div>
+<button class="floatChat" title="Support / Chat" type="button">💬</button>
 <div id="toast" class="toast"></div>
-<footer class="footer">FastSearch UI — prototype front-end • Données de démonstration synthétiques • À connecter à votre propre backend/API autorisée</footer>
+<footer class="footer">FastSearch — prototype front-end relié à un backend Node.js</footer>
 
 <script>
-const pages=['home','auth','app','info','advsearch'];
-let mode='login', currentUser='chercheur';
-const demoData=[
- {v:'alex.demo@example.test',t:'Email',s:'Dataset Demo A',st:'Disponible'},
- {v:'+33 6 00 00 00 01',t:'Téléphone',s:'Dataset Demo B',st:'Disponible'},
- {v:'example-security.test',t:'Domaine',s:'DNS Demo',st:'Actif'},
- {v:'203.0.113.42',t:'IP',s:'Net Demo',st:'Réservé'},
- {v:'demo_user_8472',t:'Identifiant',s:'Identity Demo',st:'Correspondance'},
- {v:'researcher@example.test',t:'Email',s:'Dataset Demo C',st:'Disponible'}
-];
+// ============================================
+// ÉTAT GLOBAL
+// ============================================
+const PAGES = ['home','advsearch','auth','info'];
+let mode = 'login';
+let currentUser = null;
 
+// ============================================
+// NAVIGATION
+// ============================================
 function showPage(id){
- pages.forEach(p=>document.getElementById(p).classList.toggle('hidden',p!==id));
- document.querySelectorAll('.navlinks button').forEach(b=>b.classList.toggle('active',b.dataset.page===id));
- window.scrollTo({top:0,behavior:'smooth'});
+  PAGES.forEach(p => {
+    const el = document.getElementById(p);
+    if(el) el.classList.toggle('hidden', p !== id);
+  });
+  document.querySelectorAll('.navlinks button').forEach(b => {
+    b.classList.toggle('active', b.dataset.page === id);
+  });
+  window.scrollTo({top:0, behavior:'smooth'});
 }
-function toast(msg){const x=document.getElementById('toast');x.textContent=msg;x.classList.add('show');setTimeout(()=>x.classList.remove('show'),2500)}
-function closeModal(){document.getElementById('modal').classList.add('hidden')}
-function openAuth(register=false){
- setMode(register?'register':'login'); showPage('auth');
+
+function toast(msg){
+  const x = document.getElementById('toast');
+  x.textContent = msg;
+  x.classList.add('show');
+  clearTimeout(x._t);
+  x._t = setTimeout(() => x.classList.remove('show'), 2500);
 }
+
+// ============================================
+// AUTH
+// ============================================
+function openAuth(register){
+  setMode(register ? 'register' : 'login');
+  document.getElementById('authMsg').textContent = '';
+  document.getElementById('authMsg').className = 'authMsg';
+  document.getElementById('authForm').reset();
+  showPage('auth');
+}
+
 function setMode(m){
- mode=m;
- document.getElementById('tabLogin').classList.toggle('active',m==='login');
- document.getElementById('tabRegister').classList.toggle('active',m==='register');
- ['nameField','confirmField'].forEach(x=>document.getElementById(x).classList.toggle('hidden',m!=='register'));
- document.getElementById('authSubmit').textContent=m==='register'?'Créer mon compte':'Se connecter';
- document.getElementById('authSubtitle').textContent=m==='register'?'Créez votre espace de recherche local.':'Accédez à votre espace de recherche.';
+  mode = m;
+  document.getElementById('tabLogin').classList.toggle('active', m === 'login');
+  document.getElementById('tabRegister').classList.toggle('active', m === 'register');
+  document.getElementById('confirmField').classList.toggle('hidden', m !== 'register');
+  document.getElementById('authSubmit').textContent = m === 'register' ? 'Créer mon compte' : 'Se connecter';
+  document.getElementById('authSubtitle').textContent = m === 'register'
+    ? 'Créez votre compte pour accéder au système.'
+    : 'Connectez-vous pour accéder au système.';
 }
-function enterApp(){
-  currentUser=document.getElementById('name').value.trim() || document.getElementById('email').value.split('@')[0] || 'chercheur';
-  var userLabel = document.getElementById('userLabel');
-  if(userLabel) userLabel.textContent=currentUser;
-  showPage('advsearch');
-  toast(mode==='register'?'Compte créé':'Connexion réussie');
-}
-function renderResults(rows){
- const body=document.getElementById('resultBody');
- if(!rows.length){body.innerHTML='<div class="empty">Aucun résultat dans les données de démonstration.</div>';return}
- body.innerHTML=rows.map((r,i)=>`<div class="resultRow">
- <div style="font-family:ui-monospace,monospace">${escapeHtml(r.v)}</div>
- <div><span class="badge">${r.t}</span></div><div style="color:#999">${r.s}</div>
- <div class="${r.st==='Disponible'||r.st==='Actif'?'ok':'warn'}">● ${r.st}</div>
- <div class="actionsSmall"><button class="iconBtn" onclick="details(${i})">↗</button><button class="iconBtn" onclick="saveRow(${i})">★</button></div>
- </div>`).join('');
-}
-function escapeHtml(s){return s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
-function details(i){
- const r=demoData[i];document.getElementById('modalTitle').textContent='Détail — '+r.t;
- document.getElementById('modalText').textContent=JSON.stringify({value:r.v,type:r.t,source:r.s,status:r.st,note:'Données synthétiques de démonstration — aucune donnée personnelle réelle.'},null,2);
- document.getElementById('modal').classList.remove('hidden');
-}
-function saveRow(i){toast('Recherche ajoutée aux favoris (démo)')}
-function doSearch(){
- const q=document.getElementById('query').value.trim().toLowerCase(), typ=document.getElementById('type').value;
- if(!q){renderResults(demoData);toast('Affichage des exemples de démonstration');return}
- const rows=demoData.filter(r=>(typ==='all'||r.t===typ) && (r.v.toLowerCase().includes(q)||r.t.toLowerCase().includes(q)||r.s.toLowerCase().includes(q)));
- renderResults(rows);toast(`${rows.length} résultat(s) trouvé(s)`);
-}
-function infoPage(kind){
- const content={
- api:`<h2>API</h2><p class="muted">Espace de configuration API pour votre backend autorisé.</p><div class="panel"><h3>Exemple de requête</h3><pre>POST /api/v1/search
-Authorization: Bearer YOUR_TOKEN
 
-{
-  "query": "example-security.test",
-  "type": "domain"
-}</pre></div><p class="muted">Le fichier est uniquement un front-end. Branchez votre propre API et appliquez vos contrôles d'accès, journalisation et conformité.</p>`,
- delete:`<h2>Suppression / vie privée</h2><p class="muted">Interface de demande de retrait pour les données que votre organisation est légalement autorisée à traiter.</p><div class="field"><label>Identifiant de la donnée</label><input placeholder="Référence de retrait"></div><button class="submit" onclick="toast('Demande enregistrée en démo')">Envoyer la demande</button>`,
- shop:`<h2>Boutique</h2><p class="muted">Maquettes d'abonnements.</p><div class="panelGrid"><div class="panel"><h3>Starter</h3><p>1 000 crédits/mois</p><button class="submit" onclick="toast('Plan sélectionné — démo')">Choisir</button></div><div class="panel"><h3>Pro</h3><p>10 000 crédits/mois</p><button class="submit" onclick="toast('Plan sélectionné — démo')">Choisir</button></div></div>`
- };
- document.getElementById('infoContent').innerHTML=content[kind];showPage('info');
-}
-document.querySelectorAll('[data-page]').forEach(b=>b.addEventListener('click',()=>{
- const p=b.dataset.page;
- if(p==='home')showPage('home');
- else if(p==='advsearch')showPage('advsearch');
- else if(p==='api')infoPage('api');
- else if(p==='delete')infoPage('delete');
- else if(p==='shop')infoPage('shop');
-}));
-document.getElementById('loginNav').onclick=()=>openAuth(false);
-document.getElementById('startSearch').onclick=()=>openAuth(false);
-document.getElementById('tabLogin').onclick=()=>setMode('login');
-document.getElementById('tabRegister').onclick=()=>setMode('register');
-document.getElementById('authForm').onsubmit=e=>{
- e.preventDefault();
- if(mode==='register' && document.getElementById('password').value!==document.getElementById('confirm').value){toast('Les mots de passe ne correspondent pas');return}
- enterApp();
-};
-document.getElementById('doSearch').onclick=doSearch;
-document.getElementById('query').addEventListener('keydown',e=>{if(e.key==='Enter')doSearch()});
-document.getElementById('logout').onclick=()=>{showPage('home');toast('Déconnexion effectuée')};
-document.querySelectorAll('[data-view]').forEach(b=>b.onclick=()=>{
- const v=b.dataset.view;document.querySelectorAll('[data-view]').forEach(x=>x.classList.remove('sel'));b.classList.add('sel');
- const titles={overview:'Vue générale',searchView:'Nouvelle recherche',history:'Historique',saved:'Recherches sauvegardées',apiView:'API',settings:'Paramètres'};
- document.getElementById('viewTitle').textContent=titles[v]||'Espace';
- if(v==='history')document.getElementById('resultBody').innerHTML='<div class="empty">Aucun historique réel — mode démonstration.</div>';
- else if(v==='saved')document.getElementById('resultBody').innerHTML='<div class="empty">Aucune recherche sauvegardée.</div>';
- else if(v==='apiView')document.getElementById('resultBody').innerHTML='<div class="empty">Connectez votre backend API pour activer cet espace.</div>';
- else if(v==='settings')document.getElementById('resultBody').innerHTML='<div class="empty">Paramètres du compte — interface de démonstration.</div>';
- else renderResults(demoData);
-});
+async function submitAuth(e){
+  e.preventDefault();
+  const msg = document.getElementById('authMsg');
+  const btn = document.getElementById('authSubmit');
+  msg.textContent = '';
+  msg.className = 'authMsg';
 
-// ===== RECHERCHE AVANCÉE : accordéons =====
-document.querySelectorAll('.accHead').forEach(h => {
-  h.addEventListener('click', () => {
-    h.parentElement.classList.toggle('open');
-  });
-});
+  const username = document.getElementById('username').value.trim();
+  const password = document.getElementById('password').value;
+  const confirm = document.getElementById('confirm').value;
 
-// ===== RECHERCHE AVANCÉE : onglets =====
-document.querySelectorAll('.advTab').forEach(t => {
-  t.addEventListener('click', () => {
-    document.querySelectorAll('.advTab').forEach(x => x.classList.remove('active'));
-    t.classList.add('active');
-    toast('Onglet : ' + t.textContent.trim());
-  });
-});
-
-// ===== RECHERCHE AVANCÉE : bouton Rechercher =====
-document.getElementById('advDoSearch').addEventListener('click', () => {
-  const data = {};
-  document.querySelectorAll('[data-field]').forEach(inp => {
-    const v = inp.value.trim();
-    if (v) data[inp.dataset.field] = v;
-  });
-  const rayonKm = document.getElementById('rayonKm').value;
-  const rayonVille = document.getElementById('rayonVille').value.trim();
-  if (rayonVille) data.rayon = { km: parseInt(rayonKm), ville: rayonVille };
-
-  if (Object.keys(data).length === 0) {
-    toast('Aucun critère renseigné');
+  if(mode === 'register' && password !== confirm){
+    msg.textContent = '✗ Les mots de passe ne correspondent pas';
+    msg.className = 'authMsg error';
     return;
   }
 
-  console.log('Critères de recherche :', data);
-  toast('Recherche lancée avec ' + Object.keys(data).length + ' critère(s)');
-});
+  btn.disabled = true;
+  btn.textContent = mode === 'register' ? 'Création...' : 'Connexion...';
 
-// ===== RECHERCHE AVANCÉE : bouton Effacer =====
-document.getElementById('advClear').addEventListener('click', () => {
+  try {
+    const url = mode === 'register' ? '/api/register' : '/api/login';
+    const r = await fetch(url, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({ username, password })
+    });
+    const data = await r.json();
+
+    if(!r.ok || !data.success){
+      msg.textContent = '✗ ' + (data.error || 'Erreur inconnue');
+      msg.className = 'authMsg error';
+      btn.disabled = false;
+      btn.textContent = mode === 'register' ? 'Créer mon compte' : 'Se connecter';
+      return;
+    }
+
+    currentUser = data.username;
+    msg.textContent = '✓ ' + (mode === 'register' ? 'Compte créé !' : 'Connexion réussie !');
+    msg.className = 'authMsg success';
+    updateAuthUI();
+
+    setTimeout(() => {
+      showPage('advsearch');
+      toast('Bienvenue ' + currentUser);
+    }, 600);
+  } catch(err){
+    msg.textContent = '✗ Erreur réseau';
+    msg.className = 'authMsg error';
+    btn.disabled = false;
+    btn.textContent = mode === 'register' ? 'Créer mon compte' : 'Se connecter';
+  }
+}
+
+function updateAuthUI(){
+  const loginBtn = document.getElementById('loginNav');
+  if(currentUser){
+    loginBtn.textContent = '● ' + currentUser;
+    loginBtn.onclick = async () => {
+      await fetch('/api/logout', { method: 'POST' });
+      currentUser = null;
+      updateAuthUI();
+      showPage('home');
+      toast('Déconnexion effectuée');
+    };
+  } else {
+    loginBtn.textContent = 'Se connecter';
+    loginBtn.onclick = () => openAuth(false);
+  }
+}
+
+// Vérif de session au chargement
+async function checkSession(){
+  try {
+    const r = await fetch('/api/me');
+    if(r.ok){
+      const data = await r.json();
+      currentUser = data.username;
+      updateAuthUI();
+    }
+  } catch(e){}
+}
+
+// ============================================
+// RECHERCHE
+// ============================================
+const FIELD_LABELS = {
+  nom:'Nom', prenom:'Prénom', nom_naissance:'Nom de naissance',
+  nom_affiche:'Nom affiché', date_naissance:'Date de naissance',
+  ville_naissance:'Ville de naissance', nationalite:'Nationalité',
+  email:'Email', tel_mobile:'Téléphone mobile', tel_fixe:'Téléphone fixe',
+  adresse:'Adresse', ville:'Ville', code_postal:'Code postal',
+  pays:'Pays', ip:'Adresse IP', fivem:'Pseudo FiveM',
+  minecraft:'Pseudo Minecraft', discord_id:'Discord ID',
+  steam_id:'Steam ID', iban:'IBAN', vin:'VIN / Plaque',
+  profession:'Profession', employeur:'Employeur',
+  twitter:'Twitter / X', snapchat:'Snapchat'
+};
+
+async function doAdvSearch(){
+  const data = {};
+  document.querySelectorAll('[data-field]').forEach(inp => {
+    const v = inp.value.trim();
+    if(v) data[inp.dataset.field] = v;
+  });
+
+  const resultsEl = document.getElementById('advResults');
+
+  if(Object.keys(data).length === 0){
+    toast('Renseigne au moins un critère');
+    resultsEl.innerHTML = '';
+    return;
+  }
+
+  if(!currentUser){
+    toast('Connecte-toi pour rechercher');
+    openAuth(false);
+    return;
+  }
+
+  const btn = document.getElementById('advDoSearch');
+  btn.disabled = true;
+  btn.textContent = 'Recherche...';
+
+  // Construire un résumé lisible
+  const resumeParts = [];
+  for(const key in data){
+    if(FIELD_LABELS[key]) resumeParts.push(data[key]);
+  }
+  const resume = resumeParts.join(', ');
+
+  try {
+    // On envoie les critères à l'API
+    const q = resume;
+    const r = await fetch('/api/search?q=' + encodeURIComponent(q));
+    const resp = await r.json();
+
+    if(!r.ok){
+      resultsEl.innerHTML = `
+        <div class="noResult">
+          <div class="ico">⚠</div>
+          <div class="title">Erreur serveur</div>
+          <div class="hint">${escapeHtml(resp.error || 'Réessaie plus tard')}</div>
+        </div>`;
+      return;
+    }
+
+    const results = resp.results || [];
+
+    if(results.length === 0){
+      resultsEl.innerHTML = `
+        <div class="noResult">
+          <div class="ico">⌕</div>
+          <div class="title">Aucun résultat pour « ${escapeHtml(resume)} »</div>
+          <div class="hint">Essaie d'autres termes ou vérifie l'orthographe.</div>
+        </div>`;
+    } else {
+      // Pour l'instant aucune donnée ne remonte, mais le rendu est prêt
+      resultsEl.innerHTML = results.map(r => `
+        <div class="noResult" style="text-align:left">
+          <div class="title">${escapeHtml(r.nom || '')} ${escapeHtml(r.prenom || '')}</div>
+          <div class="hint">${escapeHtml(r.ville || '')}</div>
+        </div>
+      `).join('');
+    }
+
+    resultsEl.scrollIntoView({behavior:'smooth', block:'nearest'});
+  } catch(err){
+    resultsEl.innerHTML = `
+      <div class="noResult">
+        <div class="ico">⚠</div>
+        <div class="title">Erreur réseau</div>
+        <div class="hint">Vérifie ta connexion et réessaie.</div>
+      </div>`;
+  } finally {
+    btn.disabled = false;
+    btn.textContent = '🔍 Rechercher';
+  }
+}
+
+function clearAdvSearch(){
   document.querySelectorAll('[data-field]').forEach(inp => inp.value = '');
   document.getElementById('rayonKm').value = 25;
   document.getElementById('rayonVille').value = 'Marseille';
+  document.getElementById('advResults').innerHTML = '';
   toast('Formulaire effacé');
-});
+}
 
-showPage('home');
+function escapeHtml(s){
+  if(s == null) return '';
+  return String(s).replace(/[&<>"']/g, c => ({
+    '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+  }[c]));
+}
+
+// ============================================
+// PAGES INFO
+// ============================================
+function infoPage(kind){
+  const content = {
+    api: `<h2>API</h2><p class="muted">Espace de configuration API pour votre backend autorisé.</p>
+      <div class="field"><label>Exemple de requête</label>
+      <textarea rows="8" readonly style="font-family:monospace;font-size:12px">POST /api/v1/search
+Authorization: Bearer YOUR_TOKEN
+
+{
+  "query": "example",
+  "type": "domain"
+}</textarea></div>`,
+    delete: `<h2>Suppression / vie privée</h2><p class="muted">Interface de demande de retrait.</p>
+      <div class="field"><label>Identifiant de la donnée</label>
+      <input placeholder="Référence de retrait" id="delRef"></div>
+      <button class="submit" onclick="toast('Demande enregistrée')">Envoyer la demande</button>`,
+    shop: `<h2>Boutique</h2><p class="muted">Maquettes d'abonnements.</p>
+      <div class="field"><label>Starter</label><p class="muted">1 000 crédits/mois</p>
+      <button class="submit" onclick="toast('Plan Starter sélectionné')">Choisir</button></div>
+      <div class="field"><label>Pro</label><p class="muted">10 000 crédits/mois</p>
+      <button class="submit" onclick="toast('Plan Pro sélectionné')">Choisir</button></div>`
+  };
+  document.getElementById('infoContent').innerHTML = content[kind];
+  showPage('info');
+}
+
+// ============================================
+// INITIALISATION
+// ============================================
+document.addEventListener('DOMContentLoaded', () => {
+  // Navbar
+  document.querySelectorAll('[data-page]').forEach(b => {
+    b.addEventListener('click', () => {
+      const p = b.dataset.page;
+      if(p === 'home') showPage('home');
+      else if(p === 'advsearch') {
+        if(!currentUser) { toast('Connecte-toi pour accéder à la recherche'); openAuth(false); }
+        else showPage('advsearch');
+      }
+      else if(p === 'api') infoPage('api');
+      else if(p === 'delete') infoPage('delete');
+      else if(p === 'shop') infoPage('shop');
+    });
+  });
+
+  // Boutons accueil
+  document.getElementById('loginNav').onclick = () => openAuth(false);
+  document.getElementById('startSearch').onclick = () => openAuth(false);
+
+  // Tabs auth
+  document.getElementById('tabLogin').onclick = () => setMode('login');
+  document.getElementById('tabRegister').onclick = () => setMode('register');
+
+  // Formulaire auth
+  document.getElementById('authForm').addEventListener('submit', submitAuth);
+
+  // Recherche
+  document.getElementById('advDoSearch').addEventListener('click', doAdvSearch);
+  document.getElementById('advClear').addEventListener('click', clearAdvSearch);
+
+  // Accordéons
+  document.querySelectorAll('.accHead').forEach(h => {
+    h.addEventListener('click', () => h.parentElement.classList.toggle('open'));
+  });
+
+  // Onglets de recherche
+  document.querySelectorAll('.advTab').forEach(t => {
+    t.addEventListener('click', () => {
+      document.querySelectorAll('.advTab').forEach(x => x.classList.remove('active'));
+      t.classList.add('active');
+    });
+  });
+
+  // Stats
+  fetch('/api/stats').then(r => r.json()).then(d => {
+    document.getElementById('recordCount').textContent = (d.personnes || 0).toLocaleString('fr-FR');
+    document.getElementById('indexPill').textContent = (d.personnes || 0).toLocaleString('fr-FR');
+  }).catch(() => {});
+
+  // Vérif session
+  checkSession();
+
+  showPage('home');
+});
 </script>
 </body>
 </html>
