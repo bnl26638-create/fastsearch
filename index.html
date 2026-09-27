@@ -106,6 +106,41 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
 .authMsg.error{color:#ff5665}
 .authMsg.success{color:var(--green)}
 
+/* ===== FORCE MOT DE PASSE ===== */
+.pwdStrength{
+  margin-top:10px;
+  animation:fadeIn .25s ease;
+}
+.pwdBars{
+  display:flex;
+  gap:4px;
+  margin-bottom:6px;
+}
+.pwdBars span{
+  flex:1;
+  height:4px;
+  background:rgba(255,255,255,.08);
+  border-radius:2px;
+  transition:background .25s ease;
+}
+.pwdLabel{
+  font-size:11px;
+  font-family:ui-monospace,monospace;
+  letter-spacing:1px;
+  color:var(--muted);
+  text-transform:uppercase;
+}
+.pwdStrength[data-level="1"] .pwdBars span:nth-child(1){background:#ff3355}
+.pwdStrength[data-level="1"] .pwdLabel{color:#ff3355}
+.pwdStrength[data-level="2"] .pwdBars span:nth-child(-n+2){background:#ff8c42}
+.pwdStrength[data-level="2"] .pwdLabel{color:#ff8c42}
+.pwdStrength[data-level="3"] .pwdBars span:nth-child(-n+3){background:#ffd52a}
+.pwdStrength[data-level="3"] .pwdLabel{color:#ffd52a}
+.pwdStrength[data-level="4"] .pwdBars span:nth-child(-n+4){background:#2df0ae}
+.pwdStrength[data-level="4"] .pwdLabel{color:#2df0ae}
+.pwdStrength[data-level="5"] .pwdBars span{background:#00ff9d;box-shadow:0 0 8px rgba(0,255,157,.6)}
+.pwdStrength[data-level="5"] .pwdLabel{color:#00ff9d;text-shadow:0 0 10px rgba(0,255,157,.5)}
+
 /* ===== TOAST / FOOTER ===== */
 .toast{position:fixed;right:20px;bottom:100px;z-index:50;background:#120709;border:1px solid #5a1820;border-radius:12px;padding:13px 16px;box-shadow:0 15px 45px #000;transform:translateY(20px);opacity:0;transition:.25s;pointer-events:none;font-size:13px;max-width:340px}
 .toast.show{transform:none;opacity:1}
@@ -624,9 +659,18 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
       </div>
       <form id="authForm">
         <div class="field"><label>Nom d'utilisateur</label><input id="username" required placeholder="votre_pseudo" minlength="3"></div>
-        <div class="field"><label>Mot de passe</label><input id="password" type="password" required minlength="4" placeholder="••••••••"></div>
+        <div class="field">
+          <label>Mot de passe</label>
+          <input id="password" type="password" required minlength="4" placeholder="••••••••">
+          <div class="pwdStrength hidden" id="pwdStrength">
+            <div class="pwdBars">
+              <span></span><span></span><span></span><span></span><span></span>
+            </div>
+            <div class="pwdLabel" id="pwdLabel">Très faible</div>
+          </div>
+        </div>
         <div class="field hidden" id="confirmField"><label>Confirmer le mot de passe</label><input id="confirm" type="password" placeholder="••••••••"></div>
-        <div class="check"><label><input type="checkbox" required> J'accepte les conditions d'utilisation.</label></div>
+        <div class="check hidden" id="checkTerms"><label><input type="checkbox" id="termsCheckbox"> J'accepte les conditions d'utilisation.</label></div>
         <button class="submit" id="authSubmit" type="submit">Se connecter</button>
       </form>
       <p class="authMsg" id="authMsg"></p>
@@ -733,6 +777,57 @@ function startPresence(){
 }
 
 // ============================================
+// FORCE DU MOT DE PASSE
+// ============================================
+function evaluatePasswordStrength(pwd){
+  if(!pwd) return 0;
+
+  let score = 0;
+
+  if(pwd.length >= 4) score++;
+  if(pwd.length >= 8) score++;
+  if(pwd.length >= 12) score++;
+
+  const hasLower = /[a-z]/.test(pwd);
+  const hasUpper = /[A-Z]/.test(pwd);
+  const hasDigit = /[0-9]/.test(pwd);
+  const hasSymbol = /[^a-zA-Z0-9]/.test(pwd);
+
+  const varietyCount = [hasLower, hasUpper, hasDigit, hasSymbol].filter(Boolean).length;
+  if(varietyCount >= 2) score++;
+  if(varietyCount >= 3) score++;
+  if(varietyCount === 4) score++;
+
+  if(pwd.length < 6 && varietyCount <= 1) score = Math.max(1, score - 1);
+
+  return Math.min(5, Math.max(1, score));
+}
+
+function updatePasswordStrength(pwd){
+  const el = document.getElementById('pwdStrength');
+  const label = document.getElementById('pwdLabel');
+  if(!el || !label) return;
+
+  if(!pwd){
+    el.classList.add('hidden');
+    return;
+  }
+
+  el.classList.remove('hidden');
+  const level = evaluatePasswordStrength(pwd);
+  el.dataset.level = level;
+
+  const labels = {
+    1: 'Très faible',
+    2: 'Faible',
+    3: 'Moyen',
+    4: 'Fort',
+    5: 'Très fort'
+  };
+  label.textContent = labels[level] || '';
+}
+
+// ============================================
 // AUTH
 // ============================================
 function openAuth(register){
@@ -740,6 +835,7 @@ function openAuth(register){
   document.getElementById('authMsg').textContent = '';
   document.getElementById('authMsg').className = 'authMsg';
   document.getElementById('authForm').reset();
+  document.getElementById('pwdStrength').classList.add('hidden');
   showPage('auth');
 }
 
@@ -748,6 +844,30 @@ function setMode(m){
   document.getElementById('tabLogin').classList.toggle('active', m === 'login');
   document.getElementById('tabRegister').classList.toggle('active', m === 'register');
   document.getElementById('confirmField').classList.toggle('hidden', m !== 'register');
+
+  // Case "J'accepte les conditions" : visible + required + cochée uniquement à l'inscription
+  const checkTerms = document.getElementById('checkTerms');
+  const termsCheckbox = document.getElementById('termsCheckbox');
+  if(m === 'register'){
+    checkTerms.classList.remove('hidden');
+    termsCheckbox.required = true;
+    termsCheckbox.checked = true;
+  } else {
+    checkTerms.classList.add('hidden');
+    termsCheckbox.required = false;
+    termsCheckbox.checked = true;
+  }
+
+  // Indicateur de force du mot de passe
+  const pwdStrengthEl = document.getElementById('pwdStrength');
+  if(pwdStrengthEl){
+    if(m === 'register'){
+      updatePasswordStrength(document.getElementById('password').value);
+    } else {
+      pwdStrengthEl.classList.add('hidden');
+    }
+  }
+
   document.getElementById('authSubmit').textContent = m === 'register' ? 'Créer mon compte' : 'Se connecter';
   document.getElementById('authSubtitle').textContent = m === 'register' ? 'Créez votre compte pour accéder au système.' : 'Connectez-vous pour accéder au système.';
 }
@@ -1486,6 +1606,11 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('tabRegister').onclick = () => setMode('register');
 
   document.getElementById('authForm').addEventListener('submit', submitAuth);
+
+  // Force du mot de passe en direct
+  document.getElementById('password').addEventListener('input', (e) => {
+    if(mode === 'register') updatePasswordStrength(e.target.value);
+  });
 
   document.getElementById('advDoSearch').addEventListener('click', doAdvSearch);
   document.getElementById('advClear').addEventListener('click', clearAdvSearch);
