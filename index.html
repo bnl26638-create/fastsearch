@@ -517,7 +517,7 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
   <h1><span class="glow">FastSearch</span></h1>
   <p class="subtitle" id="homeSubtitle">La plateforme OSINT pour <b>les chercheurs sécurité.</b></p>
   <div class="actions">
-    <button class="bigbtn primary" id="startSearch" onclick="openAuth(false)">
+    <button class="bigbtn primary" id="startSearch">
       <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
       <span id="startSearchLabel">Se connecter pour rechercher</span>
     </button>
@@ -1479,6 +1479,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   document.getElementById('loginNav').onclick = () => openAuth(false);
+  document.getElementById('startSearch').onclick = () => openAuth(false);
 
   document.getElementById('tabLogin').onclick = () => setMode('login');
   document.getElementById('tabRegister').onclick = () => setMode('register');
