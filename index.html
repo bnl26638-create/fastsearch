@@ -224,9 +224,56 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
 .chatSendBtn:hover{filter:brightness(1.1)}
 .chatSendBtn:disabled{opacity:.5;cursor:not-allowed}
 
+/* ===== MENU MOBILE ===== */
+.burger{
+  display:none;
+  background:transparent;
+  border:1px solid var(--line);
+  color:#fff;
+  width:38px;height:38px;
+  border-radius:10px;
+  align-items:center;justify-content:center;
+  cursor:pointer;
+  padding:0;
+}
+.burger svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+.mobileMenu{
+  position:fixed;
+  top:70px;left:8px;right:8px;
+  background:rgba(10,5,7,.98);
+  backdrop-filter:blur(20px);
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:12px;
+  z-index:19;
+  transform:translateY(-12px);
+  opacity:0;
+  pointer-events:none;
+  transition:all .25s cubic-bezier(.4,0,.2,1);
+  box-shadow:0 20px 60px rgba(0,0,0,.6);
+}
+.mobileMenu.open{transform:none;opacity:1;pointer-events:auto}
+.mobileMenu button{
+  display:flex;width:100%;align-items:center;gap:12px;
+  padding:14px 16px;border-radius:12px;
+  background:transparent;border:0;color:#d9d4d6;
+  font-size:15px;font-weight:600;
+  cursor:pointer;font-family:inherit;
+  text-align:left;
+}
+.mobileMenu button svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.mobileMenu button:hover,.mobileMenu button.active{background:rgba(255,32,51,.12);color:#fff}
+
 @media(max-width:700px){.accInner{grid-template-columns:1fr}.advFooter{flex-wrap:wrap}.btnSearch{flex:1}}
 @media(max-width:560px){h1{font-size:54px;letter-spacing:-3px}.subtitle{font-size:18px}.actions{width:100%}.bigbtn{width:100%}.chatPanel{right:12px;bottom:88px;width:calc(100vw - 24px)}}
-@media(max-width:900px){.navlinks{display:none}.nav{margin:0 5px}.page{padding:35px 18px}}
+@media(max-width:900px){
+  .navlinks{display:none}
+  .nav{margin:0 5px}
+  .page{padding:35px 18px}
+  .burger{display:inline-flex}
+  .status{display:none}
+}
 </style>
 </head>
 <body>
@@ -260,8 +307,31 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
   <div class="navright">
     <div class="status"><span class="dot"></span><span id="recordCount">0</span></div>
     <button class="cta" id="loginNav">Se connecter</button>
+    <button class="burger" id="burgerBtn" type="button" title="Menu">
+      <svg viewBox="0 0 24 24"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
   </div>
 </header>
+
+<!-- Menu mobile -->
+<div class="mobileMenu" id="mobileMenu">
+  <button data-page="home">
+    <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+    Accueil
+  </button>
+  <button data-page="advsearch">
+    <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    Recherche
+  </button>
+  <button data-page="delete">
+    <svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
+    Suppression
+  </button>
+  <button data-page="shop">
+    <svg viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+    Boutique
+  </button>
+</div>
 
 <main>
 <!-- ================= HOME ================= -->
@@ -945,6 +1015,25 @@ function subscribe(plan){
 // INIT
 // ============================================
 document.addEventListener('DOMContentLoaded', () => {
+  // Menu mobile
+  const burger = document.getElementById('burgerBtn');
+  const mobileMenu = document.getElementById('mobileMenu');
+  if(burger && mobileMenu){
+    burger.addEventListener('click', (e) => {
+      e.stopPropagation();
+      mobileMenu.classList.toggle('open');
+    });
+    document.addEventListener('click', (e) => {
+      if(!mobileMenu.contains(e.target) && e.target !== burger){
+        mobileMenu.classList.remove('open');
+      }
+    });
+    mobileMenu.querySelectorAll('button').forEach(b => {
+      b.addEventListener('click', () => mobileMenu.classList.remove('open'));
+    });
+  }
+
+  // Navigation (nav desktop + menu mobile)
   document.querySelectorAll('[data-page]').forEach(b => {
     b.addEventListener('click', () => {
       const p = b.dataset.page;
