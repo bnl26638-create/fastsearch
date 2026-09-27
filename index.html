@@ -141,9 +141,6 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
 .iaBtn{flex-shrink:0;width:42px;border:1px solid rgba(255,42,59,.35);background:rgba(255,25,45,.08);color:var(--red);border-radius:10px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s}
 .iaBtn svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .iaBtn:hover{background:rgba(255,25,45,.18);border-color:var(--red)}
-.rayonBox{display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding:12px 14px;background:#090506;border:1px solid #32151a;border-radius:10px;font-size:13px;color:#b9b0b2}
-.rayonBox input{width:70px;padding:6px 10px;background:#14090b;border:1px solid #3a1a20;border-radius:6px;color:#fff;font-size:13px;text-align:center;outline:none}
-.rayonBox input:focus{border-color:var(--red)}
 .advFooter{display:flex;gap:12px;padding:18px 22px 22px;border-top:1px solid rgba(255,42,59,.12);background:rgba(0,0,0,.25)}
 .btnSearch{background:linear-gradient(135deg,var(--red),#ff4555);color:#fff;border:0;padding:15px 32px;border-radius:12px;font-size:15px;font-weight:800;cursor:pointer;display:flex;align-items:center;gap:10px;box-shadow:0 0 30px rgba(255,25,48,.3);transition:all .15s;font-family:inherit}
 .btnSearch svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
@@ -801,10 +798,7 @@ function infoPage(kind){
           <ul style="list-style:none;padding:0;margin:0 0 20px;font-size:13px;color:#b9b0b2;line-height:2;flex:1">
             <li>✓ 10 recherches / jour</li>
             <li>✓ Recherche basique</li>
-            <li>✓ Export CSV / JSON</li>
             <li>✓ Chat public</li>
-            <li style="color:#5c5456">✗ Toutes les sections</li>
-            <li style="color:#5c5456">✗ Assistant IA</li>
           </ul>
           <button class="submit" onclick="toast('Plan Free déjà actif')" style="margin:0">Plan actuel</button>
         </div>
@@ -816,9 +810,7 @@ function infoPage(kind){
           <p style="font-size:12px;color:#9a9295;margin:8px 0 20px;line-height:1.5">Pour les utilisateurs réguliers.</p>
           <ul style="list-style:none;padding:0;margin:0 0 20px;font-size:13px;color:#b9b0b2;line-height:2;flex:1">
             <li>✓ Recherches illimitées</li>
-            <li>✓ Toutes les sections</li>
             <li>✓ <b style="color:#ff6b7a">Assistant IA</b> à disposition</li>
-            <li>✓ Export CSV / JSON</li>
             <li>✓ Badge PRO dans le chat</li>
           </ul>
           <button class="submit" onclick="subscribe('PRO')" style="margin:0">Passer à PRO</button>
