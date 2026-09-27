@@ -59,7 +59,6 @@ app.get('/api/me', (req, res) => {
 app.get('/api/search', requireAuth, (req, res) => res.json([]));
 app.get('/api/stats', (req, res) => res.json({ personnes: 0 }));
 
-// Sert index.html pour toutes les routes
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
 });
