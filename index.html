@@ -266,7 +266,7 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
 <main>
 <!-- ================= HOME ================= -->
 <section id="home" class="page home">
-  <div class="pill"><span class="dot"></span> <span id="indexPill">0</span> enregistrements indexés</div>
+  <div class="pill"><span id="indexPill">0</span> enregistrements indexés</div>
   <h1><span class="glow">FastSearch</span></h1>
   <p class="subtitle">La plateforme OSINT pour <b>les chercheurs sécurité.</b></p>
   <div class="actions">
@@ -714,7 +714,6 @@ function appendMessage(m){
   el.innerHTML = '<div class="meta"><span class="name">'+escapeHtml(m.username)+'</span><span class="time">'+time+'</span></div><div class="text">'+escapeHtml(m.text)+'</div>';
   container.appendChild(el);
 
-  // Retire l'auteur de la liste typing dès qu'il envoie
   if(typingUsers[m.username]){
     delete typingUsers[m.username];
     renderTypingIndicator();
