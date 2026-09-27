@@ -16,19 +16,26 @@
 body{margin:0;background:radial-gradient(circle at 50% 18%,#2a0005 0,#100103 28%,#050203 62%);color:var(--white);font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;min-height:100vh}
 button,input,select,textarea{font:inherit}button{cursor:pointer}
 .hidden{display:none!important}
+svg{display:block;flex-shrink:0}
+
+/* ===== NAV ===== */
 .nav{position:fixed;z-index:20;top:7px;left:0;right:0;height:54px;margin:0;border:1px solid rgba(255,34,52,.38);border-radius:28px;background:rgba(7,3,4,.84);backdrop-filter:blur(18px);display:flex;align-items:center;padding:0 14px;gap:8px;box-shadow:0 8px 40px rgba(0,0,0,.35)}
 .brand{display:flex;align-items:center;gap:10px;font-weight:850;font-size:17px;padding:0 12px}
-.brand .bolt{font-size:24px;color:var(--red);filter:drop-shadow(0 0 9px var(--red))}
+.brand .bolt{color:var(--red);filter:drop-shadow(0 0 9px var(--red));display:flex;align-items:center}
 .navlinks{display:flex;gap:3px;align-items:center}
-.nav button,.nav a{color:#d9d4d6;background:transparent;border:0;text-decoration:none;padding:10px 13px;border-radius:20px;font-size:14px}
+.nav button,.nav a{color:#d9d4d6;background:transparent;border:0;text-decoration:none;padding:10px 14px;border-radius:20px;font-size:14px;display:inline-flex;align-items:center;gap:8px}
+.nav button svg,.nav a svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .nav button:hover,.nav a:hover,.nav .active{background:rgba(255,32,51,.12);color:#fff}
 .nav .active{box-shadow:inset 0 0 0 1px rgba(255,37,53,.2)}
 .navright{margin-left:auto;display:flex;align-items:center;gap:6px}
 .status{display:flex;gap:7px;align-items:center;padding:8px 12px;border-radius:20px;background:rgba(255,255,255,.025);font-family:ui-monospace,monospace;font-size:12px;color:#ddd}
 .dot{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 12px var(--green)}
 .cta{background:linear-gradient(135deg,#ff172f,#ff3b4c)!important;color:white!important;box-shadow:0 0 25px rgba(255,25,48,.3)}
+
 main{padding-top:60px}
 .page{min-height:calc(100vh - 60px);padding:52px 7vw 70px}
+
+/* ===== HOME ===== */
 .home{display:flex;flex-direction:column;align-items:center;text-align:center;justify-content:center;min-height:calc(100vh - 60px);position:relative;overflow:hidden}
 .home:before{content:"";position:absolute;width:620px;height:260px;top:75px;background:radial-gradient(ellipse,rgba(160,0,15,.45),transparent 68%);filter:blur(20px);pointer-events:none}
 .pill{display:inline-flex;align-items:center;gap:9px;border:1px solid rgba(255,39,57,.5);padding:10px 17px;border-radius:30px;background:rgba(10,3,4,.6);font-family:ui-monospace,monospace;font-size:14px;position:relative}
@@ -38,21 +45,29 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
 .subtitle b{color:var(--red2)}
 .tagline{color:#8e8789;font-size:15px;max-width:740px;line-height:1.6}
 .actions{display:flex;gap:14px;margin-top:36px;flex-wrap:wrap;justify-content:center}
-.bigbtn{padding:17px 26px;border-radius:14px;border:1px solid rgba(255,41,58,.42);background:rgba(30,8,11,.75);color:#fff;font-weight:750;min-width:235px;box-shadow:0 0 25px rgba(255,20,40,.06)}
+.bigbtn{padding:17px 26px;border-radius:14px;border:1px solid rgba(255,41,58,.42);background:rgba(30,8,11,.75);color:#fff;font-weight:750;min-width:235px;box-shadow:0 0 25px rgba(255,20,40,.06);display:inline-flex;align-items:center;justify-content:center;gap:10px}
+.bigbtn svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .bigbtn.primary{background:linear-gradient(135deg,#ff162e,#ff4050);box-shadow:0 10px 40px rgba(255,20,40,.28)}
 .bigbtn:hover{transform:translateY(-2px);filter:brightness(1.08)}
 .features{display:flex;gap:26px;flex-wrap:wrap;justify-content:center;margin-top:30px;color:#a9a2a4;font-size:14px}
-.feature{display:flex;align-items:center;gap:8px}.ic{font-size:18px}.cyan{color:#18e7c0}.yellow{color:#ffe229}.pink{color:#ff4050}
-.tor{margin-top:30px;border:1px solid rgba(255,36,53,.35);padding:9px 16px;border-radius:22px;color:#aaa;font-size:13px}
+.feature{display:flex;align-items:center;gap:8px}
+.feature svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.ic.cyan{color:#18e7c0}.ic.yellow{color:#ffe229}.ic.pink{color:#ff4050}
+.tor{margin-top:30px;border:1px solid rgba(255,36,53,.35);padding:9px 16px;border-radius:22px;color:#aaa;font-size:13px;display:inline-flex;align-items:center;gap:8px}
+.tor svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .gridbg{position:absolute;inset:auto 0 0;height:180px;background-image:linear-gradient(rgba(255,30,50,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(255,30,50,.045) 1px,transparent 1px);background-size:40px 40px;mask-image:linear-gradient(transparent,#000)}
-.authWrap,.appWrap{max-width:1180px;margin:0 auto}
+
+/* ===== AUTH ===== */
+.authWrap{max-width:1180px;margin:0 auto}
 .authCard{max-width:470px;margin:50px auto;background:linear-gradient(145deg,rgba(24,8,11,.96),rgba(8,4,5,.96));border:1px solid var(--line);border-radius:24px;padding:32px;box-shadow:var(--shadow)}
-.logoMini{font-weight:900;font-size:25px;text-align:center;margin-bottom:8px}.authCard h2{text-align:center;margin:8px 0;font-size:30px}
+.logoMini{font-weight:900;font-size:25px;text-align:center;margin-bottom:8px;display:flex;align-items:center;justify-content:center;gap:10px}
+.logoMini svg{width:22px;height:22px;color:var(--red);filter:drop-shadow(0 0 9px var(--red))}
 .muted{text-align:center;color:var(--muted);font-size:14px;line-height:1.5}
 .tabs{display:flex;background:#0d0708;border:1px solid #291013;border-radius:12px;padding:4px;margin:24px 0}
 .tabs button{flex:1;border:0;background:transparent;color:#aaa;padding:11px;border-radius:9px;font-family:inherit}
 .tabs button.active{background:#281014;color:#fff}
-.field{margin:14px 0}.field label{display:block;font-size:13px;color:#b9b0b2;margin-bottom:7px}
+.field{margin:14px 0}
+.field label{display:block;font-size:13px;color:#b9b0b2;margin-bottom:7px}
 .field input,.field select,.field textarea{width:100%;padding:14px 15px;background:#090506;border:1px solid #32151a;border-radius:12px;color:#fff;outline:none;font-family:inherit}
 .field input:focus,.field select:focus,.field textarea:focus{border-color:#ff3146;box-shadow:0 0 0 3px rgba(255,30,50,.09)}
 .submit{width:100%;padding:14px;border:0;border-radius:12px;background:linear-gradient(135deg,#ff152e,#ff4857);color:#fff;font-weight:800;margin-top:8px;font-family:inherit}
@@ -61,210 +76,98 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
 .authMsg{margin:14px 0 0;text-align:center;font-size:13px;min-height:18px;font-family:ui-monospace,monospace}
 .authMsg.error{color:#ff5665}
 .authMsg.success{color:var(--green)}
+
+/* ===== TOAST / FOOTER ===== */
 .toast{position:fixed;right:20px;bottom:20px;z-index:50;background:#120709;border:1px solid #5a1820;border-radius:12px;padding:13px 16px;box-shadow:0 15px 45px #000;transform:translateY(20px);opacity:0;transition:.25s;pointer-events:none;font-size:13px;max-width:340px}
 .toast.show{transform:none;opacity:1}
 .footer{text-align:center;color:#575052;font-size:12px;padding:20px}
 
-/* ============ RECHERCHE AVANCÉE ============ */
-.advSearch{
-  max-width:1240px;margin:0 auto;
-  background:linear-gradient(180deg,rgba(15,5,7,.9),rgba(8,3,4,.9));
-  border:1px solid var(--line);border-radius:22px;
-  padding:0;overflow:hidden;
-  box-shadow:0 20px 70px rgba(0,0,0,.5);
-}
-.advTabs{
-  display:flex;gap:8px;
-  padding:16px 20px 0;
-  border-bottom:1px solid rgba(255,42,59,.15);
-}
-.advTab{
-  padding:13px 20px;
-  background:transparent;border:0;color:#8e8789;
-  font-size:14px;font-weight:600;
-  border-radius:12px 12px 0 0;
-  position:relative;cursor:pointer;
-  display:flex;align-items:center;gap:8px;
-  font-family:inherit;
-}
-.advTab:hover{color:#ddd}
-.advTab.active{
-  color:#fff;
-  background:rgba(255,25,45,.1);
-  box-shadow:inset 0 -2px 0 var(--red);
-}
-.advTab .badgeNew{
-  background:#16a34a;color:#fff;
-  font-size:9px;padding:3px 7px;border-radius:20px;
-  font-weight:700;letter-spacing:.5px;
-}
+/* ===== RECHERCHE AVANCÉE ===== */
+.advSearch{max-width:1240px;margin:0 auto;background:linear-gradient(180deg,rgba(15,5,7,.9),rgba(8,3,4,.9));border:1px solid var(--line);border-radius:22px;padding:0;overflow:hidden;box-shadow:0 20px 70px rgba(0,0,0,.5)}
 .advBody{padding:22px}
-.acc{
-  border:1px solid rgba(255,42,59,.18);
-  border-radius:14px;
-  background:rgba(20,8,10,.55);
-  margin-bottom:10px;
-  overflow:hidden;
-  transition:border-color .2s;
-}
+.acc{border:1px solid rgba(255,42,59,.18);border-radius:14px;background:rgba(20,8,10,.55);margin-bottom:10px;overflow:hidden;transition:border-color .2s}
 .acc.open{border-color:rgba(255,42,59,.4)}
-.accHead{
-  display:flex;align-items:center;gap:14px;
-  padding:18px 20px;
-  cursor:pointer;
-  user-select:none;
-  transition:background .15s;
-}
+.accHead{display:flex;align-items:center;gap:14px;padding:18px 20px;cursor:pointer;user-select:none;transition:background .15s}
 .accHead:hover{background:rgba(255,25,45,.04)}
 .acc.open .accHead{background:rgba(255,25,45,.06)}
-.accIco{
-  width:34px;height:34px;flex-shrink:0;
-  border-radius:10px;
-  background:rgba(255,25,45,.12);
-  border:1px solid rgba(255,42,59,.3);
-  display:flex;align-items:center;justify-content:center;
-  color:var(--red);font-size:16px;
-}
+.accIco{width:34px;height:34px;flex-shrink:0;border-radius:10px;background:rgba(255,25,45,.12);border:1px solid rgba(255,42,59,.3);display:flex;align-items:center;justify-content:center;color:var(--red)}
+.accIco svg{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .accTitle{flex:1;font-size:16px;font-weight:700;color:#fff}
-.accArrow{color:#7a7173;font-size:13px;transition:transform .25s ease}
+.accArrow{color:#7a7173;transition:transform .25s ease;display:flex;align-items:center}
+.accArrow svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .acc.open .accArrow{transform:rotate(180deg)}
 .accBody{max-height:0;overflow:hidden;transition:max-height .35s ease}
 .acc.open .accBody{max-height:1500px}
-.accInner{
-  padding:4px 20px 22px;
-  display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(240px,1fr));
-  gap:16px;
-}
+.accInner{padding:4px 20px 22px;display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px}
 .fieldAdv{display:flex;flex-direction:column;gap:8px}
 .fieldAdvHead{display:flex;align-items:center;gap:6px}
 .fieldAdvHead label{font-size:12px;color:#b9b0b2;font-weight:600}
-.fieldAdvHead .help{
-  width:14px;height:14px;border-radius:50%;
-  background:rgba(255,42,59,.15);
-  border:1px solid rgba(255,42,59,.4);
-  color:var(--red);
-  display:flex;align-items:center;justify-content:center;
-  font-size:9px;font-weight:800;cursor:help;
-  margin-left:2px;
-}
+.fieldAdvHead .help{width:14px;height:14px;border-radius:50%;background:rgba(255,42,59,.15);border:1px solid rgba(255,42,59,.4);color:var(--red);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:800;cursor:help;margin-left:2px}
 .fieldAdvInputWrap{display:flex;gap:6px;align-items:stretch}
-.fieldAdvInputWrap input,
-.fieldAdvInputWrap select{
-  flex:1;min-width:0;
-  padding:12px 14px;
-  background:#090506;
-  border:1px solid #32151a;
-  border-radius:10px;
-  color:#fff;
-  font-size:14px;
-  font-family:inherit;
-  outline:none;
-  transition:all .15s;
-}
-.fieldAdvInputWrap input:focus,
-.fieldAdvInputWrap select:focus{
-  border-color:var(--red);
-  box-shadow:0 0 0 3px rgba(255,30,50,.1);
-}
+.fieldAdvInputWrap input,.fieldAdvInputWrap select{flex:1;min-width:0;padding:12px 14px;background:#090506;border:1px solid #32151a;border-radius:10px;color:#fff;font-size:14px;font-family:inherit;outline:none;transition:all .15s}
+.fieldAdvInputWrap input:focus,.fieldAdvInputWrap select:focus{border-color:var(--red);box-shadow:0 0 0 3px rgba(255,30,50,.1)}
 .fieldAdvInputWrap input::placeholder{color:#5c5456}
-.iaBtn{
-  flex-shrink:0;width:42px;
-  border:1px solid rgba(255,42,59,.35);
-  background:rgba(255,25,45,.08);
-  color:var(--red);
-  border-radius:10px;
-  cursor:pointer;font-size:15px;
-  display:flex;align-items:center;justify-content:center;
-  transition:all .15s;
-}
+.iaBtn{flex-shrink:0;width:42px;border:1px solid rgba(255,42,59,.35);background:rgba(255,25,45,.08);color:var(--red);border-radius:10px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s}
+.iaBtn svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .iaBtn:hover{background:rgba(255,25,45,.18);border-color:var(--red)}
-.rayonBox{
-  display:flex;flex-wrap:wrap;gap:8px;align-items:center;
-  padding:12px 14px;background:#090506;
-  border:1px solid #32151a;border-radius:10px;
-  font-size:13px;color:#b9b0b2;
-}
-.rayonBox input{
-  width:70px;padding:6px 10px;
-  background:#14090b;border:1px solid #3a1a20;
-  border-radius:6px;color:#fff;font-size:13px;
-  text-align:center;outline:none;
-}
+.rayonBox{display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding:12px 14px;background:#090506;border:1px solid #32151a;border-radius:10px;font-size:13px;color:#b9b0b2}
+.rayonBox input{width:70px;padding:6px 10px;background:#14090b;border:1px solid #3a1a20;border-radius:6px;color:#fff;font-size:13px;text-align:center;outline:none}
 .rayonBox input:focus{border-color:var(--red)}
-.advFooter{
-  display:flex;gap:12px;
-  padding:18px 22px 22px;
-  border-top:1px solid rgba(255,42,59,.12);
-  background:rgba(0,0,0,.25);
-}
-.btnSearch{
-  background:linear-gradient(135deg,var(--red),#ff4555);
-  color:#fff;border:0;
-  padding:15px 32px;border-radius:12px;
-  font-size:15px;font-weight:800;
-  cursor:pointer;display:flex;align-items:center;gap:10px;
-  box-shadow:0 0 30px rgba(255,25,48,.3);
-  transition:all .15s;font-family:inherit;
-}
+.advFooter{display:flex;gap:12px;padding:18px 22px 22px;border-top:1px solid rgba(255,42,59,.12);background:rgba(0,0,0,.25)}
+.btnSearch{background:linear-gradient(135deg,var(--red),#ff4555);color:#fff;border:0;padding:15px 32px;border-radius:12px;font-size:15px;font-weight:800;cursor:pointer;display:flex;align-items:center;gap:10px;box-shadow:0 0 30px rgba(255,25,48,.3);transition:all .15s;font-family:inherit}
+.btnSearch svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
 .btnSearch:hover{transform:translateY(-2px);filter:brightness(1.08)}
 .btnSearch:disabled{opacity:.6;cursor:not-allowed;transform:none}
-.btnClear{
-  background:transparent;color:#8e8789;
-  border:1px solid #32151a;
-  padding:15px 26px;border-radius:12px;
-  font-size:15px;font-weight:600;
-  cursor:pointer;transition:all .15s;
-  font-family:inherit;
-}
+.btnClear{background:transparent;color:#8e8789;border:1px solid #32151a;padding:15px 26px;border-radius:12px;font-size:15px;font-weight:600;cursor:pointer;transition:all .15s;font-family:inherit}
 .btnClear:hover{color:#fff;border-color:#521923;background:rgba(255,25,45,.05)}
-.noResult{
-  margin:0 22px 20px;
-  padding:48px 30px;
-  background:rgba(20,8,10,.5);
-  border:1px solid rgba(255,42,59,.2);
-  border-radius:14px;
-  text-align:center;
-  animation:fadeIn .3s ease;
-}
-.noResult .ico{font-size:44px;margin-bottom:16px;opacity:.4;color:var(--red)}
+
+.noResult{margin:0 22px 20px;padding:48px 30px;background:rgba(20,8,10,.5);border:1px solid rgba(255,42,59,.2);border-radius:14px;text-align:center;animation:fadeIn .3s ease}
+.noResult .ico{color:var(--red);opacity:.4;display:flex;justify-content:center;margin-bottom:16px}
+.noResult .ico svg{width:44px;height:44px;stroke:currentColor;fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
 .noResult .title{font-size:17px;font-weight:700;color:#fff;margin-bottom:10px}
 .noResult .hint{font-size:13px;color:#8e8789;line-height:1.6;max-width:500px;margin:0 auto}
 @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 
-.floatChat{
-  position:fixed;right:24px;bottom:24px;
-  width:56px;height:56px;border-radius:50%;
-  background:linear-gradient(135deg,var(--red),#ff4555);
-  border:0;color:#fff;font-size:22px;cursor:pointer;
-  box-shadow:0 8px 30px rgba(255,25,48,.5);
-  z-index:30;transition:transform .2s;
-  display:flex;align-items:center;justify-content:center;
-}
+.floatChat{position:fixed;right:24px;bottom:24px;width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,var(--red),#ff4555);border:0;color:#fff;cursor:pointer;box-shadow:0 8px 30px rgba(255,25,48,.5);z-index:30;transition:transform .2s;display:flex;align-items:center;justify-content:center}
+.floatChat svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .floatChat:hover{transform:scale(1.1)}
 
-@media(max-width:900px){
- .navlinks{display:none}.nav{margin:0 5px}.page{padding:35px 18px}
-}
-@media(max-width:700px){
-  .advTabs{overflow-x:auto;padding:12px 14px 0}
-  .advTab{white-space:nowrap;padding:11px 14px;font-size:13px}
-  .accInner{grid-template-columns:1fr}
-  .advFooter{flex-wrap:wrap}
-  .btnSearch{flex:1}
-}
+@media(max-width:900px){.navlinks{display:none}.nav{margin:0 5px}.page{padding:35px 18px}}
+@media(max-width:700px){.accInner{grid-template-columns:1fr}.advFooter{flex-wrap:wrap}.btnSearch{flex:1}}
 @media(max-width:560px){h1{font-size:54px;letter-spacing:-3px}.subtitle{font-size:18px}.actions{width:100%}.bigbtn{width:100%}}
 </style>
 </head>
 <body>
+
+<!-- ================= NAVBAR ================= -->
 <header class="nav">
-  <div class="brand"><span class="bolt">ϟ</span> FastSearch</div>
+  <div class="brand">
+    <span class="bolt">
+      <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+    </span>
+    FastSearch
+  </div>
   <div class="navlinks">
-    <button data-page="home" class="active">⌂ Accueil</button>
-    <button data-page="advsearch">⌕ Recherche</button>
-    <button data-page="api">‹› API</button>
-    <button data-page="delete">▣ Suppression</button>
-    <button data-page="shop">🛒 Boutique</button>
+    <button data-page="home" class="active">
+      <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      Accueil
+    </button>
+    <button data-page="advsearch">
+      <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      Recherche
+    </button>
+    <button data-page="api">
+      <svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+      API
+    </button>
+    <button data-page="delete">
+      <svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
+      Suppression
+    </button>
+    <button data-page="shop">
+      <svg viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+      Boutique
+    </button>
   </div>
   <div class="navright">
     <div class="status"><span class="dot"></span><span id="recordCount">0</span></div>
@@ -273,76 +176,84 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
 </header>
 
 <main>
+<!-- ================= HOME ================= -->
 <section id="home" class="page home">
   <div class="pill"><span class="dot"></span> <span id="indexPill">0</span> enregistrements indexés</div>
   <h1 class="glow">FastSearch</h1>
   <p class="subtitle">La plateforme OSINT pour <b>les chercheurs sécurité.</b></p>
   <p class="tagline">Interface de recherche moderne. Prototype front-end relié à un backend Node.js.</p>
   <div class="actions">
-    <button class="bigbtn primary" id="startSearch">⌕ Se connecter pour rechercher</button>
-    <button class="bigbtn" onclick="toast('Invitation Discord — démo')">◉ Rejoindre le Discord</button>
+    <button class="bigbtn primary" id="startSearch">
+      <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      Se connecter pour rechercher
+    </button>
+    <button class="bigbtn" onclick="toast('Invitation Discord — démo')">
+      <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      Rejoindre le Discord
+    </button>
   </div>
   <div class="features">
-    <div class="feature"><span class="ic cyan">▤</span> Interface haute performance</div>
-    <div class="feature"><span class="ic yellow">▣</span> Backend Node.js + sessions</div>
-    <div class="feature"><span class="ic pink">ϟ</span> Recherche avancée</div>
+    <div class="feature"><span class="ic cyan"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/></svg></span> Interface haute performance</div>
+    <div class="feature"><span class="ic yellow"><svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span> Backend Node.js + sessions</div>
+    <div class="feature"><span class="ic pink"><svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></span> Recherche avancée</div>
   </div>
-  <div class="tor">◈ Prototype · Démo technique</div>
+  <div class="tor">
+    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+    Prototype · Démo technique
+  </div>
   <div class="gridbg"></div>
 </section>
 
+<!-- ================= RECHERCHE AVANCÉE ================= -->
 <section id="advsearch" class="page hidden">
   <div class="advSearch">
-    <div class="advTabs">
-      <button class="advTab active" data-tab="fr">🔍 Recherche française</button>
-      <button class="advTab" data-tab="net">🌐 Recherche Réseaux <span class="badgeNew">NOUVEAU</span></button>
-      <button class="advTab" data-tab="ia">🤖 IA OSINT</button>
-    </div>
-
     <div class="advBody">
+
+      <!-- État civil -->
       <div class="acc open">
         <div class="accHead">
-          <div class="accIco">👤</div>
+          <div class="accIco"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
           <div class="accTitle">État civil</div>
-          <div class="accArrow">▼</div>
+          <div class="accArrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div>
         </div>
         <div class="accBody"><div class="accInner">
           <div class="fieldAdv">
             <div class="fieldAdvHead"><label>Nom</label><span class="help" title="Nom de famille">?</span></div>
             <div class="fieldAdvInputWrap">
               <input data-field="nom" placeholder="Dupont">
-              <button class="iaBtn" title="Recherche IA" type="button">🤖</button>
+              <button class="iaBtn" title="Recherche IA" type="button"><svg viewBox="0 0 24 24"><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.93 4.93l2.12 2.12M16.95 16.95l2.12 2.12M4.93 19.07l2.12-2.12M16.95 7.05l2.12-2.12"/><circle cx="12" cy="12" r="3"/></svg></button>
             </div>
           </div>
           <div class="fieldAdv">
             <div class="fieldAdvHead"><label>Prénom</label><span class="help" title="Prénom usuel">?</span></div>
             <div class="fieldAdvInputWrap">
               <input data-field="prenom" placeholder="Jean">
-              <button class="iaBtn" title="Recherche IA" type="button">🤖</button>
+              <button class="iaBtn" title="Recherche IA" type="button"><svg viewBox="0 0 24 24"><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.93 4.93l2.12 2.12M16.95 16.95l2.12 2.12M4.93 19.07l2.12-2.12M16.95 7.05l2.12-2.12"/><circle cx="12" cy="12" r="3"/></svg></button>
             </div>
           </div>
           <div class="fieldAdv">
             <div class="fieldAdvHead"><label>Nom de naissance</label><span class="help" title="Nom avant mariage">?</span></div>
             <div class="fieldAdvInputWrap">
               <input data-field="nom_naissance" placeholder="Martin">
-              <button class="iaBtn" title="Recherche IA" type="button">🤖</button>
+              <button class="iaBtn" title="Recherche IA" type="button"><svg viewBox="0 0 24 24"><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.93 4.93l2.12 2.12M16.95 16.95l2.12 2.12M4.93 19.07l2.12-2.12M16.95 7.05l2.12-2.12"/><circle cx="12" cy="12" r="3"/></svg></button>
             </div>
           </div>
           <div class="fieldAdv">
             <div class="fieldAdvHead"><label>Nom affiché</label><span class="help" title="Pseudonyme public">?</span></div>
             <div class="fieldAdvInputWrap">
               <input data-field="nom_affiche" placeholder="Jean Dupont">
-              <button class="iaBtn" title="Recherche IA" type="button">🤖</button>
+              <button class="iaBtn" title="Recherche IA" type="button"><svg viewBox="0 0 24 24"><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.93 4.93l2.12 2.12M16.95 16.95l2.12 2.12M4.93 19.07l2.12-2.12M16.95 7.05l2.12-2.12"/><circle cx="12" cy="12" r="3"/></svg></button>
             </div>
           </div>
         </div></div>
       </div>
 
+      <!-- Origine -->
       <div class="acc">
         <div class="accHead">
-          <div class="accIco">📅</div>
+          <div class="accIco"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
           <div class="accTitle">Origine</div>
-          <div class="accArrow">▼</div>
+          <div class="accArrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div>
         </div>
         <div class="accBody"><div class="accInner">
           <div class="fieldAdv">
@@ -360,11 +271,12 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
         </div></div>
       </div>
 
+      <!-- Coordonnées -->
       <div class="acc">
         <div class="accHead">
-          <div class="accIco">✉</div>
+          <div class="accIco"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
           <div class="accTitle">Coordonnées</div>
-          <div class="accArrow">▼</div>
+          <div class="accArrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div>
         </div>
         <div class="accBody"><div class="accInner">
           <div class="fieldAdv">
@@ -382,11 +294,12 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
         </div></div>
       </div>
 
+      <!-- Adresse -->
       <div class="acc">
         <div class="accHead">
-          <div class="accIco">📍</div>
+          <div class="accIco"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
           <div class="accTitle">Adresse</div>
-          <div class="accArrow">▼</div>
+          <div class="accArrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div>
         </div>
         <div class="accBody"><div class="accInner">
           <div class="fieldAdv">
@@ -421,11 +334,12 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
         </div></div>
       </div>
 
+      <!-- Jeux & Réseaux -->
       <div class="acc">
         <div class="accHead">
-          <div class="accIco">🎮</div>
+          <div class="accIco"><svg viewBox="0 0 24 24"><line x1="6" y1="12" x2="10" y2="12"/><line x1="8" y1="10" x2="8" y2="14"/><line x1="15" y1="13" x2="15.01" y2="13"/><line x1="18" y1="11" x2="18.01" y2="11"/><path d="M17.32 5H6.68a4 4 0 0 0-3.978 3.59c-.006.052-.01.101-.017.152C2.604 9.416 2 14.456 2 16a3 3 0 0 0 3 3c1 0 1.5-.5 2-1l1.414-1.414A2 2 0 0 1 9.828 16h4.344a2 2 0 0 1 1.414.586L17 18c.5.5 1 1 2 1a3 3 0 0 0 3-3c0-1.545-.604-6.584-.685-7.258-.007-.05-.011-.1-.017-.151A4 4 0 0 0 17.32 5z"/></svg></div>
           <div class="accTitle">Jeux & Réseaux</div>
-          <div class="accArrow">▼</div>
+          <div class="accArrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div>
         </div>
         <div class="accBody"><div class="accInner">
           <div class="fieldAdv">
@@ -447,11 +361,12 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
         </div></div>
       </div>
 
+      <!-- Autres données -->
       <div class="acc">
         <div class="accHead">
-          <div class="accIco">＋</div>
+          <div class="accIco"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
           <div class="accTitle">Autres données</div>
-          <div class="accArrow">▼</div>
+          <div class="accArrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div>
         </div>
         <div class="accBody"><div class="accInner">
           <div class="fieldAdv">
@@ -485,16 +400,23 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
     <div id="advResults"></div>
 
     <div class="advFooter">
-      <button class="btnSearch" id="advDoSearch">🔍 Rechercher</button>
+      <button class="btnSearch" id="advDoSearch">
+        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        Rechercher
+      </button>
       <button class="btnClear" id="advClear">Effacer</button>
     </div>
   </div>
 </section>
 
+<!-- ================= AUTH ================= -->
 <section id="auth" class="page hidden">
   <div class="authWrap">
     <div class="authCard">
-      <div class="logoMini"><span class="bolt">ϟ</span> FastSearch</div>
+      <div class="logoMini">
+        <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        FastSearch
+      </div>
       <p class="muted" id="authSubtitle">Accédez à votre espace de recherche.</p>
       <div class="tabs">
         <button class="active" id="tabLogin" type="button">Connexion</button>
@@ -512,6 +434,7 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
   </div>
 </section>
 
+<!-- ================= INFO ================= -->
 <section id="info" class="page hidden">
   <div class="authWrap">
     <div class="authCard" style="max-width:820px">
@@ -521,7 +444,9 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
 </section>
 </main>
 
-<button class="floatChat" title="Support / Chat" type="button">💬</button>
+<button class="floatChat" title="Support / Chat" type="button">
+  <svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+</button>
 <div id="toast" class="toast"></div>
 <footer class="footer">FastSearch — prototype front-end relié à un backend Node.js</footer>
 
@@ -648,7 +573,6 @@ function updateAuthUI(){
   }
 }
 
-// Vérif de session au chargement
 async function checkSession(){
   try {
     const r = await fetch('/api/me');
@@ -676,6 +600,9 @@ const FIELD_LABELS = {
   twitter:'Twitter / X', snapchat:'Snapchat'
 };
 
+const SEARCH_ICON = '<svg viewBox="0 0 24 24" width="44" height="44" stroke="currentColor" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>';
+const WARN_ICON = '<svg viewBox="0 0 24 24" width="44" height="44" stroke="currentColor" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>';
+
 async function doAdvSearch(){
   const data = {};
   document.querySelectorAll('[data-field]').forEach(inp => {
@@ -699,9 +626,9 @@ async function doAdvSearch(){
 
   const btn = document.getElementById('advDoSearch');
   btn.disabled = true;
-  btn.textContent = 'Recherche...';
+  const oldHtml = btn.innerHTML;
+  btn.innerHTML = 'Recherche...';
 
-  // Construire un résumé lisible
   const resumeParts = [];
   for(const key in data){
     if(FIELD_LABELS[key]) resumeParts.push(data[key]);
@@ -709,7 +636,6 @@ async function doAdvSearch(){
   const resume = resumeParts.join(', ');
 
   try {
-    // On envoie les critères à l'API
     const q = resume;
     const r = await fetch('/api/search?q=' + encodeURIComponent(q));
     const resp = await r.json();
@@ -717,7 +643,7 @@ async function doAdvSearch(){
     if(!r.ok){
       resultsEl.innerHTML = `
         <div class="noResult">
-          <div class="ico">⚠</div>
+          <div class="ico">${WARN_ICON}</div>
           <div class="title">Erreur serveur</div>
           <div class="hint">${escapeHtml(resp.error || 'Réessaie plus tard')}</div>
         </div>`;
@@ -729,16 +655,15 @@ async function doAdvSearch(){
     if(results.length === 0){
       resultsEl.innerHTML = `
         <div class="noResult">
-          <div class="ico">⌕</div>
+          <div class="ico">${SEARCH_ICON}</div>
           <div class="title">Aucun résultat pour « ${escapeHtml(resume)} »</div>
           <div class="hint">Essaie d'autres termes ou vérifie l'orthographe.</div>
         </div>`;
     } else {
-      // Pour l'instant aucune donnée ne remonte, mais le rendu est prêt
-      resultsEl.innerHTML = results.map(r => `
+      resultsEl.innerHTML = results.map(p => `
         <div class="noResult" style="text-align:left">
-          <div class="title">${escapeHtml(r.nom || '')} ${escapeHtml(r.prenom || '')}</div>
-          <div class="hint">${escapeHtml(r.ville || '')}</div>
+          <div class="title">${escapeHtml(p.nom || '')} ${escapeHtml(p.prenom || '')}</div>
+          <div class="hint">${escapeHtml(p.ville || '')}</div>
         </div>
       `).join('');
     }
@@ -747,13 +672,13 @@ async function doAdvSearch(){
   } catch(err){
     resultsEl.innerHTML = `
       <div class="noResult">
-        <div class="ico">⚠</div>
+        <div class="ico">${WARN_ICON}</div>
         <div class="title">Erreur réseau</div>
         <div class="hint">Vérifie ta connexion et réessaie.</div>
       </div>`;
   } finally {
     btn.disabled = false;
-    btn.textContent = '🔍 Rechercher';
+    btn.innerHTML = oldHtml;
   }
 }
 
@@ -804,7 +729,6 @@ Authorization: Bearer YOUR_TOKEN
 // INITIALISATION
 // ============================================
 document.addEventListener('DOMContentLoaded', () => {
-  // Navbar
   document.querySelectorAll('[data-page]').forEach(b => {
     b.addEventListener('click', () => {
       const p = b.dataset.page;
@@ -819,43 +743,27 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Boutons accueil
   document.getElementById('loginNav').onclick = () => openAuth(false);
   document.getElementById('startSearch').onclick = () => openAuth(false);
 
-  // Tabs auth
   document.getElementById('tabLogin').onclick = () => setMode('login');
   document.getElementById('tabRegister').onclick = () => setMode('register');
 
-  // Formulaire auth
   document.getElementById('authForm').addEventListener('submit', submitAuth);
 
-  // Recherche
   document.getElementById('advDoSearch').addEventListener('click', doAdvSearch);
   document.getElementById('advClear').addEventListener('click', clearAdvSearch);
 
-  // Accordéons
   document.querySelectorAll('.accHead').forEach(h => {
     h.addEventListener('click', () => h.parentElement.classList.toggle('open'));
   });
 
-  // Onglets de recherche
-  document.querySelectorAll('.advTab').forEach(t => {
-    t.addEventListener('click', () => {
-      document.querySelectorAll('.advTab').forEach(x => x.classList.remove('active'));
-      t.classList.add('active');
-    });
-  });
-
-  // Stats
   fetch('/api/stats').then(r => r.json()).then(d => {
     document.getElementById('recordCount').textContent = (d.personnes || 0).toLocaleString('fr-FR');
     document.getElementById('indexPill').textContent = (d.personnes || 0).toLocaleString('fr-FR');
   }).catch(() => {});
 
-  // Vérif session
   checkSession();
-
   showPage('home');
 });
 </script>
