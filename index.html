@@ -98,6 +98,7 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
 .field input:focus,.field select:focus,.field textarea:focus{border-color:#ff3146;box-shadow:0 0 0 3px rgba(255,30,50,.09)}
 .field textarea{resize:vertical;min-height:80px}
 .field select{cursor:pointer}
+.field input:disabled{opacity:.6;cursor:not-allowed}
 .submit{width:100%;padding:14px;border:0;border-radius:12px;background:linear-gradient(135deg,#ff152e,#ff4857);color:#fff;font-weight:800;margin-top:8px;font-family:inherit}
 .submit:disabled{opacity:.6;cursor:not-allowed}
 .check{font-size:12px;color:#8d8587;margin:12px 0}.check input{accent-color:var(--red)}
@@ -156,7 +157,6 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
 .floatChat:hover{transform:scale(1.1)}
 .floatChat .badge{position:absolute;top:-4px;right:-4px;background:#2df0ae;color:#000;font-size:10px;font-weight:800;min-width:18px;height:18px;border-radius:9px;display:flex;align-items:center;justify-content:center;padding:0 5px;box-shadow:0 0 10px rgba(45,240,174,.6)}
 
-/* Panneau chat */
 .chatPanel{
   position:fixed;
   right:24px;bottom:92px;
@@ -265,6 +265,154 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
 .mobileMenu button svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .mobileMenu button:hover,.mobileMenu button.active{background:rgba(255,32,51,.12);color:#fff}
 
+/* ===== MENU UTILISATEUR ===== */
+.userMenu{position:relative}
+.userBtn{
+  background:transparent;
+  border:1px solid var(--line);
+  color:#fff;
+  padding:6px 14px 6px 6px;
+  border-radius:24px;
+  font-size:13px;
+  font-weight:600;
+  cursor:pointer;
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  font-family:inherit;
+  transition:all .15s;
+}
+.userBtn:hover{background:rgba(255,25,45,.1);border-color:var(--red)}
+.userBtn .avatar-mini{
+  width:26px;height:26px;border-radius:50%;
+  background:linear-gradient(135deg,var(--red),#ff4555);
+  background-size:cover;
+  background-position:center;
+  color:#fff;
+  font-size:11px;font-weight:900;
+  display:flex;align-items:center;justify-content:center;
+}
+.userBtn .avatar-mini.hasPhoto{color:transparent}
+.userBtn .caret{
+  width:10px;height:10px;
+  stroke:currentColor;fill:none;stroke-width:2.5;
+  transition:transform .2s;
+}
+.userMenu.open .userBtn .caret{transform:rotate(180deg)}
+
+.userDropdown{
+  position:absolute;
+  top:calc(100% + 10px);right:0;
+  min-width:220px;
+  background:linear-gradient(180deg,rgba(15,5,7,.99),rgba(8,3,4,.99));
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:8px;
+  box-shadow:0 20px 60px rgba(0,0,0,.7),0 0 40px rgba(255,25,45,.15);
+  z-index:60;
+  transform:translateY(-8px) scale(.96);
+  opacity:0;
+  pointer-events:none;
+  transition:all .2s cubic-bezier(.4,0,.2,1);
+  transform-origin:top right;
+}
+.userMenu.open .userDropdown{transform:none;opacity:1;pointer-events:auto}
+.userDropdown .uhead{
+  padding:12px 14px;
+  border-bottom:1px solid var(--line);
+  margin-bottom:6px;
+}
+.userDropdown .uhead .uname{
+  font-weight:800;font-size:14px;color:#fff;
+  display:flex;align-items:center;gap:8px;
+}
+.userDropdown .uhead .uplan{
+  display:inline-block;
+  margin-top:6px;
+  font-size:9px;
+  font-weight:800;
+  letter-spacing:1.5px;
+  padding:3px 8px;
+  border-radius:20px;
+  background:rgba(255,42,59,.15);
+  color:#ff6b7a;
+  border:1px solid rgba(255,42,59,.4);
+  text-transform:uppercase;
+}
+.userDropdown button{
+  display:flex;width:100%;align-items:center;gap:10px;
+  padding:10px 14px;border-radius:8px;
+  background:transparent;border:0;color:#d9d4d6;
+  font-size:13px;font-weight:500;
+  cursor:pointer;font-family:inherit;
+  text-align:left;
+}
+.userDropdown button:hover{background:rgba(255,25,45,.1);color:#fff}
+.userDropdown button svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.userDropdown button.danger{color:#ff6b7a}
+.userDropdown button.danger:hover{background:rgba(255,25,45,.15)}
+.userDropdown .sep{height:1px;background:var(--line);margin:6px 8px}
+
+/* Page profil */
+.profilHeader{
+  display:flex;align-items:center;gap:20px;
+  padding-bottom:24px;
+  border-bottom:1px solid var(--line);
+  margin-bottom:24px;
+}
+.profilAvatarWrap{position:relative;flex-shrink:0}
+.profilAvatar{
+  width:80px;height:80px;border-radius:50%;
+  background:linear-gradient(135deg,var(--red),#ff4555);
+  background-size:cover;
+  background-position:center;
+  display:flex;align-items:center;justify-content:center;
+  font-size:34px;font-weight:900;color:#fff;
+  box-shadow:0 0 40px rgba(255,25,48,.5);
+  overflow:hidden;
+}
+.profilAvatar.hasPhoto{color:transparent}
+.profilPhotoBtn{
+  position:absolute;
+  bottom:-2px;right:-2px;
+  width:30px;height:30px;
+  border-radius:50%;
+  border:2px solid #0a0507;
+  background:linear-gradient(135deg,var(--red),#ff4555);
+  color:#fff;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;
+  padding:0;
+  transition:transform .15s;
+}
+.profilPhotoBtn:hover{transform:scale(1.1)}
+.profilPhotoBtn svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.profilInfo h2{margin:0 0 6px;font-size:24px;color:#fff}
+.profilInfo p{margin:0;color:var(--muted);font-size:13px}
+
+.profilGrid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:14px;
+  margin-bottom:24px;
+}
+.profilCard{
+  background:rgba(15,5,7,.6);
+  border:1px solid var(--line);
+  border-radius:12px;
+  padding:18px;
+}
+.profilCard .label{
+  font-family:ui-monospace,monospace;
+  font-size:10px;
+  color:var(--muted);
+  letter-spacing:2px;
+  text-transform:uppercase;
+  margin-bottom:8px;
+}
+.profilCard .value{font-size:16px;font-weight:700;color:#fff}
+.profilCard .value.pro{color:#ff6b7a}
+
 @media(max-width:700px){.accInner{grid-template-columns:1fr}.advFooter{flex-wrap:wrap}.btnSearch{flex:1}}
 @media(max-width:560px){h1{font-size:54px;letter-spacing:-3px}.subtitle{font-size:18px}.actions{width:100%}.bigbtn{width:100%}.chatPanel{right:12px;bottom:88px;width:calc(100vw - 24px)}}
 @media(max-width:900px){
@@ -273,6 +421,7 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
   .page{padding:35px 18px}
   .burger{display:inline-flex}
   .status{display:none}
+  .userDropdown{right:-60px}
 }
 </style>
 </head>
@@ -307,13 +456,41 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
   <div class="navright">
     <div class="status"><span class="dot"></span><span id="recordCount">0</span></div>
     <button class="cta" id="loginNav">Se connecter</button>
+    <div class="userMenu hidden" id="userMenu">
+      <button class="userBtn" id="userBtn" type="button">
+        <span class="avatar-mini" id="userAvatarMini">?</span>
+        <span id="userNameDisplay">user</span>
+        <svg class="caret" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="userDropdown" id="userDropdown">
+        <div class="uhead">
+          <div class="uname">
+            <span class="avatar-mini" id="userAvatarDrop">?</span>
+            <span id="userNameDrop">user</span>
+          </div>
+          <span class="uplan" id="userPlanBadge">FREE</span>
+        </div>
+        <button data-action="profile">
+          <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          Mon profil
+        </button>
+        <button data-action="settings">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          Paramètres
+        </button>
+        <div class="sep"></div>
+        <button data-action="logout" class="danger">
+          <svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+          Déconnexion
+        </button>
+      </div>
+    </div>
     <button class="burger" id="burgerBtn" type="button" title="Menu">
       <svg viewBox="0 0 24 24"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
     </button>
   </div>
 </header>
 
-<!-- Menu mobile -->
 <div class="mobileMenu" id="mobileMenu">
   <button data-page="home">
     <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
@@ -507,6 +684,7 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
 const PAGES = ['home','advsearch','auth','info'];
 let mode = 'login';
 let currentUser = null;
+let currentAvatar = null;
 let chatOpen = false;
 let chatEventSource = null;
 let presenceSource = null;
@@ -607,6 +785,7 @@ async function submitAuth(e){
     currentUser = data.username;
     msg.textContent = '✓ ' + (mode === 'register' ? 'Compte créé !' : 'Connexion réussie !');
     msg.className = 'authMsg success';
+    await refreshAvatar();
     updateAuthUI();
     setTimeout(() => { showPage('advsearch'); toast('Bienvenue ' + currentUser); }, 600);
   } catch(err){
@@ -617,22 +796,61 @@ async function submitAuth(e){
   }
 }
 
+function applyAvatarToEl(el, photo, initial){
+  if(!el) return;
+  if(photo){
+    el.style.backgroundImage = 'url(' + photo + ')';
+    el.classList.add('hasPhoto');
+    el.textContent = '';
+  } else {
+    el.style.backgroundImage = '';
+    el.classList.remove('hasPhoto');
+    el.textContent = initial;
+  }
+}
+
 function updateAuthUI(){
   const loginBtn = document.getElementById('loginNav');
+  const userMenu = document.getElementById('userMenu');
   if(currentUser){
-    loginBtn.textContent = '● ' + currentUser;
-    loginBtn.onclick = async () => {
-      await fetch('/api/logout', { method: 'POST' });
-      currentUser = null;
-      closeChat();
-      updateAuthUI();
-      showPage('home');
-      toast('Déconnexion effectuée');
-    };
+    loginBtn.classList.add('hidden');
+    userMenu.classList.remove('hidden');
+    const initial = currentUser.charAt(0).toUpperCase();
+    document.getElementById('userNameDisplay').textContent = currentUser;
+    document.getElementById('userNameDrop').textContent = currentUser;
+    applyAvatarToEl(document.getElementById('userAvatarMini'), currentAvatar, initial);
+    applyAvatarToEl(document.getElementById('userAvatarDrop'), currentAvatar, initial);
   } else {
+    loginBtn.classList.remove('hidden');
+    userMenu.classList.add('hidden');
     loginBtn.textContent = 'Se connecter';
     loginBtn.onclick = () => openAuth(false);
   }
+}
+
+async function refreshAvatar(){
+  try {
+    const r = await fetch('/api/me');
+    if(r.ok){
+      const data = await r.json();
+      currentAvatar = data.avatar || null;
+    } else {
+      currentAvatar = null;
+    }
+  } catch(e){
+    currentAvatar = null;
+  }
+}
+
+async function doLogout(){
+  await fetch('/api/logout', { method: 'POST' });
+  currentUser = null;
+  currentAvatar = null;
+  closeChat();
+  document.getElementById('userMenu').classList.remove('open');
+  updateAuthUI();
+  showPage('home');
+  toast('Déconnexion effectuée');
 }
 
 async function checkSession(){
@@ -641,6 +859,7 @@ async function checkSession(){
     if(r.ok){
       const data = await r.json();
       currentUser = data.username;
+      currentAvatar = data.avatar || null;
       updateAuthUI();
     }
   } catch(e){}
@@ -872,10 +1091,93 @@ async function sendTyping(){
 }
 
 // ============================================
-// INFO / SUPPRESSION / BOUTIQUE
+// INFO / SUPPRESSION / BOUTIQUE / PROFIL
 // ============================================
 function infoPage(kind){
   const content = {
+    profile: `
+      <div class="profilHeader">
+        <div class="profilAvatarWrap">
+          <div class="profilAvatar" id="profilAvatar">?</div>
+          <button class="profilPhotoBtn" id="profilPhotoBtn" type="button" title="Changer la photo">
+            <svg viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+          </button>
+        </div>
+        <div class="profilInfo">
+          <h2 id="profilName">user</h2>
+          <p>Membre de FastSearch</p>
+        </div>
+      </div>
+
+      <input type="file" id="profilPhotoInput" accept="image/*" style="display:none">
+
+      <div class="profilGrid">
+        <div class="profilCard">
+          <div class="label">Nom d'utilisateur</div>
+          <div class="value" id="profilUsername">user</div>
+        </div>
+        <div class="profilCard">
+          <div class="label">Plan actuel</div>
+          <div class="value pro" id="profilPlan">FREE</div>
+        </div>
+        <div class="profilCard">
+          <div class="label">Statut</div>
+          <div class="value" style="color:#2df0ae">● En ligne</div>
+        </div>
+        <div class="profilCard">
+          <div class="label">Rôle</div>
+          <div class="value">Utilisateur</div>
+        </div>
+      </div>
+
+      <p class="muted" style="text-align:left;font-size:13px;line-height:1.7">
+        Ceci est votre espace personnel. Les informations affichées ici sont celles de votre compte.
+        Pour modifier vos préférences, rendez-vous dans <b style="color:#fff">Paramètres</b>.
+      </p>
+    `,
+
+    settings: `
+      <h2 style="margin-top:0">Paramètres</h2>
+      <p class="muted" style="text-align:left;margin-bottom:24px">
+        Gère les préférences de ton compte.
+      </p>
+
+      <div class="field">
+        <label>Nom d'utilisateur</label>
+        <input value="${escapeHtml(currentUser || '')}" disabled>
+      </div>
+
+      <h3 style="margin:28px 0 8px;font-size:15px;color:#fff">Changer le mot de passe</h3>
+      <p class="muted" style="text-align:left;font-size:12px;margin-bottom:16px">
+        Pour modifier ton mot de passe, saisis d'abord ton mot de passe actuel.
+      </p>
+
+      <form id="passwordForm">
+        <div class="field">
+          <label>Mot de passe actuel *</label>
+          <input type="password" id="pwdCurrent" placeholder="••••••••" required>
+        </div>
+
+        <div class="field">
+          <label>Nouveau mot de passe *</label>
+          <input type="password" id="pwdNew" placeholder="min. 4 caractères" required minlength="4">
+        </div>
+
+        <div class="field">
+          <label>Confirmer le nouveau mot de passe *</label>
+          <input type="password" id="pwdConfirm" placeholder="••••••••" required minlength="4">
+        </div>
+
+        <p id="pwdMsg" style="margin:12px 0 0;font-size:13px;font-family:ui-monospace,monospace;min-height:18px"></p>
+
+        <button type="submit" class="submit" id="pwdSubmit">Enregistrer le nouveau mot de passe</button>
+      </form>
+
+      <p class="muted" style="margin-top:20px;font-size:12px">
+        Certaines fonctionnalités sont en cours de développement.
+      </p>
+    `,
+
     delete: `
       <h2 style="margin-top:0">Demande de suppression</h2>
       <p class="muted" style="text-align:left;margin-bottom:24px">
@@ -979,6 +1281,101 @@ function infoPage(kind){
   document.getElementById('infoContent').innerHTML = content[kind] || '';
   showPage('info');
 
+  if(kind === 'profile'){
+    const initial = (currentUser || '?').charAt(0).toUpperCase();
+    const avatarEl = document.getElementById('profilAvatar');
+    document.getElementById('profilName').textContent = currentUser || 'user';
+    document.getElementById('profilUsername').textContent = currentUser || 'user';
+    applyAvatarToEl(avatarEl, currentAvatar, initial);
+
+    const photoBtn = document.getElementById('profilPhotoBtn');
+    const photoInput = document.getElementById('profilPhotoInput');
+    if(photoBtn && photoInput){
+      photoBtn.onclick = () => photoInput.click();
+      photoInput.onchange = async () => {
+        const file = photoInput.files[0];
+        if(!file) return;
+        if(file.size > 1.5 * 1024 * 1024){
+          toast('Image trop lourde (max 1.5 Mo)');
+          return;
+        }
+        const reader = new FileReader();
+        reader.onload = async (e) => {
+          const dataUrl = e.target.result;
+          try {
+            const r = await fetch('/api/avatar', {
+              method: 'POST',
+              headers: {'Content-Type': 'application/json'},
+              body: JSON.stringify({ dataUrl })
+            });
+            const data = await r.json();
+            if(!r.ok){
+              toast('Erreur : ' + (data.error || 'upload échoué'));
+              return;
+            }
+            currentAvatar = dataUrl;
+            applyAvatarToEl(avatarEl, currentAvatar, initial);
+            applyAvatarToEl(document.getElementById('userAvatarMini'), currentAvatar, initial);
+            applyAvatarToEl(document.getElementById('userAvatarDrop'), currentAvatar, initial);
+            toast('Photo de profil mise à jour');
+          } catch(err){
+            toast('Erreur réseau');
+          }
+        };
+        reader.readAsDataURL(file);
+      };
+    }
+  }
+
+  if(kind === 'settings'){
+    const form = document.getElementById('passwordForm');
+    if(form){
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const msg = document.getElementById('pwdMsg');
+        const btn = document.getElementById('pwdSubmit');
+        msg.textContent = '';
+        msg.style.color = '';
+
+        const current = document.getElementById('pwdCurrent').value;
+        const newPwd = document.getElementById('pwdNew').value;
+        const confirmPwd = document.getElementById('pwdConfirm').value;
+
+        if(newPwd !== confirmPwd){
+          msg.textContent = '✗ Les nouveaux mots de passe ne correspondent pas';
+          msg.style.color = '#ff5665';
+          return;
+        }
+
+        btn.disabled = true;
+        btn.textContent = 'Enregistrement...';
+
+        try {
+          const r = await fetch('/api/change-password', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({ currentPassword: current, newPassword: newPwd })
+          });
+          const data = await r.json();
+          if(!r.ok){
+            msg.textContent = '✗ ' + (data.error || 'Erreur');
+            msg.style.color = '#ff5665';
+          } else {
+            msg.textContent = '✓ Mot de passe modifié';
+            msg.style.color = '#2df0ae';
+            form.reset();
+          }
+        } catch(err){
+          msg.textContent = '✗ Erreur réseau';
+          msg.style.color = '#ff5665';
+        } finally {
+          btn.disabled = false;
+          btn.textContent = 'Enregistrer le nouveau mot de passe';
+        }
+      });
+    }
+  }
+
   if(kind === 'delete'){
     const form = document.getElementById('deleteForm');
     if(form){
@@ -1015,7 +1412,6 @@ function subscribe(plan){
 // INIT
 // ============================================
 document.addEventListener('DOMContentLoaded', () => {
-  // Menu mobile
   const burger = document.getElementById('burgerBtn');
   const mobileMenu = document.getElementById('mobileMenu');
   if(burger && mobileMenu){
@@ -1033,7 +1429,29 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Navigation (nav desktop + menu mobile)
+  const userBtn = document.getElementById('userBtn');
+  const userMenuEl = document.getElementById('userMenu');
+  const userDropdown = document.getElementById('userDropdown');
+
+  if(userBtn){
+    userBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      userMenuEl.classList.toggle('open');
+    });
+    document.addEventListener('click', (e) => {
+      if(!userMenuEl.contains(e.target)) userMenuEl.classList.remove('open');
+    });
+    userDropdown.querySelectorAll('button[data-action]').forEach(b => {
+      b.addEventListener('click', () => {
+        const action = b.dataset.action;
+        userMenuEl.classList.remove('open');
+        if(action === 'logout') doLogout();
+        else if(action === 'profile') infoPage('profile');
+        else if(action === 'settings') infoPage('settings');
+      });
+    });
+  }
+
   document.querySelectorAll('[data-page]').forEach(b => {
     b.addEventListener('click', () => {
       const p = b.dataset.page;
