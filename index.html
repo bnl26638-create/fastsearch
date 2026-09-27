@@ -468,4 +468,88 @@ window.addEventListener('DOMContentLoaded', function(){
       location.hash = 'search';
     } else {
       msg.textContent = '❌ ' + d.error;
-      msg
+      msg.className = 'error';
+    }
+  });
+
+  document.getElementById('btn-logout').addEventListener('click', async function(){
+    await fetch('/api/logout', { method: 'POST' });
+    location.hash = 'login';
+  });
+
+  var timer = null;
+  document.getElementById('q').addEventListener('input', function(e){
+    clearTimeout(timer);
+    timer = setTimeout(function(){ search(e.target.value.trim()); }, 250);
+  });
+
+  fetch('/api/stats').then(function(r){ return r.json(); }).then(function(d){
+    document.getElementById('nbPersonnes').textContent = d.personnes.toLocaleString('fr-FR');
+  });
+
+  navigate();
+});
+
+async function search(q){
+  var results = document.getElementById('results');
+  if(!q){
+    results.innerHTML = '<div class="empty"><div class="empty-icon">⌕</div><div class="empty-text">EN ATTENTE D\'UNE REQUÊTE_</div></div>';
+    return;
+  }
+  results.innerHTML = '<div class="empty"><div class="loader"></div></div>';
+  try {
+    var r = await fetch('/api/search?q=' + encodeURIComponent(q));
+    var data = await r.json();
+    if(data.length === 0){
+      results.innerHTML = '<div class="empty"><div class="empty-icon">⌕</div><div class="empty-text">AUCUN RÉSULTAT : ' + escape(q) + '_</div></div>';
+      return;
+    }
+    results.innerHTML = data.map(function(p,i){ return renderFiche(p,i); }).join('');
+  } catch(err){
+    results.innerHTML = '<div class="empty"><div class="empty-icon">⚠</div><div class="empty-text">ERREUR DE RECHERCHE_</div></div>';
+  }
+}
+
+function renderFiche(p, i){
+  var initiales = ((p.prenom&&p.prenom[0]||'') + (p.nom&&p.nom[0]||'')).toUpperCase() || '?';
+  var titre = [p.prenom, p.nom].filter(Boolean).join(' ') || 'Sans nom';
+  var delay = Math.min(i*40, 400);
+  return '<div class="fiche" style="animation-delay:'+delay+'ms">' +
+    '<div class="fiche-header"><div class="fiche-top">' +
+      '<div class="avatar">' + escape(initiales) + '</div>' +
+      '<div><div class="fiche-name">' + escape(titre) + '</div>' +
+      '<div class="fiche-sub">' + escape(p.ville || '') + (p.ville && p.code_postal ? ' · ' : '') + escape(p.code_postal || '') + '</div></div>' +
+    '</div></div>' +
+    '<div class="grid">' +
+      field('Nom', p.nom) +
+      field('Prénom', p.prenom) +
+      field('Date de naissance', p.date_naissance) +
+      field('Sexe', p.sexe) +
+      field('Email', p.email) +
+      field('Téléphone', p.telephone) +
+      field('Adresse', p.adresse) +
+      field('Ville', p.ville) +
+      field('Code postal', p.code_postal) +
+      field('Pays', p.pays) +
+      field('IBAN', p.iban, 'mono') +
+      field('BIC', p.bic, 'mono') +
+      field('NIR', p.nir, 'mono') +
+    '</div></div>';
+}
+
+function field(label, value, cls){
+  cls = cls || '';
+  var v = value ? escape(value) : '<span class="empty">—</span>';
+  return '<div class="field"><div class="label">' + label + '</div>' +
+    '<div class="value ' + cls + (value ? '' : ' empty') + '">' + v + '</div></div>';
+}
+
+function escape(s){
+  if(s == null) return '';
+  return String(s).replace(/[&<>"']/g, function(c){
+    return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
+  });
+}
+</script>
+</body>
+</html>
