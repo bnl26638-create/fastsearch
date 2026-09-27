@@ -125,12 +125,10 @@ app.get('/api/presence/stream', (req, res) => {
   const client = { res };
   presenceClients.add(client);
 
-  // Envoie immédiatement le compte actuel au nouveau client
   try {
     res.write(`data: ${JSON.stringify({ type: 'presence', count: presenceClients.size })}\n\n`);
   } catch (e) {}
 
-  // Notifie tout le monde qu'il y a un nouveau
   broadcastPresence();
 
   const hb = setInterval(() => {
@@ -192,6 +190,22 @@ app.get('/api/chat/stream', requireAuth, (req, res) => {
 });
 
 // ============================================================
+// CHAT — indicateur "est en train d'écrire"
+// ============================================================
+function broadcastTyping(username, isTyping) {
+  const payload = `data: ${JSON.stringify({ type: 'typing', username, isTyping })}\n\n`;
+  for (const client of sseClients) {
+    if (client.username === username) continue;
+    try { client.res.write(payload); } catch (e) {}
+  }
+}
+
+app.post('/api/chat/typing', requireAuth, (req, res) => {
+  broadcastTyping(req.session.username, true);
+  res.json({ success: true });
+});
+
+// ============================================================
 // CHAT — messages
 // ============================================================
 app.get('/api/chat/messages', requireAuth, (req, res) => {
@@ -226,6 +240,8 @@ app.post('/api/chat/messages', requireAuth, (req, res) => {
   if (messages.length > MAX_MESSAGES) messages.shift();
 
   broadcastChat({ type: 'message', message });
+  // Signale que l'auteur n'écrit plus
+  broadcastTyping(req.session.username, false);
   res.json({ success: true, message });
 });
 
