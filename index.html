@@ -86,11 +86,223 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
 .modalBox pre{white-space:pre-wrap;background:#070304;padding:15px;border-radius:12px;color:#bfb6b8;font-size:12px;line-height:1.55;max-height:420px;overflow:auto}
 .close{float:right;background:transparent;border:0;color:#aaa;font-size:22px}
 .footer{text-align:center;color:#575052;font-size:12px;padding:20px}
+
+/* ============ RECHERCHE AVANCÉE ============ */
+.advSearch{
+  max-width:1240px;margin:0 auto;
+  background:linear-gradient(180deg,rgba(15,5,7,.9),rgba(8,3,4,.9));
+  border:1px solid var(--line);border-radius:22px;
+  padding:0;overflow:hidden;
+  box-shadow:0 20px 70px rgba(0,0,0,.5);
+}
+.advTabs{
+  display:flex;gap:8px;
+  padding:16px 20px 0;
+  border-bottom:1px solid rgba(255,42,59,.15);
+}
+.advTab{
+  padding:13px 20px;
+  background:transparent;border:0;color:#8e8789;
+  font-size:14px;font-weight:600;
+  border-radius:12px 12px 0 0;
+  position:relative;cursor:pointer;
+  display:flex;align-items:center;gap:8px;
+  font-family:inherit;
+}
+.advTab:hover{color:#ddd}
+.advTab.active{
+  color:#fff;
+  background:rgba(255,25,45,.1);
+  box-shadow:inset 0 -2px 0 var(--red);
+}
+.advTab .badgeNew{
+  background:#16a34a;color:#fff;
+  font-size:9px;padding:3px 7px;border-radius:20px;
+  font-weight:700;letter-spacing:.5px;
+}
+.advBody{padding:22px}
+.acc{
+  border:1px solid rgba(255,42,59,.18);
+  border-radius:14px;
+  background:rgba(20,8,10,.55);
+  margin-bottom:10px;
+  overflow:hidden;
+  transition:border-color .2s;
+}
+.acc.open{border-color:rgba(255,42,59,.4)}
+.accHead{
+  display:flex;align-items:center;gap:14px;
+  padding:18px 20px;
+  cursor:pointer;
+  user-select:none;
+  transition:background .15s;
+}
+.accHead:hover{background:rgba(255,25,45,.04)}
+.acc.open .accHead{background:rgba(255,25,45,.06)}
+.accIco{
+  width:34px;height:34px;flex-shrink:0;
+  border-radius:10px;
+  background:rgba(255,25,45,.12);
+  border:1px solid rgba(255,42,59,.3);
+  display:flex;align-items:center;justify-content:center;
+  color:var(--red);font-size:16px;
+}
+.accTitle{
+  flex:1;font-size:16px;font-weight:700;color:#fff;
+}
+.accArrow{
+  color:#7a7173;font-size:13px;
+  transition:transform .25s ease;
+}
+.acc.open .accArrow{transform:rotate(180deg)}
+.accBody{
+  max-height:0;overflow:hidden;
+  transition:max-height .35s ease;
+}
+.acc.open .accBody{max-height:1500px}
+.accInner{
+  padding:4px 20px 22px;
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(240px,1fr));
+  gap:16px;
+}
+.fieldAdv{display:flex;flex-direction:column;gap:8px}
+.fieldAdvHead{
+  display:flex;align-items:center;gap:6px;
+}
+.fieldAdvHead label{
+  font-size:12px;color:#b9b0b2;font-weight:600;
+}
+.fieldAdvHead .help{
+  width:14px;height:14px;border-radius:50%;
+  background:rgba(255,42,59,.15);
+  border:1px solid rgba(255,42,59,.4);
+  color:var(--red);
+  display:flex;align-items:center;justify-content:center;
+  font-size:9px;font-weight:800;cursor:help;
+  margin-left:2px;
+}
+.fieldAdvInputWrap{
+  display:flex;gap:6px;align-items:stretch;
+}
+.fieldAdvInputWrap input,
+.fieldAdvInputWrap select{
+  flex:1;min-width:0;
+  padding:12px 14px;
+  background:#090506;
+  border:1px solid #32151a;
+  border-radius:10px;
+  color:#fff;
+  font-size:14px;
+  font-family:inherit;
+  outline:none;
+  transition:all .15s;
+}
+.fieldAdvInputWrap input:focus,
+.fieldAdvInputWrap select:focus{
+  border-color:var(--red);
+  box-shadow:0 0 0 3px rgba(255,30,50,.1);
+}
+.fieldAdvInputWrap input::placeholder{color:#5c5456}
+.iaBtn{
+  flex-shrink:0;
+  width:42px;
+  border:1px solid rgba(255,42,59,.35);
+  background:rgba(255,25,45,.08);
+  color:var(--red);
+  border-radius:10px;
+  cursor:pointer;
+  font-size:15px;
+  display:flex;align-items:center;justify-content:center;
+  transition:all .15s;
+}
+.iaBtn:hover{
+  background:rgba(255,25,45,.18);
+  border-color:var(--red);
+}
+.rayonBox{
+  display:flex;flex-wrap:wrap;gap:8px;align-items:center;
+  padding:12px 14px;
+  background:#090506;
+  border:1px solid #32151a;
+  border-radius:10px;
+  font-size:13px;color:#b9b0b2;
+}
+.rayonBox input{
+  width:70px;
+  padding:6px 10px;
+  background:#14090b;
+  border:1px solid #3a1a20;
+  border-radius:6px;
+  color:#fff;
+  font-size:13px;
+  text-align:center;
+  outline:none;
+}
+.rayonBox input:focus{border-color:var(--red)}
+.advFooter{
+  display:flex;gap:12px;
+  padding:18px 22px 22px;
+  border-top:1px solid rgba(255,42,59,.12);
+  background:rgba(0,0,0,.25);
+}
+.btnSearch{
+  background:linear-gradient(135deg,var(--red),#ff4555);
+  color:#fff;
+  border:0;
+  padding:15px 32px;
+  border-radius:12px;
+  font-size:15px;font-weight:800;
+  cursor:pointer;
+  display:flex;align-items:center;gap:10px;
+  box-shadow:0 0 30px rgba(255,25,48,.3);
+  transition:all .15s;
+  font-family:inherit;
+}
+.btnSearch:hover{transform:translateY(-2px);filter:brightness(1.08)}
+.btnClear{
+  background:transparent;
+  color:#8e8789;
+  border:1px solid #32151a;
+  padding:15px 26px;
+  border-radius:12px;
+  font-size:15px;font-weight:600;
+  cursor:pointer;
+  transition:all .15s;
+  font-family:inherit;
+}
+.btnClear:hover{color:#fff;border-color:#521923;background:rgba(255,25,45,.05)}
+
+/* Chat flottant */
+.floatChat{
+  position:fixed;
+  right:24px;bottom:24px;
+  width:56px;height:56px;
+  border-radius:50%;
+  background:linear-gradient(135deg,var(--red),#ff4555);
+  border:0;
+  color:#fff;
+  font-size:22px;
+  cursor:pointer;
+  box-shadow:0 8px 30px rgba(255,25,48,.5);
+  z-index:30;
+  transition:transform .2s;
+  display:flex;align-items:center;justify-content:center;
+}
+.floatChat:hover{transform:scale(1.1)}
+
 @media(max-width:900px){
  .navlinks{display:none}.nav{margin:0 5px}.page{padding:35px 18px}
  .dashboard{grid-template-columns:1fr}.side{display:none}.stats{grid-template-columns:1fr 1fr}.panelGrid{grid-template-columns:1fr}
  .resultHead{display:none}.resultRow{grid-template-columns:1fr 1fr}.resultRow>*:nth-child(5){grid-column:2}
  .searchBox{flex-wrap:wrap}.searchBox select{width:100%;height:43px}.searchBtn{height:45px;flex:1}
+}
+@media(max-width:700px){
+  .advTabs{overflow-x:auto;padding:12px 14px 0}
+  .advTab{white-space:nowrap;padding:11px 14px;font-size:13px}
+  .accInner{grid-template-columns:1fr}
+  .advFooter{flex-wrap:wrap}
+  .btnSearch{flex:1}
 }
 @media(max-width:560px){h1{font-size:54px;letter-spacing:-3px}.subtitle{font-size:18px}.stats{grid-template-columns:1fr}.features{flex-direction:column;gap:10px}.actions{width:100%}.bigbtn{width:100%}}
 </style>
@@ -100,7 +312,7 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
   <div class="brand"><span class="bolt">ϟ</span> FastSearch</div>
   <div class="navlinks">
     <button data-page="home" class="active">⌂ Accueil</button>
-    <button data-page="search">⌕ Recherche</button>
+    <button data-page="advsearch">⌕ Recherche</button>
     <button data-page="api">‹› API</button>
     <button data-page="delete">▣ Suppression</button>
     <button data-page="shop">🛒 Boutique</button>
@@ -128,6 +340,217 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
   </div>
   <div class="tor">◈ Accessible via Tor</div>
   <div class="gridbg"></div>
+</section>
+
+<!-- ============ RECHERCHE AVANCÉE ============ -->
+<section id="advsearch" class="page hidden">
+  <div class="advSearch">
+    <div class="advTabs">
+      <button class="advTab active" data-tab="fr">🔍 Recherche française</button>
+      <button class="advTab" data-tab="net">🌐 Recherche Réseaux <span class="badgeNew">NOUVEAU</span></button>
+      <button class="advTab" data-tab="ia">🤖 IA OSINT</button>
+    </div>
+
+    <div class="advBody" id="tabContent">
+
+      <!-- État civil -->
+      <div class="acc open">
+        <div class="accHead">
+          <div class="accIco">👤</div>
+          <div class="accTitle">État civil</div>
+          <div class="accArrow">▼</div>
+        </div>
+        <div class="accBody"><div class="accInner">
+          <div class="fieldAdv">
+            <div class="fieldAdvHead"><label>Nom</label><span class="help" title="Nom de famille">?</span></div>
+            <div class="fieldAdvInputWrap">
+              <input data-field="nom" placeholder="Dupont">
+              <button class="iaBtn" title="Recherche IA">🤖</button>
+            </div>
+          </div>
+          <div class="fieldAdv">
+            <div class="fieldAdvHead"><label>Prénom</label><span class="help" title="Prénom usuel">?</span></div>
+            <div class="fieldAdvInputWrap">
+              <input data-field="prenom" placeholder="Jean">
+              <button class="iaBtn" title="Recherche IA">🤖</button>
+            </div>
+          </div>
+          <div class="fieldAdv">
+            <div class="fieldAdvHead"><label>Nom de naissance</label><span class="help" title="Nom avant mariage">?</span></div>
+            <div class="fieldAdvInputWrap">
+              <input data-field="nom_naissance" placeholder="Martin">
+              <button class="iaBtn" title="Recherche IA">🤖</button>
+            </div>
+          </div>
+          <div class="fieldAdv">
+            <div class="fieldAdvHead"><label>Nom affiché</label><span class="help" title="Pseudonyme public">?</span></div>
+            <div class="fieldAdvInputWrap">
+              <input data-field="nom_affiche" placeholder="Jean Dupont">
+              <button class="iaBtn" title="Recherche IA">🤖</button>
+            </div>
+          </div>
+        </div></div>
+      </div>
+
+      <!-- Origine -->
+      <div class="acc">
+        <div class="accHead">
+          <div class="accIco">📅</div>
+          <div class="accTitle">Origine</div>
+          <div class="accArrow">▼</div>
+        </div>
+        <div class="accBody"><div class="accInner">
+          <div class="fieldAdv">
+            <div class="fieldAdvHead"><label>Date de naissance</label><span class="help" title="Format JJ/MM/AAAA">?</span></div>
+            <div class="fieldAdvInputWrap"><input data-field="date_naissance" placeholder="2006/07/15"></div>
+          </div>
+          <div class="fieldAdv">
+            <div class="fieldAdvHead"><label>Ville de naissance</label><span class="help" title="Ville de naissance">?</span></div>
+            <div class="fieldAdvInputWrap"><input data-field="ville_naissance" placeholder="Lyon"></div>
+          </div>
+          <div class="fieldAdv">
+            <div class="fieldAdvHead"><label>Nationalité</label><span class="help" title="Nationalité légale">?</span></div>
+            <div class="fieldAdvInputWrap"><input data-field="nationalite" placeholder="Française"></div>
+          </div>
+        </div></div>
+      </div>
+
+      <!-- Coordonnées -->
+      <div class="acc">
+        <div class="accHead">
+          <div class="accIco">✉</div>
+          <div class="accTitle">Coordonnées</div>
+          <div class="accArrow">▼</div>
+        </div>
+        <div class="accBody"><div class="accInner">
+          <div class="fieldAdv">
+            <div class="fieldAdvHead"><label>Email</label><span class="help" title="Adresse email">?</span></div>
+            <div class="fieldAdvInputWrap"><input data-field="email" placeholder="jean@gmail.com" type="email"></div>
+          </div>
+          <div class="fieldAdv">
+            <div class="fieldAdvHead"><label>Téléphone mobile</label><span class="help" title="Mobile">?</span></div>
+            <div class="fieldAdvInputWrap"><input data-field="tel_mobile" placeholder="0612345678"></div>
+          </div>
+          <div class="fieldAdv">
+            <div class="fieldAdvHead"><label>Téléphone fixe</label><span class="help" title="Fixe">?</span></div>
+            <div class="fieldAdvInputWrap"><input data-field="tel_fixe" placeholder="0123456789"></div>
+          </div>
+          <div class="fieldAdv">
+            <div class="fieldAdvHead"><label>Mot de passe</label><span class="help" title="Mot de passe divulgué">?</span></div>
+            <div class="fieldAdvInputWrap"><input data-field="password" placeholder="motdepasse123"></div>
+          </div>
+        </div></div>
+      </div>
+
+      <!-- Adresse -->
+      <div class="acc">
+        <div class="accHead">
+          <div class="accIco">📍</div>
+          <div class="accTitle">Adresse</div>
+          <div class="accArrow">▼</div>
+        </div>
+        <div class="accBody"><div class="accInner">
+          <div class="fieldAdv">
+            <div class="fieldAdvHead"><label>Adresse</label><span class="help" title="Rue complète">?</span></div>
+            <div class="fieldAdvInputWrap"><input data-field="adresse" placeholder="12 rue de la Paix"></div>
+          </div>
+          <div class="fieldAdv">
+            <div class="fieldAdvHead"><label>Ville</label><span class="help" title="Ville">?</span></div>
+            <div class="fieldAdvInputWrap"><input data-field="ville" placeholder="Paris"></div>
+          </div>
+          <div class="fieldAdv">
+            <div class="fieldAdvHead"><label>Code postal</label><span class="help" title="CP">?</span></div>
+            <div class="fieldAdvInputWrap"><input data-field="code_postal" placeholder="75001"></div>
+          </div>
+          <div class="fieldAdv">
+            <div class="fieldAdvHead"><label>Pays</label><span class="help" title="Pays">?</span></div>
+            <div class="fieldAdvInputWrap"><input data-field="pays" placeholder="France"></div>
+          </div>
+          <div class="fieldAdv">
+            <div class="fieldAdvHead"><label>Adresse IP</label><span class="help" title="IPv4 / IPv6">?</span></div>
+            <div class="fieldAdvInputWrap"><input data-field="ip" placeholder="192.168.1.1"></div>
+          </div>
+          <div class="fieldAdv">
+            <div class="fieldAdvHead"><label>Rayon</label><span class="help" title="Recherche géographique">?</span></div>
+            <div class="rayonBox">
+              Dans un rayon de
+              <input type="number" id="rayonKm" value="25" min="1" max="500">
+              km autour de
+              <input type="text" id="rayonVille" value="Marseille" style="flex:1;min-width:120px;text-align:left">
+            </div>
+          </div>
+        </div></div>
+      </div>
+
+      <!-- Jeux & Réseaux -->
+      <div class="acc">
+        <div class="accHead">
+          <div class="accIco">🎮</div>
+          <div class="accTitle">Jeux & Réseaux</div>
+          <div class="accArrow">▼</div>
+        </div>
+        <div class="accBody"><div class="accInner">
+          <div class="fieldAdv">
+            <div class="fieldAdvHead"><label>Pseudo FiveM</label><span class="help" title="Pseudo FiveM">?</span></div>
+            <div class="fieldAdvInputWrap"><input data-field="fivem" placeholder="JeanDupont"></div>
+          </div>
+          <div class="fieldAdv">
+            <div class="fieldAdvHead"><label>Pseudo Minecraft</label><span class="help" title="Pseudo Minecraft">?</span></div>
+            <div class="fieldAdvInputWrap"><input data-field="minecraft" placeholder="JeanDupont"></div>
+          </div>
+          <div class="fieldAdv">
+            <div class="fieldAdvHead"><label>Discord ID</label><span class="help" title="ID numérique Discord">?</span></div>
+            <div class="fieldAdvInputWrap"><input data-field="discord_id" placeholder="123456789012345678"></div>
+          </div>
+          <div class="fieldAdv">
+            <div class="fieldAdvHead"><label>Steam ID</label><span class="help" title="Steam ID">?</span></div>
+            <div class="fieldAdvInputWrap"><input data-field="steam_id" placeholder="jean_dupont"></div>
+          </div>
+        </div></div>
+      </div>
+
+      <!-- Autres données -->
+      <div class="acc">
+        <div class="accHead">
+          <div class="accIco">＋</div>
+          <div class="accTitle">Autres données</div>
+          <div class="accArrow">▼</div>
+        </div>
+        <div class="accBody"><div class="accInner">
+          <div class="fieldAdv">
+            <div class="fieldAdvHead"><label>IBAN</label><span class="help" title="Compte bancaire">?</span></div>
+            <div class="fieldAdvInputWrap"><input data-field="iban" placeholder="FR76 3000..."></div>
+          </div>
+          <div class="fieldAdv">
+            <div class="fieldAdvHead"><label>VIN / Plaque</label><span class="help" title="Véhicule">?</span></div>
+            <div class="fieldAdvInputWrap"><input data-field="vin" placeholder="AB-123-CD"></div>
+          </div>
+          <div class="fieldAdv">
+            <div class="fieldAdvHead"><label>Profession</label><span class="help" title="Métier">?</span></div>
+            <div class="fieldAdvInputWrap"><input data-field="profession" placeholder="Ingénieur"></div>
+          </div>
+          <div class="fieldAdv">
+            <div class="fieldAdvHead"><label>Employeur</label><span class="help" title="Employeur">?</span></div>
+            <div class="fieldAdvInputWrap"><input data-field="employeur" placeholder="Société Dupont"></div>
+          </div>
+          <div class="fieldAdv">
+            <div class="fieldAdvHead"><label>Twitter / X</label><span class="help" title="Compte X">?</span></div>
+            <div class="fieldAdvInputWrap"><input data-field="twitter" placeholder="@jeandupont"></div>
+          </div>
+          <div class="fieldAdv">
+            <div class="fieldAdvHead"><label>Snapchat</label><span class="help" title="Compte Snapchat">?</span></div>
+            <div class="fieldAdvInputWrap"><input data-field="snapchat" placeholder="jean.dupont"></div>
+          </div>
+        </div></div>
+      </div>
+
+    </div>
+
+    <div class="advFooter">
+      <button class="btnSearch" id="advDoSearch">🔍 Rechercher</button>
+      <button class="btnClear" id="advClear">Effacer</button>
+    </div>
+  </div>
 </section>
 
 <section id="auth" class="page hidden">
@@ -203,6 +626,8 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
 </section>
 </main>
 
+<button class="floatChat" title="Support / Chat">💬</button>
+
 <div id="modal" class="modal hidden">
   <div class="modalBox"><button class="close" onclick="closeModal()">×</button><h3 id="modalTitle">Détail</h3><pre id="modalText"></pre></div>
 </div>
@@ -210,7 +635,7 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
 <footer class="footer">FastSearch UI — prototype front-end • Données de démonstration synthétiques • À connecter à votre propre backend/API autorisée</footer>
 
 <script>
-const pages=['home','auth','app','info'];
+const pages=['home','auth','app','info','advsearch'];
 let mode='login', currentUser='chercheur';
 const demoData=[
  {v:'alex.demo@example.test',t:'Email',s:'Dataset Demo A',st:'Disponible'},
@@ -284,7 +709,7 @@ Authorization: Bearer YOUR_TOKEN
 document.querySelectorAll('[data-page]').forEach(b=>b.addEventListener('click',()=>{
  const p=b.dataset.page;
  if(p==='home')showPage('home');
- else if(p==='search')openAuth(false);
+ else if(p==='advsearch')showPage('advsearch');
  else if(p==='api')infoPage('api');
  else if(p==='delete')infoPage('delete');
  else if(p==='shop')infoPage('shop');
@@ -311,6 +736,51 @@ document.querySelectorAll('[data-view]').forEach(b=>b.onclick=()=>{
  else if(v==='settings')document.getElementById('resultBody').innerHTML='<div class="empty">Paramètres du compte — interface de démonstration.</div>';
  else renderResults(demoData);
 });
+
+// ===== RECHERCHE AVANCÉE : accordéons =====
+document.querySelectorAll('.accHead').forEach(h => {
+  h.addEventListener('click', () => {
+    h.parentElement.classList.toggle('open');
+  });
+});
+
+// ===== RECHERCHE AVANCÉE : onglets =====
+document.querySelectorAll('.advTab').forEach(t => {
+  t.addEventListener('click', () => {
+    document.querySelectorAll('.advTab').forEach(x => x.classList.remove('active'));
+    t.classList.add('active');
+    toast('Onglet : ' + t.textContent.trim());
+  });
+});
+
+// ===== RECHERCHE AVANCÉE : bouton Rechercher =====
+document.getElementById('advDoSearch').addEventListener('click', () => {
+  const data = {};
+  document.querySelectorAll('[data-field]').forEach(inp => {
+    const v = inp.value.trim();
+    if (v) data[inp.dataset.field] = v;
+  });
+  const rayonKm = document.getElementById('rayonKm').value;
+  const rayonVille = document.getElementById('rayonVille').value.trim();
+  if (rayonVille) data.rayon = { km: parseInt(rayonKm), ville: rayonVille };
+
+  if (Object.keys(data).length === 0) {
+    toast('Aucun critère renseigné');
+    return;
+  }
+
+  console.log('Critères de recherche :', data);
+  toast('Recherche lancée avec ' + Object.keys(data).length + ' critère(s)');
+});
+
+// ===== RECHERCHE AVANCÉE : bouton Effacer =====
+document.getElementById('advClear').addEventListener('click', () => {
+  document.querySelectorAll('[data-field]').forEach(inp => inp.value = '');
+  document.getElementById('rayonKm').value = 25;
+  document.getElementById('rayonVille').value = 'Marseille';
+  toast('Formulaire effacé');
+});
+
 showPage('home');
 </script>
 </body>
