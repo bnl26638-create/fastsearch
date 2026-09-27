@@ -40,7 +40,99 @@ main{padding-top:60px}
 .home:before{content:"";position:absolute;width:620px;height:260px;top:75px;background:radial-gradient(ellipse,rgba(160,0,15,.45),transparent 68%);filter:blur(20px);pointer-events:none}
 .pill{display:inline-flex;align-items:center;gap:9px;border:1px solid rgba(255,39,57,.5);padding:10px 17px;border-radius:30px;background:rgba(10,3,4,.6);font-family:ui-monospace,monospace;font-size:14px;position:relative}
 h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spacing:-5px;font-weight:900;text-shadow:0 0 20px rgba(255,38,53,.45)}
-.glow{color:#fff;text-shadow:0 0 3px #fff,0 0 23px rgba(255,30,48,.8)}
+
+/* ===== TITRE FASTSEARCH ANIMÉ ===== */
+.glow{
+  position:relative;
+  display:inline-block;
+  color:#fff;
+  background:linear-gradient(
+    90deg,
+    #ff1830 0%,
+    #ff6b7a 25%,
+    #ffffff 50%,
+    #ff6b7a 75%,
+    #ff1830 100%
+  );
+  background-size:200% auto;
+  -webkit-background-clip:text;
+  background-clip:text;
+  -webkit-text-fill-color:transparent;
+  animation:
+    titleGradient 6s linear infinite,
+    titlePulse 3.5s ease-in-out infinite;
+  cursor:default;
+  transition:filter .3s ease;
+}
+@keyframes titleGradient{
+  0%{background-position:0% center}
+  100%{background-position:200% center}
+}
+@keyframes titlePulse{
+  0%,100%{
+    filter:
+      drop-shadow(0 0 8px rgba(255,24,48,.6))
+      drop-shadow(0 0 25px rgba(255,24,48,.35));
+  }
+  50%{
+    filter:
+      drop-shadow(0 0 18px rgba(255,24,48,.95))
+      drop-shadow(0 0 55px rgba(255,24,48,.55));
+  }
+}
+.glow::before{
+  content:'';
+  position:absolute;
+  top:0;left:-30%;
+  width:20%;
+  height:100%;
+  background:linear-gradient(
+    90deg,
+    transparent,
+    rgba(255,255,255,.9),
+    transparent
+  );
+  -webkit-background-clip:text;
+  background-clip:text;
+  -webkit-text-fill-color:transparent;
+  mix-blend-mode:screen;
+  animation:titleScan 5s ease-in-out infinite;
+  pointer-events:none;
+}
+@keyframes titleScan{
+  0%,70%{left:-30%;opacity:0}
+  75%{opacity:1}
+  100%{left:130%;opacity:0}
+}
+.glow:hover{
+  animation:
+    titleGradient 2s linear infinite,
+    titlePulse 1s ease-in-out infinite,
+    titleGlitch .3s steps(2) infinite;
+}
+@keyframes titleGlitch{
+  0%,100%{
+    text-shadow:
+      2px 0 0 rgba(255,24,48,.9),
+      -2px 0 0 rgba(84,167,255,.9);
+  }
+  25%{
+    text-shadow:
+      -2px 1px 0 rgba(255,24,48,.9),
+      2px -1px 0 rgba(84,167,255,.9);
+  }
+  50%{
+    text-shadow:
+      2px -1px 0 rgba(255,24,48,.9),
+      -2px 1px 0 rgba(84,167,255,.9);
+  }
+  75%{
+    text-shadow:
+      -1px 0 0 rgba(255,24,48,.9),
+      1px 0 0 rgba(84,167,255,.9);
+  }
+}
+
 .subtitle{font-size:22px;color:#eee;max-width:800px;margin:0 auto 10px}
 .subtitle b{color:var(--red2)}
 .tagline{color:#8e8789;font-size:15px;max-width:740px;line-height:1.6}
@@ -179,7 +271,7 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
 <!-- ================= HOME ================= -->
 <section id="home" class="page home">
   <div class="pill"><span class="dot"></span> <span id="indexPill">0</span> enregistrements indexés</div>
-  <h1 class="glow">FastSearch</h1>
+  <h1><span class="glow">FastSearch</span></h1>
   <p class="subtitle">La plateforme OSINT pour <b>les chercheurs sécurité.</b></p>
   <p class="tagline">Interface de recherche moderne. Prototype front-end relié à un backend Node.js.</p>
   <div class="actions">
