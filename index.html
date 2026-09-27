@@ -814,7 +814,6 @@ function updateAuthUI(){
   const userMenu = document.getElementById('userMenu');
   const startLabel = document.getElementById('startSearchLabel');
   const subtitle = document.getElementById('homeSubtitle');
-  const startBtn = document.getElementById('startSearch');
 
   if(currentUser){
     loginBtn.classList.add('hidden');
@@ -827,9 +826,6 @@ function updateAuthUI(){
 
     if(startLabel) startLabel.textContent = 'Lancer une recherche';
     if(subtitle) subtitle.innerHTML = 'Content de te revoir, <b>' + escapeHtml(currentUser) + '</b>.';
-    if(startBtn){
-      startBtn.onclick = () => { showPage('advsearch'); };
-    }
   } else {
     loginBtn.classList.remove('hidden');
     userMenu.classList.add('hidden');
@@ -838,9 +834,6 @@ function updateAuthUI(){
 
     if(startLabel) startLabel.textContent = 'Se connecter pour rechercher';
     if(subtitle) subtitle.innerHTML = 'La plateforme OSINT pour <b>les chercheurs sécurité.</b>';
-    if(startBtn){
-      startBtn.onclick = () => openAuth(false);
-    }
   }
 }
 
@@ -1479,7 +1472,15 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   document.getElementById('loginNav').onclick = () => openAuth(false);
-  document.getElementById('startSearch').onclick = () => openAuth(false);
+
+  // FIX : addEventListener permanent qui décide selon currentUser
+  document.getElementById('startSearch').addEventListener('click', () => {
+    if(currentUser){
+      showPage('advsearch');
+    } else {
+      openAuth(false);
+    }
+  });
 
   document.getElementById('tabLogin').onclick = () => setMode('login');
   document.getElementById('tabRegister').onclick = () => setMode('register');
