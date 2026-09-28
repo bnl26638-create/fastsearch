@@ -37,7 +37,7 @@ main{padding-top:60px}
 /* ===== HOME ===== */
 .home{display:flex;flex-direction:column;align-items:center;text-align:center;justify-content:center;min-height:calc(100vh - 60px);position:relative;overflow:hidden}
 .home:before{content:"";position:absolute;width:620px;height:260px;top:75px;background:radial-gradient(ellipse,rgba(160,0,15,.45),transparent 68%);filter:blur(20px);pointer-events:none}
-.pill{display:inline-flex;align-items:center;gap:9px;border:1px solid rgba(255,39,57,.5);padding:10px 17px;border-radius:30px;background:rgba(10,3,4,.6);font-family:ui-monospace,monospace;font-size:14px;position:relative}
+.pill{display:inline-flex;align-items:center;gap:9px;border:1px solid rgba(255,39,57,.5);padding:10px 17px;border-radius:30px;background:rgba(10,3,4,.6);font-family:ui-monospace,monospace;font-size:14px;position:relative;white-space:nowrap;max-width:100%}
 h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spacing:-5px;font-weight:900;text-shadow:0 0 20px rgba(255,38,53,.45)}
 
 /* ===== TITRE FASTSEARCH ANIMÉ ===== */
@@ -430,7 +430,14 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
 .profilCard .value.pro{color:#ff6b7a}
 
 @media(max-width:700px){.accInner{grid-template-columns:1fr}.advFooter{flex-wrap:wrap}.btnSearch{flex:1}}
-@media(max-width:560px){h1{font-size:54px;letter-spacing:-3px}.subtitle{font-size:18px}.actions{width:100%}.bigbtn{width:100%}.chatPanel{right:12px;bottom:88px;width:calc(100vw - 24px)}}
+@media(max-width:560px){
+  h1{font-size:54px;letter-spacing:-3px}
+  .subtitle{font-size:18px}
+  .actions{width:100%}
+  .bigbtn{width:100%}
+  .chatPanel{right:12px;bottom:88px;width:calc(100vw - 24px)}
+  .pill{font-size:11px;padding:8px 14px;gap:6px}
+}
 @media(max-width:900px){
   .navlinks{display:none}
   .nav{margin:0 5px}
@@ -826,7 +833,6 @@ function setMode(m){
   document.getElementById('tabRegister').classList.toggle('active', m === 'register');
   document.getElementById('confirmField').classList.toggle('hidden', m !== 'register');
 
-  // Case "J'accepte les conditions" : visible + required + cochée uniquement à l'inscription
   const checkTerms = document.getElementById('checkTerms');
   const termsCheckbox = document.getElementById('termsCheckbox');
   if(m === 'register'){
@@ -839,7 +845,6 @@ function setMode(m){
     termsCheckbox.checked = true;
   }
 
-  // Indicateur de force du mot de passe
   const pwdStrengthEl = document.getElementById('pwdStrength');
   if(pwdStrengthEl){
     if(m === 'register'){
@@ -1574,7 +1579,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   document.getElementById('loginNav').onclick = () => openAuth(false);
 
-  // FIX : addEventListener permanent qui décide selon currentUser
   document.getElementById('startSearch').addEventListener('click', () => {
     if(currentUser){
       showPage('advsearch');
@@ -1588,7 +1592,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   document.getElementById('authForm').addEventListener('submit', submitAuth);
 
-  // Force du mot de passe en direct
   document.getElementById('password').addEventListener('input', (e) => {
     if(mode === 'register') updatePasswordStrength(e.target.value);
   });
@@ -1606,11 +1609,6 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('chatClose').addEventListener('click', closeChat);
   document.getElementById('chatForm').addEventListener('submit', sendMessage);
   document.getElementById('chatInput').addEventListener('input', sendTyping);
-
-  // Nombre d'enregistrements en dur (décommente le fetch ci-dessous si tu veux du dynamique)
-  // fetch('/api/stats').then(r => r.json()).then(d => {
-  //   document.getElementById('indexPill').textContent = (d.personnes || 0).toLocaleString('fr-FR');
-  // }).catch(()=>{});
 
   checkSession();
   startPresence();
