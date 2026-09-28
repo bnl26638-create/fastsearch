@@ -107,29 +107,10 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
 .authMsg.success{color:var(--green)}
 
 /* ===== FORCE MOT DE PASSE ===== */
-.pwdStrength{
-  margin-top:10px;
-  animation:fadeIn .25s ease;
-}
-.pwdBars{
-  display:flex;
-  gap:4px;
-  margin-bottom:6px;
-}
-.pwdBars span{
-  flex:1;
-  height:4px;
-  background:rgba(255,255,255,.08);
-  border-radius:2px;
-  transition:background .25s ease;
-}
-.pwdLabel{
-  font-size:11px;
-  font-family:ui-monospace,monospace;
-  letter-spacing:1px;
-  color:var(--muted);
-  text-transform:uppercase;
-}
+.pwdStrength{margin-top:10px;animation:fadeIn .25s ease}
+.pwdBars{display:flex;gap:4px;margin-bottom:6px}
+.pwdBars span{flex:1;height:4px;background:rgba(255,255,255,.08);border-radius:2px;transition:background .25s ease}
+.pwdLabel{font-size:11px;font-family:ui-monospace,monospace;letter-spacing:1px;color:var(--muted);text-transform:uppercase}
 .pwdStrength[data-level="1"] .pwdBars span:nth-child(1){background:#ff3355}
 .pwdStrength[data-level="1"] .pwdLabel{color:#ff3355}
 .pwdStrength[data-level="2"] .pwdBars span:nth-child(-n+2){background:#ff8c42}
@@ -548,7 +529,7 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
 <main>
 <!-- ================= HOME ================= -->
 <section id="home" class="page home">
-  <div class="pill"><span id="indexPill">0</span> enregistrements indexés</div>
+  <div class="pill"><span id="indexPill">11 102 948 369</span> enregistrements indexés</div>
   <h1><span class="glow">FastSearch</span></h1>
   <p class="subtitle" id="homeSubtitle">La plateforme OSINT pour <b>les chercheurs sécurité.</b></p>
   <div class="actions">
@@ -1626,9 +1607,10 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('chatForm').addEventListener('submit', sendMessage);
   document.getElementById('chatInput').addEventListener('input', sendTyping);
 
-  fetch('/api/stats').then(r => r.json()).then(d => {
-    document.getElementById('indexPill').textContent = (d.personnes || 0).toLocaleString('fr-FR');
-  }).catch(()=>{});
+  // Nombre d'enregistrements en dur (décommente le fetch ci-dessous si tu veux du dynamique)
+  // fetch('/api/stats').then(r => r.json()).then(d => {
+  //   document.getElementById('indexPill').textContent = (d.personnes || 0).toLocaleString('fr-FR');
+  // }).catch(()=>{});
 
   checkSession();
   startPresence();
