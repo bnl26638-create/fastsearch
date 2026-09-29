@@ -962,7 +962,41 @@ const FIELD_LABELS = { nom:'Nom', prenom:'Prénom', nom_naissance:'Nom de naissa
 
 const SEARCH_ICON = '<svg viewBox="0 0 24 24" width="44" height="44" stroke="currentColor" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>';
 const WARN_ICON = '<svg viewBox="0 0 24 24" width="44" height="44" stroke="currentColor" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>';
+// COMPTEURS DES CATEGORIES
+function updateCategoryCounters() {
+  document.querySelectorAll('.acc').forEach(acc => {
+    const inputs = acc.querySelectorAll('[data-field]');
+    let count = 0;
 
+    inputs.forEach(input => {
+      if (input.value.trim() !== '') {
+        count++;
+      }
+    });
+
+    const title = acc.querySelector('.accTitle');
+    if (!title) return;
+
+    let counter = title.querySelector('.categoryCounter');
+
+    if (!counter) {
+      counter = document.createElement('span');
+      counter.className = 'categoryCounter';
+      counter.style.marginLeft = '8px';
+      counter.style.color = '#ff4b59';
+      counter.style.fontWeight = '800';
+      title.appendChild(counter);
+    }
+
+    counter.textContent = count > 0 ? count : '';
+  });
+}
+
+document.querySelectorAll('[data-field]').forEach(input => {
+  input.addEventListener('input', updateCategoryCounters);
+});
+
+updateCategoryCounters();
 async function doAdvSearch(){
   const data = {};
   document.querySelectorAll('[data-field]').forEach(inp => {
