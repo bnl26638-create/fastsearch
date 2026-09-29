@@ -13,7 +13,7 @@ const SESSION_SECRET =
 // ============================================================
 // ADMIN
 // ============================================================
-const ADMIN_USERNAME = 'zk (créateur de FastSearch)';
+const ADMIN_USERNAME = 'zk';
 const isAdmin = (username) => username === ADMIN_USERNAME;
 
 app.use(express.json({ limit: '5mb' }));
@@ -75,8 +75,8 @@ app.post('/api/register', async (req, res) => {
     if (!username || !password) {
       return res.status(400).json({ error: 'Champs manquants' });
     }
-    if (username.length < 3) {
-      return res.status(400).json({ error: 'Nom trop court (min 3)' });
+    if (username.length < 3 && username !== ADMIN_USERNAME) {
+      return res.status(400).json({ error: 'Nom trop court (min 3), sauf pour zk' });
     }
     if (password.length < 4) {
       return res.status(400).json({ error: 'Mot de passe trop court (min 4)' });
@@ -563,7 +563,7 @@ app.delete('/api/admin/users/:id', requireAdmin, (req, res) => {
 
 app.post('/api/admin/users/:id/rename', requireAdmin, (req, res) => {
   const id = parseInt(req.params.id);
-  const { newName } = req.body;
+  const newName = (req.body.newName || req.body.newUsername || '').trim();
   if (!newName || newName.length < 3) {
     return res.status(400).json({ error: 'Nom trop court' });
   }
