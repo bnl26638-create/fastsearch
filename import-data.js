@@ -47,8 +47,17 @@ async function main() {
       await client.query(
         `
         INSERT INTO people
-        (last_name, first_name, email, address, postal_code,
-         city, birth_date, department, phone)
+        (
+          last_name,
+          first_name,
+          email,
+          address,
+          postal_code,
+          city,
+          birth_date,
+          department,
+          phone
+        )
         VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9)
         `,
         [
@@ -83,7 +92,7 @@ async function main() {
   }
 }
 
-main().catch(err => {
+main().catch((err) => {
   console.error("Erreur import :", err);
   process.exit(1);
 });
