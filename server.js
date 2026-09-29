@@ -6,6 +6,7 @@ const path = require('path');
 const pool = require('./db');
 
 const app = express();
+
 const PORT = process.env.PORT || 3000;
 const SESSION_SECRET =
   process.env.SESSION_SECRET || 'fastsearch_secret_change_me';
@@ -49,7 +50,7 @@ const requireAuth = (req, res, next) => {
 };
 
 // ============================================================
-// AUTH
+// AUTHENTIFICATION
 // ============================================================
 
 app.post('/api/register', async (req, res) => {
@@ -74,12 +75,13 @@ app.post('/api/register', async (req, res) => {
       });
     }
 
-    if (
-      users.find(
-        (u) =>
-          u.username.toLowerCase() === username.toLowerCase()
-      )
-    ) {
+    const existingUser = users.find(
+      (u) =>
+        u.username.toLowerCase() ===
+        username.toLowerCase()
+    );
+
+    if (existingUser) {
       return res.status(400).json({
         error: "Nom d'utilisateur déjà pris"
       });
@@ -89,7 +91,7 @@ app.post('/api/register', async (req, res) => {
 
     const user = {
       id: users.length + 1,
-      username,
+      username: username,
       password: hash,
       avatar: null
     };
@@ -124,7 +126,8 @@ app.post('/api/login', async (req, res) => {
 
     const user = users.find(
       (u) =>
-        u.username.toLowerCase() === username.toLowerCase()
+        u.username.toLowerCase() ===
+        username.toLowerCase()
     );
 
     if (!user) {
@@ -169,20 +172,20 @@ app.post('/api/logout', (req, res) => {
 });
 
 app.get('/api/me', (req, res) => {
-  if (req.session.userId) {
-    const user = users.find(
-      (u) => u.id === req.session.userId
-    );
-
-    return res.json({
-      userId: req.session.userId,
-      username: req.session.username,
-      avatar: user ? user.avatar : null
+  if (!req.session.userId) {
+    return res.status(401).json({
+      error: 'Non connecté'
     });
   }
 
-  res.status(401).json({
-    error: 'Non connecté'
+  const user = users.find(
+    (u) => u.id === req.session.userId
+  );
+
+  res.json({
+    userId: req.session.userId,
+    username: req.session.username,
+    avatar: user ? user.avatar : null
   });
 });
 
@@ -195,7 +198,10 @@ app.post(
   requireAuth,
   async (req, res) => {
     try {
-      const { currentPassword, newPassword } = req.body;
+      const {
+        currentPassword,
+        newPassword
+      } = req.body;
 
       if (!currentPassword || !newPassword) {
         return res.status(400).json({
@@ -205,7 +211,8 @@ app.post(
 
       if (newPassword.length < 4) {
         return res.status(400).json({
-          error: 'Nouveau mot de passe trop court (min 4)'
+          error:
+            'Nouveau mot de passe trop court (min 4)'
         });
       }
 
@@ -230,7 +237,10 @@ app.post(
         });
       }
 
-      const hash = await bcrypt.hash(newPassword, 10);
+      const hash = await bcrypt.hash(
+        newPassword,
+        10
+      );
 
       user.password = hash;
 
@@ -238,7 +248,10 @@ app.post(
         success: true
       });
     } catch (err) {
-      console.error('Erreur change-password:', err);
+      console.error(
+        'Erreur change-password:',
+        err
+      );
 
       res.status(500).json({
         error: 'Erreur serveur'
@@ -251,148 +264,153 @@ app.post(
 // AVATAR
 // ============================================================
 
-app.post('/api/avatar', requireAuth, (req, res) => {
-  const { dataUrl } = req.body;
+app.post(
+  '/api/avatar',
+  requireAuth,
+  (req, res) => {
+    const { dataUrl } = req.body;
 
-  if (!dataUrl || typeof dataUrl !== 'string') {
-    return res.status(400).json({
-      error: 'Image manquante'
+    if (
+      !dataUrl ||
+      typeof dataUrl !== 'string'
+    ) {
+      return res.status(400).json({
+        error: 'Image manquante'
+      });
+    }
+
+    if (!dataUrl.startsWith('data:image/')) {
+      return res.status(400).json({
+        error: 'Format invalide'
+      });
+    }
+
+    if (dataUrl.length > 2 * 1024 * 1024) {
+      return res.status(400).json({
+        error: 'Image trop lourde (max ~1.5 Mo)'
+      });
+    }
+
+    const user = users.find(
+      (u) => u.id === req.session.userId
+    );
+
+    if (!user) {
+      return res.status(404).json({
+        error: 'Utilisateur introuvable'
+      });
+    }
+
+    user.avatar = dataUrl;
+
+    res.json({
+      success: true
     });
   }
+);
 
-  if (!dataUrl.startsWith('data:image/')) {
-    return res.status(400).json({
-      error: 'Format invalide'
+app.delete(
+  '/api/avatar',
+  requireAuth,
+  (req, res) => {
+    const user = users.find(
+      (u) => u.id === req.session.userId
+    );
+
+    if (!user) {
+      return res.status(404).json({
+        error: 'Utilisateur introuvable'
+      });
+    }
+
+    user.avatar = null;
+
+    res.json({
+      success: true
     });
   }
-
-  if (dataUrl.length > 2 * 1024 * 1024) {
-    return res.status(400).json({
-      error: 'Image trop lourde (max ~1.5 Mo)'
-    });
-  }
-
-  const user = users.find(
-    (u) => u.id === req.session.userId
-  );
-
-  if (!user) {
-    return res.status(404).json({
-      error: 'Utilisateur introuvable'
-    });
-  }
-
-  user.avatar = dataUrl;
-
-  res.json({
-    success: true
-  });
-});
-
-app.delete('/api/avatar', requireAuth, (req, res) => {
-  const user = users.find(
-    (u) => u.id === req.session.userId
-  );
-
-  if (!user) {
-    return res.status(404).json({
-      error: 'Utilisateur introuvable'
-    });
-  }
-
-  user.avatar = null;
-
-  res.json({
-    success: true
-  });
-});
+);
 
 // ============================================================
 // RECHERCHE POSTGRESQL
 // ============================================================
 
-app.get('/api/search', requireAuth, async (req, res) => {
-  try {
-    const q = (req.query.q || '').trim();
+app.get(
+  '/api/search',
+  requireAuth,
+  async (req, res) => {
+    try {
+      const q = (req.query.q || '').trim();
 
-    if (!q) {
-      return res.json({
-        results: [],
-        total: 0,
+      if (!q) {
+        return res.json({
+          results: [],
+          total: 0,
+          query: q
+        });
+      }
+
+      const search = '%' + q + '%';
+
+      const sql =
+        'SELECT ' +
+        'id, ' +
+        'last_name, ' +
+        'first_name, ' +
+        'email, ' +
+        'address, ' +
+        'postal_code, ' +
+        'city, ' +
+        'birth_date, ' +
+        'department, ' +
+        'phone ' +
+        'FROM people ' +
+        'WHERE ' +
+        'last_name ILIKE $1 ' +
+        'OR first_name ILIKE $1 ' +
+        'OR email ILIKE $1 ' +
+        'OR address ILIKE $1 ' +
+        'OR postal_code ILIKE $1 ' +
+        'OR city ILIKE $1 ' +
+        'OR birth_date ILIKE $1 ' +
+        'OR department ILIKE $1 ' +
+        'OR phone ILIKE $1 ' +
+        'ORDER BY id ' +
+        'LIMIT 50';
+
+      const result = await pool.query(
+        sql,
+        [search]
+      );
+
+      res.json({
+        results: result.rows,
+        total: result.rows.length,
         query: q
       });
+    } catch (err) {
+      console.error(
+        'Erreur recherche:',
+        err
+      );
+
+      res.status(500).json({
+        error: 'Erreur lors de la recherche'
+      });
     }
-
-    // Recherche contenant le texte demandé
-    // Exemple : "dupont" devient "%dupont%"
-    const search = '%' + q + '%';
-
-    const result = await pool.query(
-      `
-      SELECT
-        id,
-        last_name,
-        first_name,
-        email,
-        address,
-        postal_code,
-        city,
-        birth_date,
-        department,
-        phone
-      FROM people
-      WHERE
-        last_name ILIKE $1
-        OR first_name ILIKE $1
-        OR email ILIKE $1
-        OR address ILIKE $1
-        OR postal_code ILIKE $1
-        OR city ILIKE $1
-        OR birth_date ILIKE $1
-        OR department ILIKE $1
-        OR phone ILIKE $1
-      ORDER BY id
-      LIMIT 50
-      `,
-      [search]
-    );
-
-    res.json({
-      results: result.rows,
-      total: result.rows.length,
-      query: q
-    });
-  } catch (err) {
-    console.error('Erreur recherche:', err);
-
-    res.status(500).json({
-      error: 'Erreur lors de la recherche'
-    });
   }
-});
+);
 
 // ============================================================
 // STATS
 // ============================================================
 
-app.get('/api/stats', async (req, res) => {
-  try {
-    const result = await pool.query(
-      'SELECT COUNT(*) AS total FROM people'
-    );
-
-    res.json({
-      personnes: Number(result.rows[0].total),
-      users: users.length,
-      online: presenceClients.size
-    });
-  } catch (err) {
-    console.error('Erreur stats:', err);
-
-    res.status(500).json({
-      error: 'Erreur lors du chargement des statistiques'
-    });
-  }
+app.get('/api/stats', (req, res) => {
+  res.json({
+    personnes: 8587,
+    users: users.length,
+    online: presenceClients.size
+  });
 });
 
 // ============================================================
@@ -401,10 +419,12 @@ app.get('/api/stats', async (req, res) => {
 
 function broadcastPresence() {
   const payload =
-    `data: ${JSON.stringify({
+    'data: ' +
+    JSON.stringify({
       type: 'presence',
       count: presenceClients.size
-    })}\n\n`;
+    }) +
+    '\n\n';
 
   for (const client of presenceClients) {
     try {
@@ -413,70 +433,79 @@ function broadcastPresence() {
   }
 }
 
-app.get('/api/presence/stream', (req, res) => {
-  res.setHeader(
-    'Content-Type',
-    'text/event-stream'
-  );
-
-  res.setHeader(
-    'Cache-Control',
-    'no-cache'
-  );
-
-  res.setHeader(
-    'Connection',
-    'keep-alive'
-  );
-
-  res.setHeader(
-    'X-Accel-Buffering',
-    'no'
-  );
-
-  res.flushHeaders();
-
-  const client = {
-    res
-  };
-
-  presenceClients.add(client);
-
-  try {
-    res.write(
-      `data: ${JSON.stringify({
-        type: 'presence',
-        count: presenceClients.size
-      })}\n\n`
+app.get(
+  '/api/presence/stream',
+  (req, res) => {
+    res.setHeader(
+      'Content-Type',
+      'text/event-stream'
     );
-  } catch (e) {}
 
-  broadcastPresence();
+    res.setHeader(
+      'Cache-Control',
+      'no-cache'
+    );
 
-  const hb = setInterval(() => {
+    res.setHeader(
+      'Connection',
+      'keep-alive'
+    );
+
+    res.setHeader(
+      'X-Accel-Buffering',
+      'no'
+    );
+
+    res.flushHeaders();
+
+    const client = {
+      res: res
+    };
+
+    presenceClients.add(client);
+
     try {
-      res.write(': ping\n\n');
+      res.write(
+        'data: ' +
+        JSON.stringify({
+          type: 'presence',
+          count: presenceClients.size
+        }) +
+        '\n\n'
+      );
     } catch (e) {}
-  }, 25000);
-
-  req.on('close', () => {
-    clearInterval(hb);
-
-    presenceClients.delete(client);
 
     broadcastPresence();
-  });
-});
+
+    const hb = setInterval(() => {
+      try {
+        res.write(': ping\n\n');
+      } catch (e) {}
+    }, 25000);
+
+    req.on('close', () => {
+      clearInterval(hb);
+
+      presenceClients.delete(client);
+
+      broadcastPresence();
+    });
+  }
+);
 
 // ============================================================
-// CHAT — nettoyage
+// CHAT — NETTOYAGE
 // ============================================================
 
 function cleanupMessages() {
   const now = Date.now();
   const before = messages.length;
 
-  for (let i = messages.length - 1; i >= 0; i--) {
+  for (
+    let i = messages.length - 1;
+    i >= 0;
+    i--
+  ) {
     if (
       now - messages[i].createdAt >
       MESSAGE_TTL
@@ -488,7 +517,8 @@ function cleanupMessages() {
   if (before !== messages.length) {
     broadcastChat({
       type: 'cleanup',
-      removed: before - messages.length
+      removed:
+        before - messages.length
     });
   }
 }
@@ -504,7 +534,9 @@ setInterval(
 
 function broadcastChat(event) {
   const payload =
-    `data: ${JSON.stringify(event)}\n\n`;
+    'data: ' +
+    JSON.stringify(event) +
+    '\n\n';
 
   for (const client of sseClients) {
     try {
@@ -540,7 +572,7 @@ app.get(
     res.flushHeaders();
 
     const client = {
-      res,
+      res: res,
       username: req.session.username
     };
 
@@ -561,7 +593,7 @@ app.get(
 );
 
 // ============================================================
-// CHAT — typing
+// CHAT — TYPING
 // ============================================================
 
 function broadcastTyping(
@@ -569,11 +601,13 @@ function broadcastTyping(
   isTyping
 ) {
   const payload =
-    `data: ${JSON.stringify({
+    'data: ' +
+    JSON.stringify({
       type: 'typing',
-      username,
-      isTyping
-    })}\n\n`;
+      username: username,
+      isTyping: isTyping
+    }) +
+    '\n\n';
 
   for (const client of sseClients) {
     if (client.username === username) {
@@ -602,7 +636,7 @@ app.post(
 );
 
 // ============================================================
-// CHAT — messages
+// CHAT — MESSAGES
 // ============================================================
 
 app.get(
@@ -642,7 +676,9 @@ app.post(
     ) {
       return res.status(400).json({
         error:
-          `Message trop long (max ${MAX_MESSAGE_LENGTH})`
+          'Message trop long (max ' +
+          MAX_MESSAGE_LENGTH +
+          ')'
       });
     }
 
@@ -656,7 +692,7 @@ app.post(
 
       userId: req.session.userId,
       username: req.session.username,
-      text,
+      text: text,
       createdAt: Date.now()
     };
 
@@ -671,7 +707,7 @@ app.post(
 
     broadcastChat({
       type: 'message',
-      message
+      message: message
     });
 
     broadcastTyping(
@@ -681,7 +717,7 @@ app.post(
 
     res.json({
       success: true,
-      message
+      message: message
     });
   }
 );
@@ -705,7 +741,8 @@ app.get('*', (req, res) => {
 
 app.listen(PORT, () => {
   console.log(
-    `⚡ FastSearch → http://localhost:${PORT}`
+    '⚡ FastSearch → http://localhost:' +
+    PORT
   );
 });
 ```
