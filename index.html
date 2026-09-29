@@ -994,7 +994,7 @@ async function doAdvSearch(){
     if(results.length === 0){
       resultsEl.innerHTML = '<div class="noResult"><div class="ico">'+SEARCH_ICON+'</div><div class="title">Aucun résultat pour « '+escapeHtml(resume)+' »</div><div class="hint">Essaie d\'autres termes ou vérifie l\'orthographe.</div></div>';
     } else {
-      resultsEl.innerHTML = results.map(p => '<div class="noResult" style="text-align:left"><div class="title">'+escapeHtml(p.nom||'')+' '+escapeHtml(p.prenom||'')+'</div><div class="hint">'+escapeHtml(p.ville||'')+'</div></div>').join('');
+      resultsEl.innerHTML = results.map(p => '<div class="noResult" style="text-align:left"><div class="title">'+escapeHtml((p.last_name || '')+' '+(p.first_name || ''))+'</div><div class="hint">'+escapeHtml(p.city || '')+' · '+escapeHtml(p.postal_code || '')+'</div><div class="hint">'+escapeHtml(p.email || '')+' · '+escapeHtml(p.phone || '')+'</div><div class="hint">'+escapeHtml(p.address || '')+'</div></div>').join('');
     }
     resultsEl.scrollIntoView({behavior:'smooth', block:'nearest'});
   } catch(err){
