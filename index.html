@@ -167,6 +167,27 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
 .noResult .hint{font-size:13px;color:#8e8789;line-height:1.6;max-width:500px;margin:0 auto}
 @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 
+/* ===== COMPTEUR PAR SECTION ===== */
+.accCount{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-width:20px;
+  height:20px;
+  padding:0 6px;
+  margin-left:8px;
+  border-radius:10px;
+  background:linear-gradient(135deg,#ff1830,#ff4555);
+  color:#fff;
+  font-family:ui-monospace,monospace;
+  font-size:11px;
+  font-weight:800;
+  box-shadow:0 0 10px rgba(255,25,48,.5);
+}
+.accCount.hidden{
+  display:none!important;
+}
+
 /* ===== CHAT FLOTTANT ===== */
 .floatChat{position:fixed;right:24px;bottom:24px;width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,var(--red),#ff4555);border:0;color:#fff;cursor:pointer;box-shadow:0 8px 30px rgba(255,25,48,.5);z-index:30;transition:transform .2s;display:flex;align-items:center;justify-content:center}
 .floatChat svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
@@ -560,7 +581,7 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
       <div class="acc open">
         <div class="accHead">
           <div class="accIco"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
-          <div class="accTitle">État civil</div>
+          <div class="accTitle">État civil<span class="accCount hidden" data-count="etat_civil">0</span></div>
           <div class="accArrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div>
         </div>
         <div class="accBody"><div class="accInner">
@@ -571,7 +592,7 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
         </div></div>
       </div>
       <div class="acc">
-        <div class="accHead"><div class="accIco"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div><div class="accTitle">Origine</div><div class="accArrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+        <div class="accHead"><div class="accIco"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div><div class="accTitle">Origine<span class="accCount hidden" data-count="origine">0</span></div><div class="accArrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
         <div class="accBody"><div class="accInner">
           <div class="fieldAdv"><div class="fieldAdvHead"><label>Date de naissance</label><span class="help">?</span></div><div class="fieldAdvInputWrap"><input data-field="date_naissance" placeholder="2006/07/15"></div></div>
           <div class="fieldAdv"><div class="fieldAdvHead"><label>Ville de naissance</label><span class="help">?</span></div><div class="fieldAdvInputWrap"><input data-field="ville_naissance" placeholder="Lyon"></div></div>
@@ -579,7 +600,7 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
         </div></div>
       </div>
       <div class="acc">
-        <div class="accHead"><div class="accIco"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div><div class="accTitle">Coordonnées</div><div class="accArrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+        <div class="accHead"><div class="accIco"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div><div class="accTitle">Coordonnées<span class="accCount hidden" data-count="coordonnees">0</span></div><div class="accArrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
         <div class="accBody"><div class="accInner">
           <div class="fieldAdv"><div class="fieldAdvHead"><label>Email</label><span class="help">?</span></div><div class="fieldAdvInputWrap"><input data-field="email" placeholder="jean@gmail.com" type="email"></div></div>
           <div class="fieldAdv"><div class="fieldAdvHead"><label>Téléphone mobile</label><span class="help">?</span></div><div class="fieldAdvInputWrap"><input data-field="tel_mobile" placeholder="0612345678"></div></div>
@@ -587,7 +608,7 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
         </div></div>
       </div>
       <div class="acc">
-        <div class="accHead"><div class="accIco"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div><div class="accTitle">Adresse</div><div class="accArrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+        <div class="accHead"><div class="accIco"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div><div class="accTitle">Adresse<span class="accCount hidden" data-count="adresse">0</span></div><div class="accArrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
         <div class="accBody"><div class="accInner">
           <div class="fieldAdv"><div class="fieldAdvHead"><label>Adresse</label><span class="help">?</span></div><div class="fieldAdvInputWrap"><input data-field="adresse" placeholder="12 rue de la Paix"></div></div>
           <div class="fieldAdv"><div class="fieldAdvHead"><label>Ville</label><span class="help">?</span></div><div class="fieldAdvInputWrap"><input data-field="ville" placeholder="Paris"></div></div>
@@ -597,7 +618,7 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
         </div></div>
       </div>
       <div class="acc">
-        <div class="accHead"><div class="accIco"><svg viewBox="0 0 24 24"><line x1="6" y1="12" x2="10" y2="12"/><line x1="8" y1="10" x2="8" y2="14"/><line x1="15" y1="13" x2="15.01" y2="13"/><line x1="18" y1="11" x2="18.01" y2="11"/><path d="M17.32 5H6.68a4 4 0 0 0-3.978 3.59c-.006.052-.01.101-.017.152C2.604 9.416 2 14.456 2 16a3 3 0 0 0 3 3c1 0 1.5-.5 2-1l1.414-1.414A2 2 0 0 1 9.828 16h4.344a2 2 0 0 1 1.414.586L17 18c.5.5 1 1 2 1a3 3 0 0 0 3-3c0-1.545-.604-6.584-.685-7.258-.007-.05-.011-.1-.017-.151A4 4 0 0 0 17.32 5z"/></svg></div><div class="accTitle">Jeux & Réseaux</div><div class="accArrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+        <div class="accHead"><div class="accIco"><svg viewBox="0 0 24 24"><line x1="6" y1="12" x2="10" y2="12"/><line x1="8" y1="10" x2="8" y2="14"/><line x1="15" y1="13" x2="15.01" y2="13"/><line x1="18" y1="11" x2="18.01" y2="11"/><path d="M17.32 5H6.68a4 4 0 0 0-3.978 3.59c-.006.052-.01.101-.017.152C2.604 9.416 2 14.456 2 16a3 3 0 0 0 3 3c1 0 1.5-.5 2-1l1.414-1.414A2 2 0 0 1 9.828 16h4.344a2 2 0 0 1 1.414.586L17 18c.5.5 1 1 2 1a3 3 0 0 0 3-3c0-1.545-.604-6.584-.685-7.258-.007-.05-.011-.1-.017-.151A4 4 0 0 0 17.32 5z"/></svg></div><div class="accTitle">Jeux & Réseaux<span class="accCount hidden" data-count="jeux">0</span></div><div class="accArrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
         <div class="accBody"><div class="accInner">
           <div class="fieldAdv"><div class="fieldAdvHead"><label>Pseudo FiveM</label><span class="help">?</span></div><div class="fieldAdvInputWrap"><input data-field="fivem" placeholder="JeanDupont"></div></div>
           <div class="fieldAdv"><div class="fieldAdvHead"><label>Pseudo Minecraft</label><span class="help">?</span></div><div class="fieldAdvInputWrap"><input data-field="minecraft" placeholder="JeanDupont"></div></div>
@@ -606,7 +627,7 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
         </div></div>
       </div>
       <div class="acc">
-        <div class="accHead"><div class="accIco"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div><div class="accTitle">Autres données</div><div class="accArrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+        <div class="accHead"><div class="accIco"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div><div class="accTitle">Autres données<span class="accCount hidden" data-count="autres">0</span></div><div class="accArrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
         <div class="accBody"><div class="accInner">
           <div class="fieldAdv"><div class="fieldAdvHead"><label>IBAN</label><span class="help">?</span></div><div class="fieldAdvInputWrap"><input data-field="iban" placeholder="FR76 3000..."></div></div>
           <div class="fieldAdv"><div class="fieldAdvHead"><label>VIN / Plaque</label><span class="help">?</span></div><div class="fieldAdvInputWrap"><input data-field="vin" placeholder="AB-123-CD"></div></div>
@@ -960,58 +981,37 @@ async function checkSession(){
 // ============================================
 const FIELD_LABELS = { nom:'Nom', prenom:'Prénom', nom_naissance:'Nom de naissance', nom_affiche:'Nom affiché', date_naissance:'Date de naissance', ville_naissance:'Ville de naissance', nationalite:'Nationalité', email:'Email', tel_mobile:'Téléphone mobile', tel_fixe:'Téléphone fixe', adresse:'Adresse', ville:'Ville', code_postal:'Code postal', pays:'Pays', ip:'Adresse IP', fivem:'Pseudo FiveM', minecraft:'Pseudo Minecraft', discord_id:'Discord ID', steam_id:'Steam ID', iban:'IBAN', vin:'VIN / Plaque', profession:'Profession', employeur:'Employeur', twitter:'Twitter / X', snapchat:'Snapchat' };
 
-const SEARCH_ICON = '<svg viewBox="0 0 24 24" width="44" height="44" stroke="currentColor" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>';
-const WARN_ICON = '<svg viewBox="0 0 24 24" width="44" height="44" stroke="currentColor" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>';
-// COMPTEURS DES CATEGORIES
-function updateCategoryCounters() {
-  document.querySelectorAll('.acc').forEach(acc => {
-    const inputs = acc.querySelectorAll('[data-field]');
+const SECTION_FIELDS = {
+  etat_civil: ['nom', 'prenom', 'nom_naissance', 'nom_affiche'],
+  origine: ['date_naissance', 'ville_naissance', 'nationalite'],
+  coordonnees: ['email', 'tel_mobile', 'tel_fixe'],
+  adresse: ['adresse', 'ville', 'code_postal', 'pays', 'ip'],
+  jeux: ['fivem', 'minecraft', 'discord_id', 'steam_id'],
+  autres: ['iban', 'vin', 'profession', 'employeur', 'twitter', 'snapchat']
+};
+
+function updateSectionCounts(){
+  for(const section in SECTION_FIELDS){
     let count = 0;
-
-    inputs.forEach(input => {
-      if (input.value.trim() !== '') {
-        count++;
-      }
+    SECTION_FIELDS[section].forEach(field => {
+      const inp = document.querySelector('[data-field="' + field + '"]');
+      if(inp && inp.value.trim() !== '') count++;
     });
-
-    const title = acc.querySelector('.accTitle');
-    if (!title) return;
-
-    let counter = title.querySelector('.categoryCounter');
-
-    if (!counter) {
-      counter = document.createElement('span');
-      counter.className = 'categoryCounter';
-
-      counter.style.display = 'inline-flex';
-      counter.style.alignItems = 'center';
-      counter.style.justifyContent = 'center';
-      counter.style.minWidth = '22px';
-      counter.style.height = '22px';
-      counter.style.padding = '0 5px';
-      counter.style.marginLeft = '8px';
-      counter.style.border = '1px solid #ff4b59';
-      counter.style.borderRadius = '6px';
-      counter.style.background = 'rgba(255, 75, 89, 0.08)';
-      counter.style.color = '#ff4b59';
-      counter.style.fontSize = '12px';
-      counter.style.fontWeight = '800';
-      counter.style.lineHeight = '1';
-      counter.style.boxSizing = 'border-box';
-
-      title.appendChild(counter);
+    const badge = document.querySelector('.accCount[data-count="' + section + '"]');
+    if(badge){
+      if(count > 0){
+        badge.textContent = count;
+        badge.classList.remove('hidden');
+      } else {
+        badge.classList.add('hidden');
+      }
     }
-
-    counter.textContent = count > 0 ? count : '';
-    counter.style.display = count > 0 ? 'inline-flex' : 'none';
-  });
+  }
 }
 
-document.querySelectorAll('[data-field]').forEach(input => {
-  input.addEventListener('input', updateCategoryCounters);
-});
+const SEARCH_ICON = '<svg viewBox="0 0 24 24" width="44" height="44" stroke="currentColor" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>';
+const WARN_ICON = '<svg viewBox="0 0 24 24" width="44" height="44" stroke="currentColor" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>';
 
-updateCategoryCounters();
 async function doAdvSearch(){
   const data = {};
   document.querySelectorAll('[data-field]').forEach(inp => {
@@ -1057,6 +1057,7 @@ async function doAdvSearch(){
 function clearAdvSearch(){
   document.querySelectorAll('[data-field]').forEach(inp => inp.value = '');
   document.getElementById('advResults').innerHTML = '';
+  updateSectionCounts();
   toast('Formulaire effacé');
 }
 
@@ -1624,6 +1625,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
   document.querySelectorAll('.accHead').forEach(h => {
     h.addEventListener('click', () => h.parentElement.classList.toggle('open'));
+  });
+
+  // Brancher le compteur sur tous les inputs de recherche
+  document.querySelectorAll('[data-field]').forEach(inp => {
+    inp.addEventListener('input', updateSectionCounts);
+    inp.addEventListener('change', updateSectionCounts);
   });
 
   document.getElementById('chatToggle').addEventListener('click', () => {
