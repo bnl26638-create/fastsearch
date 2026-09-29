@@ -982,13 +982,28 @@ function updateCategoryCounters() {
     if (!counter) {
       counter = document.createElement('span');
       counter.className = 'categoryCounter';
+
+      counter.style.display = 'inline-flex';
+      counter.style.alignItems = 'center';
+      counter.style.justifyContent = 'center';
+      counter.style.minWidth = '22px';
+      counter.style.height = '22px';
+      counter.style.padding = '0 5px';
       counter.style.marginLeft = '8px';
+      counter.style.border = '1px solid #ff4b59';
+      counter.style.borderRadius = '6px';
+      counter.style.background = 'rgba(255, 75, 89, 0.08)';
       counter.style.color = '#ff4b59';
+      counter.style.fontSize = '12px';
       counter.style.fontWeight = '800';
+      counter.style.lineHeight = '1';
+      counter.style.boxSizing = 'border-box';
+
       title.appendChild(counter);
     }
 
     counter.textContent = count > 0 ? count : '';
+    counter.style.display = count > 0 ? 'inline-flex' : 'none';
   });
 }
 
