@@ -10,7 +10,7 @@ async function main() {
       address TEXT,
       postal_code TEXT,
       city TEXT,
-      birth_date TIMESTAMPTZ,
+      birth_date TEXT,
       department TEXT,
       phone TEXT
     );
