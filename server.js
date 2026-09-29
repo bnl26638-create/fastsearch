@@ -57,7 +57,8 @@ const requireAdmin = (req, res, next) => {
   if (!req.session.userId) {
     return res.status(401).json({ error: 'Non connecté' });
   }
-  if (!isAdmin(req.session.username)) {
+  const user = users.find((u) => u.id === req.session.userId);
+  if (!user || !isAdmin(user.username)) {
     return res.status(403).json({ error: 'Accès refusé' });
   }
   next();
@@ -96,6 +97,7 @@ app.post('/api/register', async (req, res) => {
       password: hash,
       avatar: null,
       banned: false,
+      isAdmin: isAdmin(username),
       createdAt: Date.now()
     };
 
@@ -104,7 +106,12 @@ app.post('/api/register', async (req, res) => {
     req.session.userId = user.id;
     req.session.username = user.username;
 
-    res.json({ success: true, username: user.username, admin: isAdmin(user.username) });
+    res.json({
+      success: true,
+      username: user.username,
+      admin: isAdmin(user.username),
+      isAdmin: isAdmin(user.username)
+    });
   } catch (err) {
     console.error('Erreur register:', err);
     res.status(500).json({ error: 'Erreur serveur' });
@@ -139,7 +146,12 @@ app.post('/api/login', async (req, res) => {
     req.session.userId = user.id;
     req.session.username = user.username;
 
-    res.json({ success: true, username: user.username, admin: isAdmin(user.username) });
+    res.json({
+      success: true,
+      username: user.username,
+      admin: isAdmin(user.username),
+      isAdmin: isAdmin(user.username)
+    });
   } catch (err) {
     console.error('Erreur login:', err);
     res.status(500).json({ error: 'Erreur serveur' });
@@ -163,7 +175,8 @@ app.get('/api/me', (req, res) => {
     userId: req.session.userId,
     username: req.session.username,
     avatar: user ? user.avatar : null,
-    admin: isAdmin(req.session.username)
+    admin: isAdmin(req.session.username),
+    isAdmin: isAdmin(req.session.username)
   });
 });
 
@@ -510,7 +523,8 @@ app.get('/api/admin/users', requireAdmin, (req, res) => {
       banned: u.banned || false,
       hasAvatar: !!u.avatar,
       createdAt: u.createdAt,
-      admin: isAdmin(u.username)
+      admin: isAdmin(u.username),
+      isAdmin: isAdmin(u.username)
     }))
   });
 });
