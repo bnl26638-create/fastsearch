@@ -160,12 +160,119 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
 .btnClear{background:transparent;color:#8e8789;border:1px solid #32151a;padding:15px 26px;border-radius:12px;font-size:15px;font-weight:600;cursor:pointer;transition:all .15s;font-family:inherit}
 .btnClear:hover{color:#fff;border-color:#521923;background:rgba(255,25,45,.05)}
 
-.noResult{margin:0 22px 20px;padding:48px 30px;background:rgba(20,8,10,.5);border:1px solid rgba(255,42,59,.2);border-radius:14px;text-align:center;animation:fadeIn .3s ease}
-.noResult .ico{color:var(--red);opacity:.4;display:flex;justify-content:center;margin-bottom:16px}
-.noResult .ico svg{width:44px;height:44px;stroke:currentColor;fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
-.noResult .title{font-size:17px;font-weight:700;color:#fff;margin-bottom:10px}
-.noResult .hint{font-size:13px;color:#8e8789;line-height:1.6;max-width:500px;margin:0 auto}
-@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+/* ===== RÉSULTATS (sous le formulaire) ===== */
+.resultsWrap{
+  max-width:1240px;
+  margin:24px auto 0;
+  padding:0;
+}
+
+.resultsHeader{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:16px 22px;
+  background:rgba(15,5,7,.9);
+  border:1px solid var(--line);
+  border-radius:22px 22px 0 0;
+  border-bottom:0;
+  font-family:ui-monospace,monospace;
+  font-size:13px;
+  color:#ddd;
+}
+.resultsHeader .count{
+  color:var(--red);
+  font-weight:800;
+}
+
+.resultsBody{
+  background:rgba(10,5,6,.85);
+  border:1px solid var(--line);
+  border-radius:0 0 22px 22px;
+  padding:16px;
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+}
+
+.fiche{
+  background:rgba(20,8,10,.7);
+  border:1px solid rgba(255,42,59,.25);
+  border-radius:14px;
+  padding:20px 22px;
+  transition:all .25s ease;
+  animation:fadeIn .3s ease backwards;
+}
+.fiche:hover{
+  border-color:rgba(255,42,59,.5);
+  transform:translateX(4px);
+  box-shadow:0 10px 40px rgba(255,20,40,.15);
+}
+.fiche-top{
+  display:flex;
+  align-items:center;
+  gap:16px;
+  padding-bottom:16px;
+  margin-bottom:16px;
+  border-bottom:1px solid rgba(255,42,59,.15);
+}
+.fiche-avatar{
+  width:48px;height:48px;
+  border-radius:10px;
+  background:linear-gradient(135deg,rgba(255,24,48,.2),rgba(255,69,85,.15));
+  border:1px solid rgba(255,42,59,.4);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Orbitron',ui-monospace,monospace;
+  font-weight:800;font-size:18px;
+  color:var(--red);
+  flex-shrink:0;
+}
+.fiche-name{
+  font-size:18px;
+  font-weight:800;
+  color:#fff;
+  letter-spacing:-.3px;
+}
+.fiche-sub{
+  font-family:ui-monospace,monospace;
+  font-size:12px;
+  color:var(--muted);
+  margin-top:4px;
+}
+.fiche-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(200px,1fr));
+  gap:10px;
+}
+.fiche-field{
+  background:rgba(9,5,6,.6);
+  border:1px solid rgba(255,42,59,.12);
+  border-radius:8px;
+  padding:10px 12px;
+}
+.fiche-field .lbl{
+  font-family:ui-monospace,monospace;
+  font-size:9px;
+  color:var(--muted);
+  text-transform:uppercase;
+  letter-spacing:1.5px;
+  margin-bottom:4px;
+}
+.fiche-field .val{
+  font-size:13px;
+  color:#e5e2e3;
+  word-break:break-all;
+}
+.fiche-field .val.empty{
+  color:var(--muted);
+  font-style:italic;
+  opacity:.5;
+}
+.fiche-field .val.mono{
+  font-family:ui-monospace,monospace;
+  color:var(--red);
+  font-size:12px;
+}
 
 /* ===== COMPTEUR PAR SECTION ===== */
 .accCount{
@@ -184,9 +291,14 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
   font-weight:800;
   box-shadow:0 0 10px rgba(255,25,48,.5);
 }
-.accCount.hidden{
-  display:none!important;
-}
+.accCount.hidden{display:none!important}
+
+.noResult{margin:0;padding:48px 30px;background:rgba(20,8,10,.5);border:1px solid rgba(255,42,59,.2);border-radius:14px;text-align:center;animation:fadeIn .3s ease}
+.noResult .ico{color:var(--red);opacity:.4;display:flex;justify-content:center;margin-bottom:16px}
+.noResult .ico svg{width:44px;height:44px;stroke:currentColor;fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.noResult .title{font-size:17px;font-weight:700;color:#fff;margin-bottom:10px}
+.noResult .hint{font-size:13px;color:#8e8789;line-height:1.6;max-width:500px;margin:0 auto}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 
 /* ===== CHAT FLOTTANT ===== */
 .floatChat{position:fixed;right:24px;bottom:24px;width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,var(--red),#ff4555);border:0;color:#fff;cursor:pointer;box-shadow:0 8px 30px rgba(255,25,48,.5);z-index:30;transition:transform .2s;display:flex;align-items:center;justify-content:center}
@@ -638,15 +750,17 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
         </div></div>
       </div>
     </div>
-    <div id="advResults"></div>
     <div class="advFooter">
       <button class="btnSearch" id="advDoSearch">
         <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
         Rechercher
       </button>
-      <button class="btnClear" id="advClear">Effacer</button>
+      <button class="btnClear" id="advClear">Effacer les résultats</button>
     </div>
   </div>
+
+  <!-- Résultats en dessous du formulaire -->
+  <div id="advResults" class="resultsWrap"></div>
 </section>
 
 <!-- ================= AUTH ================= -->
@@ -765,25 +879,19 @@ function toast(msg){
 // ============================================
 function evaluatePasswordStrength(pwd){
   if(!pwd) return 0;
-
   let score = 0;
-
   if(pwd.length >= 4) score++;
   if(pwd.length >= 8) score++;
   if(pwd.length >= 12) score++;
-
   const hasLower = /[a-z]/.test(pwd);
   const hasUpper = /[A-Z]/.test(pwd);
   const hasDigit = /[0-9]/.test(pwd);
   const hasSymbol = /[^a-zA-Z0-9]/.test(pwd);
-
   const varietyCount = [hasLower, hasUpper, hasDigit, hasSymbol].filter(Boolean).length;
   if(varietyCount >= 2) score++;
   if(varietyCount >= 3) score++;
   if(varietyCount === 4) score++;
-
   if(pwd.length < 6 && varietyCount <= 1) score = Math.max(1, score - 1);
-
   return Math.min(5, Math.max(1, score));
 }
 
@@ -791,23 +899,11 @@ function updatePasswordStrength(pwd){
   const el = document.getElementById('pwdStrength');
   const label = document.getElementById('pwdLabel');
   if(!el || !label) return;
-
-  if(!pwd){
-    el.classList.add('hidden');
-    return;
-  }
-
+  if(!pwd){ el.classList.add('hidden'); return; }
   el.classList.remove('hidden');
   const level = evaluatePasswordStrength(pwd);
   el.dataset.level = level;
-
-  const labels = {
-    1: 'Très faible',
-    2: 'Faible',
-    3: 'Moyen',
-    4: 'Fort',
-    5: 'Très fort'
-  };
+  const labels = {1:'Très faible',2:'Faible',3:'Moyen',4:'Fort',5:'Très fort'};
   label.textContent = labels[level] || '';
 }
 
@@ -828,7 +924,6 @@ function setMode(m){
   document.getElementById('tabLogin').classList.toggle('active', m === 'login');
   document.getElementById('tabRegister').classList.toggle('active', m === 'register');
   document.getElementById('confirmField').classList.toggle('hidden', m !== 'register');
-
   const checkTerms = document.getElementById('checkTerms');
   const termsCheckbox = document.getElementById('termsCheckbox');
   if(m === 'register'){
@@ -840,16 +935,11 @@ function setMode(m){
     termsCheckbox.required = false;
     termsCheckbox.checked = true;
   }
-
   const pwdStrengthEl = document.getElementById('pwdStrength');
   if(pwdStrengthEl){
-    if(m === 'register'){
-      updatePasswordStrength(document.getElementById('password').value);
-    } else {
-      pwdStrengthEl.classList.add('hidden');
-    }
+    if(m === 'register'){ updatePasswordStrength(document.getElementById('password').value); }
+    else { pwdStrengthEl.classList.add('hidden'); }
   }
-
   document.getElementById('authSubmit').textContent = m === 'register' ? 'Créer mon compte' : 'Se connecter';
   document.getElementById('authSubtitle').textContent = m === 'register' ? 'Créez votre compte pour accéder au système.' : 'Connectez-vous pour accéder au système.';
 }
@@ -859,20 +949,16 @@ async function submitAuth(e){
   const msg = document.getElementById('authMsg');
   const btn = document.getElementById('authSubmit');
   msg.textContent = ''; msg.className = 'authMsg';
-
   const username = document.getElementById('username').value.trim();
   const password = document.getElementById('password').value;
   const confirm = document.getElementById('confirm').value;
-
   if(mode === 'register' && password !== confirm){
     msg.textContent = '✗ Les mots de passe ne correspondent pas';
     msg.className = 'authMsg error';
     return;
   }
-
   btn.disabled = true;
   btn.textContent = mode === 'register' ? 'Création...' : 'Connexion...';
-
   try {
     const url = mode === 'register' ? '/api/register' : '/api/login';
     const r = await fetch(url, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ username, password }) });
@@ -916,7 +1002,6 @@ function updateAuthUI(){
   const userMenu = document.getElementById('userMenu');
   const startLabel = document.getElementById('startSearchLabel');
   const subtitle = document.getElementById('homeSubtitle');
-
   if(currentUser){
     loginBtn.classList.add('hidden');
     userMenu.classList.remove('hidden');
@@ -925,7 +1010,6 @@ function updateAuthUI(){
     document.getElementById('userNameDrop').textContent = currentUser;
     applyAvatarToEl(document.getElementById('userAvatarMini'), currentAvatar, initial);
     applyAvatarToEl(document.getElementById('userAvatarDrop'), currentAvatar, initial);
-
     if(startLabel) startLabel.textContent = 'Lancer une recherche';
     if(subtitle) subtitle.innerHTML = 'Content de te revoir, <b>' + escapeHtml(currentUser) + '</b>.';
   } else {
@@ -933,7 +1017,6 @@ function updateAuthUI(){
     userMenu.classList.add('hidden');
     loginBtn.textContent = 'Se connecter';
     loginBtn.onclick = () => openAuth(false);
-
     if(startLabel) startLabel.textContent = 'Se connecter pour rechercher';
     if(subtitle) subtitle.innerHTML = 'La plateforme OSINT pour <b>les chercheurs sécurité.</b>';
   }
@@ -942,15 +1025,9 @@ function updateAuthUI(){
 async function refreshAvatar(){
   try {
     const r = await fetch('/api/me');
-    if(r.ok){
-      const data = await r.json();
-      currentAvatar = data.avatar || null;
-    } else {
-      currentAvatar = null;
-    }
-  } catch(e){
-    currentAvatar = null;
-  }
+    if(r.ok){ const data = await r.json(); currentAvatar = data.avatar || null; }
+    else { currentAvatar = null; }
+  } catch(e){ currentAvatar = null; }
 }
 
 async function doLogout(){
@@ -977,10 +1054,8 @@ async function checkSession(){
 }
 
 // ============================================
-// RECHERCHE
+// COMPTEUR PAR SECTION
 // ============================================
-const FIELD_LABELS = { nom:'Nom', prenom:'Prénom', nom_naissance:'Nom de naissance', nom_affiche:'Nom affiché', date_naissance:'Date de naissance', ville_naissance:'Ville de naissance', nationalite:'Nationalité', email:'Email', tel_mobile:'Téléphone mobile', tel_fixe:'Téléphone fixe', adresse:'Adresse', ville:'Ville', code_postal:'Code postal', pays:'Pays', ip:'Adresse IP', fivem:'Pseudo FiveM', minecraft:'Pseudo Minecraft', discord_id:'Discord ID', steam_id:'Steam ID', iban:'IBAN', vin:'VIN / Plaque', profession:'Profession', employeur:'Employeur', twitter:'Twitter / X', snapchat:'Snapchat' };
-
 const SECTION_FIELDS = {
   etat_civil: ['nom', 'prenom', 'nom_naissance', 'nom_affiche'],
   origine: ['date_naissance', 'ville_naissance', 'nationalite'],
@@ -999,18 +1074,51 @@ function updateSectionCounts(){
     });
     const badge = document.querySelector('.accCount[data-count="' + section + '"]');
     if(badge){
-      if(count > 0){
-        badge.textContent = count;
-        badge.classList.remove('hidden');
-      } else {
-        badge.classList.add('hidden');
-      }
+      if(count > 0){ badge.textContent = count; badge.classList.remove('hidden'); }
+      else { badge.classList.add('hidden'); }
     }
   }
 }
 
+// ============================================
+// RECHERCHE
+// ============================================
+const FIELD_LABELS = { nom:'Nom', prenom:'Prénom', nom_naissance:'Nom de naissance', nom_affiche:'Nom affiché', date_naissance:'Date de naissance', ville_naissance:'Ville de naissance', nationalite:'Nationalité', email:'Email', tel_mobile:'Téléphone mobile', tel_fixe:'Téléphone fixe', adresse:'Adresse', ville:'Ville', code_postal:'Code postal', pays:'Pays', ip:'Adresse IP', fivem:'Pseudo FiveM', minecraft:'Pseudo Minecraft', discord_id:'Discord ID', steam_id:'Steam ID', iban:'IBAN', vin:'VIN / Plaque', profession:'Profession', employeur:'Employeur', twitter:'Twitter / X', snapchat:'Snapchat' };
+
 const SEARCH_ICON = '<svg viewBox="0 0 24 24" width="44" height="44" stroke="currentColor" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>';
 const WARN_ICON = '<svg viewBox="0 0 24 24" width="44" height="44" stroke="currentColor" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>';
+
+function buildFiche(p, index){
+  const initiales = ((p.first_name && p.first_name[0] || '') + (p.last_name && p.last_name[0] || '')).toUpperCase() || '?';
+  const titre = [p.first_name, p.last_name].filter(Boolean).join(' ') || 'Sans nom';
+  const delay = Math.min(index * 40, 400);
+
+  const f = (label, value, mono) => {
+    const v = value ? escapeHtml(value) : '<span class="empty">—</span>';
+    return '<div class="fiche-field"><div class="lbl">' + label + '</div><div class="val' + (mono ? ' mono' : '') + (value ? '' : ' empty') + '">' + v + '</div></div>';
+  };
+
+  return '<div class="fiche" style="animation-delay:' + delay + 'ms">' +
+    '<div class="fiche-top">' +
+      '<div class="fiche-avatar">' + escapeHtml(initiales) + '</div>' +
+      '<div>' +
+        '<div class="fiche-name">' + escapeHtml(titre) + '</div>' +
+        '<div class="fiche-sub">' + escapeHtml(p.city || '') + (p.city && p.postal_code ? ' · ' : '') + escapeHtml(p.postal_code || '') + '</div>' +
+      '</div>' +
+    '</div>' +
+    '<div class="fiche-grid">' +
+      f('Nom', p.last_name) +
+      f('Prénom', p.first_name) +
+      f('Date de naissance', p.birth_date || p.date_naissance) +
+      f('Email', p.email) +
+      f('Téléphone', p.phone || p.telephone) +
+      f('Adresse', p.address || p.adresse) +
+      f('Ville', p.city || p.ville) +
+      f('Code postal', p.postal_code || p.code_postal) +
+      f('Département', p.department || p.dept) +
+    '</div>' +
+  '</div>';
+}
 
 async function doAdvSearch(){
   const data = {};
@@ -1032,6 +1140,8 @@ async function doAdvSearch(){
   for(const key in data){ if(FIELD_LABELS[key]) resumeParts.push(data[key]); }
   const resume = resumeParts.join(', ');
 
+  resultsEl.innerHTML = '<div class="noResult"><div class="loader"></div></div>';
+
   try {
     const r = await fetch('/api/search?q=' + encodeURIComponent(resume));
     const resp = await r.json();
@@ -1043,7 +1153,14 @@ async function doAdvSearch(){
     if(results.length === 0){
       resultsEl.innerHTML = '<div class="noResult"><div class="ico">'+SEARCH_ICON+'</div><div class="title">Aucun résultat pour « '+escapeHtml(resume)+' »</div><div class="hint">Essaie d\'autres termes ou vérifie l\'orthographe.</div></div>';
     } else {
-      resultsEl.innerHTML = results.map(p => '<div class="noResult" style="text-align:left"><div class="title">'+escapeHtml((p.last_name || '')+' '+(p.first_name || ''))+'</div><div class="hint">'+escapeHtml(p.city || '')+' · '+escapeHtml(p.postal_code || '')+'</div><div class="hint">'+escapeHtml(p.email || '')+' · '+escapeHtml(p.phone || '')+'</div><div class="hint">'+escapeHtml(p.address || '')+'</div></div>').join('');
+      resultsEl.innerHTML =
+        '<div class="resultsHeader">' +
+          '<span><span class="count">' + results.length + '</span> résultat' + (results.length > 1 ? 's' : '') + ' trouvé' + (results.length > 1 ? 's' : '') + '</span>' +
+          '<span>pour « ' + escapeHtml(resume) + ' »</span>' +
+        '</div>' +
+        '<div class="resultsBody">' +
+          results.map((p, i) => buildFiche(p, i)).join('') +
+        '</div>';
     }
     resultsEl.scrollIntoView({behavior:'smooth', block:'nearest'});
   } catch(err){
@@ -1055,10 +1172,8 @@ async function doAdvSearch(){
 }
 
 function clearAdvSearch(){
-  document.querySelectorAll('[data-field]').forEach(inp => inp.value = '');
   document.getElementById('advResults').innerHTML = '';
-  updateSectionCounts();
-  toast('Formulaire effacé');
+  toast('Résultats effacés');
 }
 
 function escapeHtml(s){
@@ -1094,21 +1209,15 @@ function startChatStream(){
     chatEventSource.onmessage = (e) => {
       try {
         const data = JSON.parse(e.data);
-        if(data.type === 'message'){
-          appendMessage(data.message);
-        } else if(data.type === 'typing'){
-          handleTypingEvent(data.username, data.isTyping);
-        }
+        if(data.type === 'message'){ appendMessage(data.message); }
+        else if(data.type === 'typing'){ handleTypingEvent(data.username, data.isTyping); }
       } catch(err){}
     };
   } catch(e){}
 }
 
 function stopChatStream(){
-  if(chatEventSource){
-    try { chatEventSource.close(); } catch(e){}
-    chatEventSource = null;
-  }
+  if(chatEventSource){ try { chatEventSource.close(); } catch(e){} chatEventSource = null; }
 }
 
 async function loadChatMessages(){
@@ -1132,58 +1241,35 @@ function appendMessage(m){
   const empty = container.querySelector('.chatEmpty');
   if(empty) empty.remove();
   if(document.getElementById('msg-' + m.id)) return;
-
   const isMe = currentUser && m.username === currentUser;
   const time = new Date(m.createdAt).toLocaleTimeString('fr-FR', {hour:'2-digit', minute:'2-digit'});
-
   const el = document.createElement('div');
   el.className = 'chatMsg' + (isMe ? ' me' : '');
   el.id = 'msg-' + m.id;
   el.innerHTML = '<div class="meta"><span class="name">'+escapeHtml(m.username)+'</span><span class="time">'+time+'</span></div><div class="text">'+escapeHtml(m.text)+'</div>';
   container.appendChild(el);
-
-  if(typingUsers[m.username]){
-    delete typingUsers[m.username];
-    renderTypingIndicator();
-  }
-
+  if(typingUsers[m.username]){ delete typingUsers[m.username]; renderTypingIndicator(); }
   if(chatOpen) scrollChatBottom();
 }
 
-function scrollChatBottom(){
-  const c = document.getElementById('chatMessages');
-  c.scrollTop = c.scrollHeight;
-}
+function scrollChatBottom(){ const c = document.getElementById('chatMessages'); c.scrollTop = c.scrollHeight; }
 
 async function sendMessage(e){
   e.preventDefault();
   const input = document.getElementById('chatInput');
   const text = input.value.trim();
   if(!text || !currentUser) return;
-
   input.value = '';
   lastTypingSent = 0;
   try {
-    const r = await fetch('/api/chat/messages', {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({ text })
-    });
+    const r = await fetch('/api/chat/messages', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({ text }) });
     const data = await r.json();
-    if(!r.ok){
-      toast('Erreur : ' + (data.error || 'envoi échoué'));
-    }
-  } catch(err){
-    toast('Erreur réseau');
-  }
+    if(!r.ok){ toast('Erreur : ' + (data.error || 'envoi échoué')); }
+  } catch(err){ toast('Erreur réseau'); }
 }
 
-// ============================================
-// TYPING INDICATOR
-// ============================================
 function handleTypingEvent(username, isTyping){
   if(!username) return;
-
   if(isTyping){
     typingUsers[username] = Date.now();
     renderTypingIndicator();
@@ -1193,30 +1279,17 @@ function handleTypingEvent(username, isTyping){
         renderTypingIndicator();
       }
     }, 3000);
-  } else {
-    delete typingUsers[username];
-    renderTypingIndicator();
-  }
+  } else { delete typingUsers[username]; renderTypingIndicator(); }
 }
 
 function renderTypingIndicator(){
   const el = document.getElementById('chatTyping');
   if(!el) return;
-
   const users = Object.keys(typingUsers).filter(u => u !== currentUser);
-
-  if(users.length === 0){
-    el.textContent = '';
-    return;
-  }
-
-  if(users.length === 1){
-    el.textContent = users[0] + ' est en train d\'écrire...';
-  } else if(users.length === 2){
-    el.textContent = users[0] + ' et ' + users[1] + ' sont en train d\'écrire...';
-  } else {
-    el.textContent = 'Plusieurs personnes sont en train d\'écrire...';
-  }
+  if(users.length === 0){ el.textContent = ''; return; }
+  if(users.length === 1){ el.textContent = users[0] + ' est en train d\'écrire...'; }
+  else if(users.length === 2){ el.textContent = users[0] + ' et ' + users[1] + ' sont en train d\'écrire...'; }
+  else { el.textContent = 'Plusieurs personnes sont en train d\'écrire...'; }
 }
 
 async function sendTyping(){
@@ -1224,9 +1297,7 @@ async function sendTyping(){
   const now = Date.now();
   if(now - lastTypingSent < 1500) return;
   lastTypingSent = now;
-  try {
-    await fetch('/api/chat/typing', { method: 'POST' });
-  } catch(e){}
+  try { await fetch('/api/chat/typing', { method: 'POST' }); } catch(e){}
 }
 
 // ============================================
@@ -1247,94 +1318,42 @@ function infoPage(kind){
           <p>Membre de FastSearch</p>
         </div>
       </div>
-
       <input type="file" id="profilPhotoInput" accept="image/*" style="display:none">
-
       <div class="profilGrid">
-        <div class="profilCard">
-          <div class="label">Nom d'utilisateur</div>
-          <div class="value" id="profilUsername">user</div>
-        </div>
-        <div class="profilCard">
-          <div class="label">Plan actuel</div>
-          <div class="value pro" id="profilPlan">FREE</div>
-        </div>
-        <div class="profilCard">
-          <div class="label">Statut</div>
-          <div class="value" style="color:#2df0ae">● Actif</div>
-        </div>
-        <div class="profilCard">
-          <div class="label">Rôle</div>
-          <div class="value">Utilisateur</div>
-        </div>
+        <div class="profilCard"><div class="label">Nom d'utilisateur</div><div class="value" id="profilUsername">user</div></div>
+        <div class="profilCard"><div class="label">Plan actuel</div><div class="value pro" id="profilPlan">FREE</div></div>
+        <div class="profilCard"><div class="label">Statut</div><div class="value" style="color:#2df0ae">● Actif</div></div>
+        <div class="profilCard"><div class="label">Rôle</div><div class="value">Utilisateur</div></div>
       </div>
-
       <p class="muted" style="text-align:left;font-size:13px;line-height:1.7">
         Ceci est votre espace personnel. Les informations affichées ici sont celles de votre compte.
         Pour modifier vos préférences, rendez-vous dans <b style="color:#fff">Paramètres</b>.
       </p>
     `,
-
     settings: `
       <h2 style="margin-top:0">Paramètres</h2>
-      <p class="muted" style="text-align:left;margin-bottom:24px">
-        Gère les préférences de ton compte.
-      </p>
-
-      <div class="field">
-        <label>Nom d'utilisateur</label>
-        <input value="${escapeHtml(currentUser || '')}" disabled>
-      </div>
-
+      <p class="muted" style="text-align:left;margin-bottom:24px">Gère les préférences de ton compte.</p>
+      <div class="field"><label>Nom d'utilisateur</label><input value="${escapeHtml(currentUser || '')}" disabled></div>
       <h3 style="margin:28px 0 8px;font-size:15px;color:#fff">Changer le mot de passe</h3>
-      <p class="muted" style="text-align:left;font-size:12px;margin-bottom:16px">
-        Pour modifier ton mot de passe, saisis d'abord ton mot de passe actuel.
-      </p>
-
+      <p class="muted" style="text-align:left;font-size:12px;margin-bottom:16px">Pour modifier ton mot de passe, saisis d'abord ton mot de passe actuel.</p>
       <form id="passwordForm">
-        <div class="field">
-          <label>Mot de passe actuel *</label>
-          <input type="password" id="pwdCurrent" placeholder="••••••••" required>
-        </div>
-
-        <div class="field">
-          <label>Nouveau mot de passe *</label>
-          <input type="password" id="pwdNew" placeholder="min. 4 caractères" required minlength="4">
-        </div>
-
-        <div class="field">
-          <label>Confirmer le nouveau mot de passe *</label>
-          <input type="password" id="pwdConfirm" placeholder="••••••••" required minlength="4">
-        </div>
-
+        <div class="field"><label>Mot de passe actuel *</label><input type="password" id="pwdCurrent" placeholder="••••••••" required></div>
+        <div class="field"><label>Nouveau mot de passe *</label><input type="password" id="pwdNew" placeholder="min. 4 caractères" required minlength="4"></div>
+        <div class="field"><label>Confirmer le nouveau mot de passe *</label><input type="password" id="pwdConfirm" placeholder="••••••••" required minlength="4"></div>
         <p id="pwdMsg" style="margin:12px 0 0;font-size:13px;font-family:ui-monospace,monospace;min-height:18px"></p>
-
         <button type="submit" class="submit" id="pwdSubmit">Enregistrer le nouveau mot de passe</button>
       </form>
-
-      <p class="muted" style="margin-top:20px;font-size:12px">
-        Certaines fonctionnalités sont en cours de développement.
-      </p>
+      <p class="muted" style="margin-top:20px;font-size:12px">Certaines fonctionnalités sont en cours de développement.</p>
     `,
-
     delete: `
       <h2 style="margin-top:0">Demande de suppression</h2>
       <p class="muted" style="text-align:left;margin-bottom:24px">
         Vous pouvez demander la suppression de vos données personnelles présentes dans notre système.
         Conformément au RGPD, votre demande sera traitée dans un délai maximum de <b style="color:#fff">30 jours</b>.
       </p>
-
       <form id="deleteForm">
-        <div class="field">
-          <label>Nom complet *</label>
-          <input id="del-nom" placeholder="Votre nom et prénom" required>
-        </div>
-
-        <div class="field">
-          <label>Email de contact *</label>
-          <input id="del-email" type="email" placeholder="vous@exemple.com" required>
-        </div>
-
+        <div class="field"><label>Nom complet *</label><input id="del-nom" placeholder="Votre nom et prénom" required></div>
+        <div class="field"><label>Email de contact *</label><input id="del-email" type="email" placeholder="vous@exemple.com" required></div>
         <div class="field">
           <label>Type de données à supprimer *</label>
           <select id="del-type" required>
@@ -1348,42 +1367,17 @@ function infoPage(kind){
             <option>Autre (préciser en commentaire)</option>
           </select>
         </div>
-
-        <div class="field">
-          <label>Motif (optionnel)</label>
-          <textarea id="del-motif" rows="3" placeholder="Raison de votre demande..."></textarea>
-        </div>
-
-        <div class="check">
-          <label>
-            <input type="checkbox" id="del-confirm" required>
-            Je certifie être la personne concernée ou disposer d'une autorisation légale.
-          </label>
-        </div>
-
-        <div class="check">
-          <label>
-            <input type="checkbox" id="del-understand" required>
-            Je comprends que la suppression est définitive et irréversible.
-          </label>
-        </div>
-
+        <div class="field"><label>Motif (optionnel)</label><textarea id="del-motif" rows="3" placeholder="Raison de votre demande..."></textarea></div>
+        <div class="check"><label><input type="checkbox" id="del-confirm" required> Je certifie être la personne concernée ou disposer d'une autorisation légale.</label></div>
+        <div class="check"><label><input type="checkbox" id="del-understand" required> Je comprends que la suppression est définitive et irréversible.</label></div>
         <button type="submit" class="submit" id="del-submit">Envoyer la demande</button>
       </form>
-
-      <p class="muted" style="margin-top:20px;font-size:12px">
-        Un email de confirmation vous sera envoyé. Conservez-le comme preuve de votre demande.
-      </p>
+      <p class="muted" style="margin-top:20px;font-size:12px">Un email de confirmation vous sera envoyé. Conservez-le comme preuve de votre demande.</p>
     `,
-
     shop: `
       <h2 style="margin-top:0">Choisir un abonnement</h2>
-      <p class="muted" style="text-align:left;margin-bottom:30px">
-        Débloque des fonctionnalités avancées. Résiliation en un clic, sans engagement.
-      </p>
-
+      <p class="muted" style="text-align:left;margin-bottom:30px">Débloque des fonctionnalités avancées. Résiliation en un clic, sans engagement.</p>
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;margin-bottom:24px">
-
         <div style="background:rgba(15,5,7,.6);border:1px solid rgba(255,42,59,.2);border-radius:16px;padding:28px;display:flex;flex-direction:column">
           <div style="font-family:ui-monospace,monospace;font-size:11px;color:#8e8789;letter-spacing:2px;margin-bottom:12px">FREE</div>
           <div style="font-size:36px;font-weight:900;color:#fff;margin-bottom:4px">0€<span style="font-size:13px;color:#8e8789;font-weight:500">/mois</span></div>
@@ -1395,7 +1389,6 @@ function infoPage(kind){
           </ul>
           <button class="submit" onclick="toast('Plan Free déjà actif')" style="margin:0">Plan actuel</button>
         </div>
-
         <div style="background:linear-gradient(145deg,rgba(40,10,15,.95),rgba(20,5,8,.95));border:2px solid #ff1830;border-radius:16px;padding:28px;display:flex;flex-direction:column;position:relative;box-shadow:0 0 40px rgba(255,24,48,.3)">
           <div style="position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,#ff1830,#ff4555);color:#fff;font-size:10px;font-weight:800;letter-spacing:1.5px;padding:4px 12px;border-radius:20px">RECOMMANDÉ</div>
           <div style="font-family:ui-monospace,monospace;font-size:11px;color:#ff6b7a;letter-spacing:2px;margin-bottom:12px">PRO</div>
@@ -1408,15 +1401,10 @@ function infoPage(kind){
           </ul>
           <button class="submit" onclick="subscribe('PRO')" style="margin:0">Passer à PRO</button>
         </div>
-
       </div>
-
-      <p class="muted" style="font-size:12px;margin-top:20px">
-        Paiement sécurisé · Annulation en un clic · Sans engagement
-      </p>
+      <p class="muted" style="font-size:12px;margin-top:20px">Paiement sécurisé · Annulation en un clic · Sans engagement</p>
     `
   };
-
   document.getElementById('infoContent').innerHTML = content[kind] || '';
   showPage('info');
 
@@ -1426,7 +1414,6 @@ function infoPage(kind){
     document.getElementById('profilName').textContent = currentUser || 'user';
     document.getElementById('profilUsername').textContent = currentUser || 'user';
     applyAvatarToEl(avatarEl, currentAvatar, initial);
-
     const photoBtn = document.getElementById('profilPhotoBtn');
     const photoInput = document.getElementById('profilPhotoInput');
     if(photoBtn && photoInput){
@@ -1434,32 +1421,20 @@ function infoPage(kind){
       photoInput.onchange = async () => {
         const file = photoInput.files[0];
         if(!file) return;
-        if(file.size > 1.5 * 1024 * 1024){
-          toast('Image trop lourde (max 1.5 Mo)');
-          return;
-        }
+        if(file.size > 1.5 * 1024 * 1024){ toast('Image trop lourde (max 1.5 Mo)'); return; }
         const reader = new FileReader();
         reader.onload = async (e) => {
           const dataUrl = e.target.result;
           try {
-            const r = await fetch('/api/avatar', {
-              method: 'POST',
-              headers: {'Content-Type': 'application/json'},
-              body: JSON.stringify({ dataUrl })
-            });
+            const r = await fetch('/api/avatar', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({ dataUrl }) });
             const data = await r.json();
-            if(!r.ok){
-              toast('Erreur : ' + (data.error || 'upload échoué'));
-              return;
-            }
+            if(!r.ok){ toast('Erreur : ' + (data.error || 'upload échoué')); return; }
             currentAvatar = dataUrl;
             applyAvatarToEl(avatarEl, currentAvatar, initial);
             applyAvatarToEl(document.getElementById('userAvatarMini'), currentAvatar, initial);
             applyAvatarToEl(document.getElementById('userAvatarDrop'), currentAvatar, initial);
             toast('Photo de profil mise à jour');
-          } catch(err){
-            toast('Erreur réseau');
-          }
+          } catch(err){ toast('Erreur réseau'); }
         };
         reader.readAsDataURL(file);
       };
@@ -1473,44 +1448,19 @@ function infoPage(kind){
         e.preventDefault();
         const msg = document.getElementById('pwdMsg');
         const btn = document.getElementById('pwdSubmit');
-        msg.textContent = '';
-        msg.style.color = '';
-
+        msg.textContent = ''; msg.style.color = '';
         const current = document.getElementById('pwdCurrent').value;
         const newPwd = document.getElementById('pwdNew').value;
         const confirmPwd = document.getElementById('pwdConfirm').value;
-
-        if(newPwd !== confirmPwd){
-          msg.textContent = '✗ Les nouveaux mots de passe ne correspondent pas';
-          msg.style.color = '#ff5665';
-          return;
-        }
-
-        btn.disabled = true;
-        btn.textContent = 'Enregistrement...';
-
+        if(newPwd !== confirmPwd){ msg.textContent = '✗ Les nouveaux mots de passe ne correspondent pas'; msg.style.color = '#ff5665'; return; }
+        btn.disabled = true; btn.textContent = 'Enregistrement...';
         try {
-          const r = await fetch('/api/change-password', {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({ currentPassword: current, newPassword: newPwd })
-          });
+          const r = await fetch('/api/change-password', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({ currentPassword: current, newPassword: newPwd }) });
           const data = await r.json();
-          if(!r.ok){
-            msg.textContent = '✗ ' + (data.error || 'Erreur');
-            msg.style.color = '#ff5665';
-          } else {
-            msg.textContent = '✓ Mot de passe modifié';
-            msg.style.color = '#2df0ae';
-            form.reset();
-          }
-        } catch(err){
-          msg.textContent = '✗ Erreur réseau';
-          msg.style.color = '#ff5665';
-        } finally {
-          btn.disabled = false;
-          btn.textContent = 'Enregistrer le nouveau mot de passe';
-        }
+          if(!r.ok){ msg.textContent = '✗ ' + (data.error || 'Erreur'); msg.style.color = '#ff5665'; }
+          else { msg.textContent = '✓ Mot de passe modifié'; msg.style.color = '#2df0ae'; form.reset(); }
+        } catch(err){ msg.textContent = '✗ Erreur réseau'; msg.style.color = '#ff5665'; }
+        finally { btn.disabled = false; btn.textContent = 'Enregistrer le nouveau mot de passe'; }
       });
     }
   }
@@ -1536,15 +1486,9 @@ function infoPage(kind){
 }
 
 function subscribe(plan){
-  if(!currentUser){
-    toast('Connecte-toi pour t\'abonner');
-    openAuth(false);
-    return;
-  }
+  if(!currentUser){ toast('Connecte-toi pour t\'abonner'); openAuth(false); return; }
   toast('Redirection vers le paiement ' + plan + '...');
-  setTimeout(() => {
-    toast('✓ Abonnement ' + plan + ' activé (démo)');
-  }, 1500);
+  setTimeout(() => { toast('✓ Abonnement ' + plan + ' activé (démo)'); }, 1500);
 }
 
 // ============================================
@@ -1559,9 +1503,7 @@ document.addEventListener('DOMContentLoaded', () => {
       mobileMenu.classList.toggle('open');
     });
     document.addEventListener('click', (e) => {
-      if(!mobileMenu.contains(e.target) && e.target !== burger){
-        mobileMenu.classList.remove('open');
-      }
+      if(!mobileMenu.contains(e.target) && e.target !== burger){ mobileMenu.classList.remove('open'); }
     });
     mobileMenu.querySelectorAll('button').forEach(b => {
       b.addEventListener('click', () => mobileMenu.classList.remove('open'));
@@ -1604,11 +1546,8 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('loginNav').onclick = () => openAuth(false);
 
   document.getElementById('startSearch').addEventListener('click', () => {
-    if(currentUser){
-      showPage('advsearch');
-    } else {
-      openAuth(false);
-    }
+    if(currentUser){ showPage('advsearch'); }
+    else { openAuth(false); }
   });
 
   document.getElementById('tabLogin').onclick = () => setMode('login');
@@ -1627,7 +1566,6 @@ document.addEventListener('DOMContentLoaded', () => {
     h.addEventListener('click', () => h.parentElement.classList.toggle('open'));
   });
 
-  // Brancher le compteur sur tous les inputs de recherche
   document.querySelectorAll('[data-field]').forEach(inp => {
     inp.addEventListener('input', updateSectionCounts);
     inp.addEventListener('change', updateSectionCounts);
