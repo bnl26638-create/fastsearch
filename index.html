@@ -1444,11 +1444,11 @@ async function submitAuth(e){
   msg.textContent = ''; msg.className = 'authMsg';
   const username = document.getElementById('username').value.trim();
   const password = document.getElementById('password').value;
-  if(mode === 'register' && username.length < 3 && username !== 'zk'){
-    msg.textContent = '✗ Le pseudo doit contenir au moins 3 caractères (sauf zk)';
-    msg.className = 'authMsg error';
-    return;
-  }
+  if(mode === 'register' && username.length < 3){
+  msg.textContent = '✗ Le pseudo doit contenir au moins 3 caractères';
+  msg.className = 'authMsg error';
+  return;
+}
   const confirm = document.getElementById('confirm').value;
   if(mode === 'register' && password !== confirm){
     msg.textContent = '✗ Les mots de passe ne correspondent pas';
