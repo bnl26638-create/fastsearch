@@ -529,6 +529,26 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
   color:#e5e2e3;
   border-bottom-left-radius:4px;
 }
+
+/* ⚡ Styles pour le markdown rendu dans les bulles de l'IA */
+.aiMsgPage .aiBubblePage strong{
+  color:#fff;
+  font-weight:800;
+}
+.aiMsgPage .aiBubblePage em{
+  color:#f0ecf3;
+  font-style:italic;
+}
+.aiMsgPage .aiBubblePage code{
+  background:rgba(168,85,247,.15);
+  border:1px solid rgba(168,85,247,.3);
+  border-radius:4px;
+  padding:1px 6px;
+  font-family:ui-monospace,monospace;
+  font-size:12px;
+  color:#c4b5fd;
+}
+
 .aiResultCard{
   margin-top:10px;
   background:rgba(10,3,15,.6);
@@ -1844,10 +1864,18 @@ function escapeHtml(s){
   return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 }
 
-// ⚡ NOUVELLE FONCTION : échappe une valeur pour l'insérer dans un attribut HTML
-// entre guillemets simples. Empêche de casser onclick="fn(...)"
-function escapeAttr(s){
-  return "'" + String(s == null ? '' : s).replace(/\\/g, '\\\\').replace(/'/g, "\\'") + "'";
+// ⚡ NOUVELLE FONCTION : transforme le markdown simple en HTML (gras, italique, code)
+// Le contenu est échappé d'abord pour éviter toute injection HTML.
+function formatAiMessage(raw){
+  const safe = String(raw == null ? '' : raw)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+
+  return safe
+    .replace(/\*\*([^*\n]+)\*\*/g, '<strong>$1</strong>')
+    .replace(/(^|[^*])\*([^*\n]+)\*/g, '$1<em>$2</em>')
+    .replace(/`([^`\n]+)`/g, '<code>$1</code>');
 }
 
 // ============================================
@@ -2015,7 +2043,14 @@ function appendAiPageMessage(role, content, toolInfo, silent){
 
   const bubble = document.createElement('div');
   bubble.className = 'aiBubblePage';
-  bubble.textContent = content || '';
+
+  // ⚡ CORRECTION : rendu HTML pour l'assistant (markdown), texte brut pour l'utilisateur
+  if(role === 'assistant'){
+    bubble.innerHTML = formatAiMessage(content || '');
+  } else {
+    bubble.textContent = content || '';
+  }
+
   wrap.appendChild(bubble);
 
   if(toolInfo && toolInfo.total !== undefined){
@@ -2317,8 +2352,9 @@ function getUserId(user){
   if(!user) return null;
   return user.id ?? user._id ?? user.userId ?? null;
 }
-
-// ⚡ FONCTION CORRIGÉE : utilise escapeAttr() au lieu de JSON.stringify
+function escapeAttr(s){
+  return "'" + String(s == null ? '' : s).replace(/\\/g, '\\\\').replace(/'/g, "\\'") + "'";
+}
 function renderAdminUsers(){
   const body = document.getElementById('adminUsersBody');
   if(!body) return;
