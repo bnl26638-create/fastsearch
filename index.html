@@ -1844,6 +1844,12 @@ function escapeHtml(s){
   return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 }
 
+// ⚡ NOUVELLE FONCTION : échappe une valeur pour l'insérer dans un attribut HTML
+// entre guillemets simples. Empêche de casser onclick="fn(...)"
+function escapeAttr(s){
+  return "'" + String(s == null ? '' : s).replace(/\\/g, '\\\\').replace(/'/g, "\\'") + "'";
+}
+
 // ============================================
 // COPIER
 // ============================================
@@ -1927,7 +1933,6 @@ function renderAiPage(){
     return;
   }
 
-  // Interface chat
   container.innerHTML =
     '<div class="aiPage">' +
       '<div class="aiPageHead">' +
@@ -2048,7 +2053,6 @@ async function sendAiPageMessage(e){
   const message = input.value.trim();
   if(!message) return;
 
-  // Ajoute le message user à l'historique + au DOM
   appendAiPageMessage('user', message);
   aiHistory.push({ role: 'user', content: message });
   input.value = '';
@@ -2313,6 +2317,8 @@ function getUserId(user){
   if(!user) return null;
   return user.id ?? user._id ?? user.userId ?? null;
 }
+
+// ⚡ FONCTION CORRIGÉE : utilise escapeAttr() au lieu de JSON.stringify
 function renderAdminUsers(){
   const body = document.getElementById('adminUsersBody');
   if(!body) return;
@@ -2325,7 +2331,8 @@ function renderAdminUsers(){
     const banned = u.banned === true;
     const isPro = u.isPro === true;
     const avatar = u.avatar || u.photo || u.profilePicture;
-    const safeId = id == null ? 'null' : JSON.stringify(String(id));
+    const safeId = escapeAttr(id);
+    const safeUsername = escapeAttr(u.username || '');
     const planBadge = isPro ? '<span class="statusBadge pro">PRO</span>' : '<span class="statusBadge">FREE</span>';
     return '<tr>' +
       '<td class="userCell">' + escapeHtml(u.username || '—') + (isCreator ? ' <span class="creator-badge">👑 CRÉATEUR</span>' : '') + (isPro && !isCreator ? ' <span class="pro-badge">PRO</span>' : '') + '</td>' +
@@ -2337,9 +2344,9 @@ function renderAdminUsers(){
         (isCreator ? '<span style="color:#777;font-size:11px">Compte protégé</span>' :
           '<button class="adminBtn ' + (banned ? 'green' : 'warn') + '" onclick="adminToggleBan(' + safeId + ',' + (!banned) + ')">' + (banned ? '♻️ Débannir' : '🚫 Bannir') + '</button>' +
           '<button class="adminBtn purple" onclick="adminTogglePro(' + safeId + ',' + (!isPro) + ')">' + (isPro ? '⬇️ Retirer PRO' : '⬆️ Passer PRO') + '</button>' +
-          '<button class="adminBtn blue" onclick="adminRenameUser(' + safeId + ',' + JSON.stringify(String(u.username || '')) + ')">✏️ Renommer</button>' +
+          '<button class="adminBtn blue" onclick="adminRenameUser(' + safeId + ',' + safeUsername + ')">✏️ Renommer</button>' +
           '<button class="adminBtn" onclick="adminResetAvatar(' + safeId + ')">🖼️ Reset PP</button>' +
-          '<button class="adminBtn danger" onclick="adminDeleteUser(' + safeId + ',' + JSON.stringify(String(u.username || '')) + ')">🗑️ Supprimer</button>') +
+          '<button class="adminBtn danger" onclick="adminDeleteUser(' + safeId + ',' + safeUsername + ')">🗑️ Supprimer</button>') +
       '</div></td>' +
     '</tr>';
   }).join('');
