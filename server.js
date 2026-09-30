@@ -3,12 +3,17 @@ const session = require('express-session');
 const bcrypt = require('bcrypt');
 const path = require('path');
 const pool = require('./db');
+const Groq = require('groq-sdk');
 
 const app = express();
 
 const PORT = process.env.PORT || 3000;
 const SESSION_SECRET =
   process.env.SESSION_SECRET || 'fastsearch_secret_change_me';
+const GROQ_API_KEY = process.env.GROQ_API_KEY || '';
+
+// Init Groq
+const groq = GROQ_API_KEY ? new Groq({ apiKey: GROQ_API_KEY }) : null;
 
 // ============================================================
 // ADMIN
@@ -40,12 +45,15 @@ const messages = [];
 const searchHistory = [];
 const sseClients = new Set();
 const presenceClients = new Set();
+const aiRateLimits = new Map(); // userId -> [timestamps]
 
 const MESSAGE_TTL = 24 * 60 * 60 * 1000;
 const MAX_MESSAGE_LENGTH = 500;
 const MAX_MESSAGES = 500;
 const MAX_SEARCH_HISTORY = 1000;
 const MAX_SEARCH_HISTORY_PER_USER = 30;
+const AI_MAX_PER_HOUR = 30;
+const AI_MAX_HISTORY_TURNS = 12;
 
 const requireAuth = (req, res, next) => {
   if (!req.session.userId) {
@@ -239,8 +247,6 @@ app.post('/api/avatar', requireAuth, (req, res) => {
   }
 
   user.avatar = dataUrl;
-
-  // Met à jour tous les messages existants de cet utilisateur
   messages.forEach((m) => {
     if (m.userId === user.id) m.avatar = dataUrl;
   });
@@ -287,7 +293,6 @@ app.get('/api/search', requireAuth, async (req, res) => {
 
     const result = await pool.query(sql, [search]);
 
-    // Enregistrer la recherche dans l'historique (global + perso)
     searchHistory.push({
       username: req.session.username,
       query: q,
@@ -295,12 +300,10 @@ app.get('/api/search', requireAuth, async (req, res) => {
       timestamp: Date.now()
     });
 
-    // Limiter la taille de l'historique global
     if (searchHistory.length > MAX_SEARCH_HISTORY) {
       searchHistory.shift();
     }
 
-    // Limiter à MAX_SEARCH_HISTORY_PER_USER entrées par utilisateur
     trimUserHistory(req.session.username);
 
     res.json({
@@ -314,7 +317,6 @@ app.get('/api/search', requireAuth, async (req, res) => {
   }
 });
 
-// Ne garde que les N dernières recherches d'un utilisateur dans searchHistory
 function trimUserHistory(username) {
   const userIndexes = [];
   for (let i = 0; i < searchHistory.length; i++) {
@@ -322,31 +324,28 @@ function trimUserHistory(username) {
   }
   if (userIndexes.length <= MAX_SEARCH_HISTORY_PER_USER) return;
 
-  // Combien à supprimer ? (les plus anciens)
   const toRemove = userIndexes.length - MAX_SEARCH_HISTORY_PER_USER;
   const indexesToRemove = userIndexes.slice(0, toRemove);
 
-  // Supprimer en partant de la fin pour ne pas décaler les index
   for (let i = indexesToRemove.length - 1; i >= 0; i--) {
     searchHistory.splice(indexesToRemove[i], 1);
   }
 }
 
 // ============================================================
-// MES RECHERCHES (historique perso de l'utilisateur connecté)
+// MES RECHERCHES
 // ============================================================
 
 app.get('/api/my-searches', requireAuth, (req, res) => {
   const mine = searchHistory
     .filter((h) => h.username === req.session.username)
     .slice()
-    .reverse(); // plus récentes en premier
+    .reverse();
 
   res.json({ searches: mine });
 });
 
 app.delete('/api/my-searches', requireAuth, (req, res) => {
-  // Supprime toutes les entrées de l'utilisateur connecté
   for (let i = searchHistory.length - 1; i >= 0; i--) {
     if (searchHistory[i].username === req.session.username) {
       searchHistory.splice(i, 1);
@@ -546,6 +545,234 @@ app.post('/api/chat/messages', requireAuth, (req, res) => {
 });
 
 // ============================================================
+// ASSISTANT IA — GROQ
+// ============================================================
+
+const SEARCH_FIELDS_DESC = `
+- "nom" : nom de famille
+- "prenom" : prénom
+- "nom_naissance" : nom de naissance (si différent du nom actuel)
+- "nom_affiche" : nom affiché / pseudonyme
+- "date_naissance" : date de naissance (format YYYY/MM/DD, ou juste YYYY)
+- "ville_naissance" : ville de naissance
+- "nationalite" : nationalité
+- "email" : adresse email
+- "tel_mobile" : numéro de portable
+- "tel_fixe" : numéro de fixe
+- "adresse" : adresse postale
+- "ville" : ville de résidence
+- "code_postal" : code postal
+- "pays" : pays
+- "ip" : adresse IP
+- "fivem" : pseudo FiveM
+- "minecraft" : pseudo Minecraft
+- "discord_id" : identifiant Discord
+- "steam_id" : identifiant Steam
+- "iban" : IBAN
+- "vin" : plaque d'immatriculation ou VIN
+- "profession" : profession
+- "employeur" : employeur
+- "twitter" : compte Twitter / X
+- "snapchat" : compte Snapchat
+`;
+
+const AI_SYSTEM_PROMPT = `Tu es l'Assistant IA de FastSearch, une plateforme OSINT française.
+
+Ton rôle : aider l'utilisateur à formuler ses recherches en langage naturel.
+L'utilisateur te parle en français (ou anglais). Tu détectes les informations utiles
+et tu proposes de remplir le formulaire de recherche.
+
+Champs de recherche disponibles :
+${SEARCH_FIELDS_DESC}
+
+Règles :
+1. Tu réponds TOUJOURS en français, de manière concise et professionnelle.
+2. Tu ne donnes JAMAIS de conseils illégaux, tu restes dans un cadre légal (OSINT légitime).
+3. Quand l'utilisateur donne des infos, tu les extrais et tu appelles la fonction
+   "fill_search_form" avec les champs détectés.
+4. Si l'utilisateur demande une recherche directe ("cherche", "lance"), tu peux
+   aussi appeler "launch_search" en plus de remplir le formulaire.
+5. Si l'utilisateur est vague, tu poses UNE question courte pour préciser.
+6. Tu ne fais jamais semblant d'avoir accès aux données : c'est le formulaire qui cherche.
+7. Tu ne répètes pas tout ce que tu as compris en détail — un simple résumé suffit.
+8. Si la demande n'a rien à voir avec une recherche, tu refuses poliment et recentre.
+
+Exemples :
+- User: "trouve Jean Dupont né en 1985 à Lyon"
+  → appelle fill_search_form({prenom:"Jean", nom:"Dupont", date_naissance:"1985", ville:"Lyon"})
+  → réponds : "J'ai pré-rempli le formulaire avec Jean Dupont, né en 1985 à Lyon. Vérifie et clique Rechercher."
+- User: "cherche quelqu'un avec l'email test@test.com"
+  → appelle fill_search_form({email:"test@test.com"}) + launch_search()
+  → réponds : "Recherche lancée pour test@test.com."
+- User: "salut ça va"
+  → réponds : "Salut ! Décris-moi la personne que tu cherches (nom, prénom, ville...)"
+`;
+
+const AI_TOOLS = [
+  {
+    type: 'function',
+    function: {
+      name: 'fill_search_form',
+      description: 'Remplit le formulaire de recherche avec les champs détectés dans la conversation.',
+      parameters: {
+        type: 'object',
+        properties: {
+          nom: { type: 'string' },
+          prenom: { type: 'string' },
+          nom_naissance: { type: 'string' },
+          nom_affiche: { type: 'string' },
+          date_naissance: { type: 'string' },
+          ville_naissance: { type: 'string' },
+          nationalite: { type: 'string' },
+          email: { type: 'string' },
+          tel_mobile: { type: 'string' },
+          tel_fixe: { type: 'string' },
+          adresse: { type: 'string' },
+          ville: { type: 'string' },
+          code_postal: { type: 'string' },
+          pays: { type: 'string' },
+          ip: { type: 'string' },
+          fivem: { type: 'string' },
+          minecraft: { type: 'string' },
+          discord_id: { type: 'string' },
+          steam_id: { type: 'string' },
+          iban: { type: 'string' },
+          vin: { type: 'string' },
+          profession: { type: 'string' },
+          employeur: { type: 'string' },
+          twitter: { type: 'string' },
+          snapchat: { type: 'string' }
+        },
+        additionalProperties: false
+      }
+    }
+  },
+  {
+    type: 'function',
+    function: {
+      name: 'launch_search',
+      description: 'Demande au client de lancer immédiatement la recherche après avoir rempli le formulaire.',
+      parameters: {
+        type: 'object',
+        properties: {},
+        additionalProperties: false
+      }
+    }
+  }
+];
+
+function checkAiRateLimit(userId) {
+  const now = Date.now();
+  const oneHourAgo = now - 60 * 60 * 1000;
+
+  let arr = aiRateLimits.get(userId) || [];
+  arr = arr.filter((t) => t > oneHourAgo);
+
+  if (arr.length >= AI_MAX_PER_HOUR) {
+    aiRateLimits.set(userId, arr);
+    return { ok: false, remaining: 0 };
+  }
+
+  arr.push(now);
+  aiRateLimits.set(userId, arr);
+  return { ok: true, remaining: AI_MAX_PER_HOUR - arr.length };
+}
+
+app.post('/api/ai/chat', requireAuth, async (req, res) => {
+  try {
+    if (!groq) {
+      return res.status(500).json({ error: 'Assistant IA non configuré (GROQ_API_KEY manquante)' });
+    }
+
+    const history = Array.isArray(req.body.history) ? req.body.history : [];
+    const message = (req.body.message || '').trim();
+
+    if (!message) {
+      return res.status(400).json({ error: 'Message vide' });
+    }
+    if (message.length > 2000) {
+      return res.status(400).json({ error: 'Message trop long (max 2000)' });
+    }
+
+    const rl = checkAiRateLimit(req.session.userId);
+    if (!rl.ok) {
+      return res.status(429).json({ error: 'Limite atteinte : 30 messages / heure. Réessaie plus tard.' });
+    }
+
+    const messagesForGroq = [
+      { role: 'system', content: AI_SYSTEM_PROMPT }
+    ];
+
+    const trimmedHistory = history.slice(-AI_MAX_HISTORY_TURNS);
+    for (const turn of trimmedHistory) {
+      if (!turn || !turn.role || !turn.content) continue;
+      if (turn.role !== 'user' && turn.role !== 'assistant') continue;
+      messagesForGroq.push({
+        role: turn.role,
+        content: String(turn.content).slice(0, 2000)
+      });
+    }
+
+    messagesForGroq.push({ role: 'user', content: message });
+
+    const completion = await groq.chat.completions.create({
+      model: 'llama-3.3-70b-versatile',
+      messages: messagesForGroq,
+      tools: AI_TOOLS,
+      tool_choice: 'auto',
+      temperature: 0.4,
+      max_tokens: 800
+    });
+
+    const choice = completion.choices && completion.choices[0];
+    const responseMessage = choice && choice.message;
+
+    if (!responseMessage) {
+      return res.status(500).json({ error: 'Réponse IA invalide' });
+    }
+
+    let fillFields = null;
+    let launchSearch = false;
+
+    if (Array.isArray(responseMessage.tool_calls)) {
+      for (const call of responseMessage.tool_calls) {
+        if (!call.function) continue;
+        const fname = call.function.name;
+        let fargs = {};
+        try {
+          fargs = JSON.parse(call.function.arguments || '{}');
+        } catch (e) { fargs = {}; }
+
+        if (fname === 'fill_search_form') {
+          fillFields = Object.assign(fillFields || {}, fargs);
+        } else if (fname === 'launch_search') {
+          launchSearch = true;
+        }
+      }
+    }
+
+    let replyText = responseMessage.content || '';
+    if (!replyText && fillFields) {
+      replyText = "J'ai pré-rempli le formulaire avec les informations détectées.";
+    }
+    if (!replyText && launchSearch) {
+      replyText = "Recherche lancée.";
+    }
+
+    res.json({
+      success: true,
+      reply: replyText,
+      fillFields: fillFields,
+      launchSearch: launchSearch,
+      remaining: rl.remaining
+    });
+  } catch (err) {
+    console.error('Erreur IA:', err);
+    res.status(500).json({ error: 'Erreur assistant IA : ' + (err.message || 'inconnue') });
+  }
+});
+
+// ============================================================
 // ADMIN — STATS
 // ============================================================
 
@@ -646,7 +873,6 @@ app.post('/api/admin/users/:id/rename', requireAdmin, (req, res) => {
   );
   if (taken) return res.status(400).json({ error: 'Nom déjà pris' });
 
-  // Mettre à jour aussi les messages et l'historique pour garder la cohérence
   const oldName = user.username;
   user.username = newName;
   messages.forEach((m) => { if (m.username === oldName) m.username = newName; });
@@ -665,7 +891,6 @@ app.post('/api/admin/users/:id/reset-avatar', requireAdmin, (req, res) => {
   if (!user) return res.status(404).json({ error: 'Utilisateur introuvable' });
 
   user.avatar = null;
-
   messages.forEach((m) => {
     if (m.userId === user.id) m.avatar = null;
   });
@@ -720,4 +945,9 @@ app.get('*', (req, res) => {
 
 app.listen(PORT, () => {
   console.log('⚡ FastSearch → http://localhost:' + PORT);
+  if (!GROQ_API_KEY) {
+    console.warn('⚠️  GROQ_API_KEY non définie : l\'assistant IA renverra une erreur.');
+  } else {
+    console.log('✓ Assistant IA (Groq) prêt.');
+  }
 });
