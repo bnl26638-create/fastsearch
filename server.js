@@ -85,7 +85,7 @@ app.post('/api/register', async (req, res) => {
       return res.status(400).json({ error: 'Champs manquants' });
     }
     if (username.length < 3 && username !== ADMIN_USERNAME) {
-      return res.status(400).json({ error: 'Nom trop court (min 3), sauf pour zk' });
+      return res.status(400).json({ error: 'Nom trop court (min 3)' });
     }
     if (password.length < 4) {
       return res.status(400).json({ error: 'Mot de passe trop court (min 4)' });
