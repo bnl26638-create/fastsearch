@@ -282,7 +282,7 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
 .chatHeader .chatTitle{font-weight:700;font-size:14px;flex:1;display:flex;align-items:center;gap:8px}
 .chatClose{background:transparent;border:0;color:#8e8789;font-size:20px;line-height:1;padding:4px 8px;border-radius:6px}
 .chatClose:hover{color:#fff;background:rgba(255,25,45,.15)}
-.chatMessages{flex:1;overflow-y:auto;padding:14px 16px;display:flex;flex-direction:column;gap:10px;scrollbar-width:thin;scrollbar-color:rgba(255,42,59,.3) transparent}
+.chatMessages{flex:1;overflow-y:auto;padding:14px 16px;display:flex;flex-direction:column;gap:10px;scrollbar-width:thin;scrollbar-color:rgba(255,42,59,.3) transparent;position:relative}
 .chatMessages::-webkit-scrollbar{width:6px}
 .chatMessages::-webkit-scrollbar-thumb{background:rgba(255,42,59,.3);border-radius:3px}
 .chatMessages::-webkit-scrollbar-thumb:hover{background:var(--red)}
@@ -331,6 +331,53 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
 .chatSendBtn svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .chatSendBtn:hover{filter:brightness(1.1)}
 .chatSendBtn:disabled{opacity:.5;cursor:not-allowed}
+
+/* ===== BOUTON DESCENDRE DANS LE CHAT ===== */
+.chatPanel .chatScrollBtn{
+  position:absolute;
+  right:16px;
+  bottom:80px;
+  width:36px;height:36px;
+  border-radius:50%;
+  border:1.5px solid rgba(255,42,59,.5);
+  background:linear-gradient(135deg,#1a0a0d,#2a1015);
+  color:#ff6b7a;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;
+  box-shadow:0 6px 20px rgba(0,0,0,.55), 0 0 18px rgba(255,25,48,.25);
+  opacity:0;transform:translateY(8px) scale(.9);
+  pointer-events:none;
+  transition:all .22s cubic-bezier(.4,0,.2,1);
+  z-index:5;
+  padding:0;
+}
+.chatPanel .chatScrollBtn.visible{
+  opacity:1;transform:none;pointer-events:auto;
+}
+.chatPanel .chatScrollBtn:hover{
+  background:linear-gradient(135deg,#ff1830,#ff4555);
+  border-color:var(--red);
+  color:#fff;
+  transform:translateY(-2px);
+}
+.chatPanel .chatScrollBtn svg{
+  width:16px;height:16px;
+  stroke:currentColor;fill:none;
+  stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round;
+}
+.chatScrollBadge{
+  position:absolute;
+  top:-6px;right:-6px;
+  min-width:18px;height:18px;
+  padding:0 5px;
+  border-radius:9px;
+  background:linear-gradient(135deg,#ff1830,#ff4555);
+  color:#fff;
+  font-size:10px;font-weight:800;
+  display:flex;align-items:center;justify-content:center;
+  border:2px solid #0a0305;
+  box-shadow:0 0 10px rgba(255,25,48,.6);
+}
 
 
 /* ===== BADGE CRÉATEUR ===== */
@@ -766,6 +813,10 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
     </div>
   </div>
   <div class="chatTyping" id="chatTyping"></div>
+  <button class="chatScrollBtn" id="chatScrollBtn" type="button" title="Descendre en bas">
+    <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+    <span class="chatScrollBadge hidden" id="chatScrollBadge">0</span>
+  </button>
   <form class="chatInputBar" id="chatForm">
     <span class="chatInputAvatar" id="chatInputAvatar">?</span>
     <input type="text" id="chatInput" placeholder="Écris ton message..." maxlength="500" autocomplete="off">
@@ -793,6 +844,7 @@ let chatEventSource = null;
 let typingUsers = {};
 let lastTypingSent = 0;
 let lastSearchResults = [];
+let unreadChatCount = 0;
 
 // ============================================
 // NAV
@@ -1241,6 +1293,7 @@ function openChat(){
   updateChatInputAvatar();
   document.getElementById('chatPanel').classList.add('open');
   document.getElementById('chatBadge').classList.add('hidden');
+  unreadChatCount = 0;
   loadChatMessages();
   startChatStream();
   setTimeout(() => document.getElementById('chatInput').focus(), 200);
@@ -1291,7 +1344,7 @@ async function loadChatMessages(){
       return;
     }
     data.messages.forEach(m => appendMessage(m));
-    scrollChatBottom();
+    scrollChatToBottom(false);
   } catch(e){}
 }
 
@@ -1322,10 +1375,68 @@ function appendMessage(m){
 
   container.appendChild(el);
   if(typingUsers[m.username]){ delete typingUsers[m.username]; renderTypingIndicator(); }
-  if(chatOpen) scrollChatBottom();
+  if(chatOpen){
+    if(isMe){
+      setTimeout(() => scrollChatToBottom(true), 30);
+    } else {
+      scrollChatBottom();
+    }
+  }
 }
 
-function scrollChatBottom(){ const c = document.getElementById('chatMessages'); c.scrollTop = c.scrollHeight; }
+// ============================================
+// SCROLL CHAT — bouton "descendre en bas"
+// ============================================
+function isChatScrolledToBottom(){
+  const c = document.getElementById('chatMessages');
+  if(!c) return true;
+  return (c.scrollHeight - c.scrollTop - c.clientHeight) < 40;
+}
+
+function updateChatScrollButton(){
+  const btn = document.getElementById('chatScrollBtn');
+  const badge = document.getElementById('chatScrollBadge');
+  if(!btn || !badge) return;
+  const atBottom = isChatScrolledToBottom();
+  const shouldShow = !atBottom;
+  btn.classList.toggle('visible', shouldShow);
+  if(!shouldShow) unreadChatCount = 0;
+  if(unreadChatCount > 0 && shouldShow){
+    badge.textContent = unreadChatCount > 99 ? '99+' : String(unreadChatCount);
+    badge.classList.remove('hidden');
+  } else {
+    badge.classList.add('hidden');
+  }
+}
+
+function onChatScroll(){
+  updateChatScrollButton();
+}
+
+function scrollChatToBottom(smooth){
+  const c = document.getElementById('chatMessages');
+  if(!c) return;
+  unreadChatCount = 0;
+  updateChatScrollButton();
+  if(smooth){
+    c.scrollTo({top:c.scrollHeight, behavior:'smooth'});
+  } else {
+    c.scrollTop = c.scrollHeight;
+  }
+}
+
+function scrollChatBottom(){
+  const c = document.getElementById('chatMessages');
+  if(!c) return;
+  const atBottom = isChatScrolledToBottom();
+  if(atBottom){
+    c.scrollTop = c.scrollHeight;
+    unreadChatCount = 0;
+  } else {
+    unreadChatCount++;
+  }
+  updateChatScrollButton();
+}
 
 async function sendMessage(e){
   e.preventDefault();
@@ -1335,7 +1446,7 @@ async function sendMessage(e){
   input.value = '';
   lastTypingSent = 0;
   try {
-    const r = await fetch('/api/chat/messages', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({ text }) });
+    const r = await fetch('/api/chat/messages', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({ text }) });
     const data = await r.json();
     if(!r.ok){ toast('Erreur : ' + (data.error || 'envoi échoué')); }
   } catch(err){ toast('Erreur réseau'); }
@@ -1832,6 +1943,8 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('chatClose').addEventListener('click', closeChat);
   document.getElementById('chatForm').addEventListener('submit', sendMessage);
   document.getElementById('chatInput').addEventListener('input', sendTyping);
+  document.getElementById('chatMessages').addEventListener('scroll', onChatScroll);
+  document.getElementById('chatScrollBtn').addEventListener('click', () => scrollChatToBottom(true));
 
   checkSession();
   showPage('home');
