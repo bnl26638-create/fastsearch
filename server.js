@@ -45,6 +45,7 @@ const MESSAGE_TTL = 24 * 60 * 60 * 1000;
 const MAX_MESSAGE_LENGTH = 500;
 const MAX_MESSAGES = 500;
 const MAX_SEARCH_HISTORY = 1000;
+const MAX_SEARCH_HISTORY_PER_USER = 30;
 
 const requireAuth = (req, res, next) => {
   if (!req.session.userId) {
@@ -286,7 +287,7 @@ app.get('/api/search', requireAuth, async (req, res) => {
 
     const result = await pool.query(sql, [search]);
 
-    // Enregistrer la recherche dans l'historique
+    // Enregistrer la recherche dans l'historique (global + perso)
     searchHistory.push({
       username: req.session.username,
       query: q,
@@ -294,10 +295,13 @@ app.get('/api/search', requireAuth, async (req, res) => {
       timestamp: Date.now()
     });
 
-    // Limiter la taille de l'historique
+    // Limiter la taille de l'historique global
     if (searchHistory.length > MAX_SEARCH_HISTORY) {
       searchHistory.shift();
     }
+
+    // Limiter à MAX_SEARCH_HISTORY_PER_USER entrées par utilisateur
+    trimUserHistory(req.session.username);
 
     res.json({
       results: result.rows,
@@ -308,6 +312,47 @@ app.get('/api/search', requireAuth, async (req, res) => {
     console.error('Erreur recherche:', err);
     res.status(500).json({ error: 'Erreur lors de la recherche' });
   }
+});
+
+// Ne garde que les N dernières recherches d'un utilisateur dans searchHistory
+function trimUserHistory(username) {
+  const userIndexes = [];
+  for (let i = 0; i < searchHistory.length; i++) {
+    if (searchHistory[i].username === username) userIndexes.push(i);
+  }
+  if (userIndexes.length <= MAX_SEARCH_HISTORY_PER_USER) return;
+
+  // Combien à supprimer ? (les plus anciens)
+  const toRemove = userIndexes.length - MAX_SEARCH_HISTORY_PER_USER;
+  const indexesToRemove = userIndexes.slice(0, toRemove);
+
+  // Supprimer en partant de la fin pour ne pas décaler les index
+  for (let i = indexesToRemove.length - 1; i >= 0; i--) {
+    searchHistory.splice(indexesToRemove[i], 1);
+  }
+}
+
+// ============================================================
+// MES RECHERCHES (historique perso de l'utilisateur connecté)
+// ============================================================
+
+app.get('/api/my-searches', requireAuth, (req, res) => {
+  const mine = searchHistory
+    .filter((h) => h.username === req.session.username)
+    .slice()
+    .reverse(); // plus récentes en premier
+
+  res.json({ searches: mine });
+});
+
+app.delete('/api/my-searches', requireAuth, (req, res) => {
+  // Supprime toutes les entrées de l'utilisateur connecté
+  for (let i = searchHistory.length - 1; i >= 0; i--) {
+    if (searchHistory[i].username === req.session.username) {
+      searchHistory.splice(i, 1);
+    }
+  }
+  res.json({ success: true });
 });
 
 // ============================================================
@@ -326,12 +371,10 @@ app.get('/api/stats', (req, res) => {
 // PRÉSENCE — compteur "en ligne" temps réel
 // ============================================================
 
-// Renvoie le nombre de visiteurs actuellement connectés au flux présence
 app.get('/api/presence', (req, res) => {
   res.json({ online: presenceClients.size });
 });
 
-// Diffuse le compte à tous les clients connectés au flux présence
 function broadcastOnlineCount() {
   const payload =
     'data: ' +
@@ -343,7 +386,6 @@ function broadcastOnlineCount() {
   }
 }
 
-// Ancien nom conservé pour compat (utilisé nulle part ailleurs mais au cas où)
 function broadcastPresence() {
   broadcastOnlineCount();
 }
@@ -358,13 +400,11 @@ app.get('/api/presence/stream', (req, res) => {
   const client = { res: res };
   presenceClients.add(client);
 
-  // Premier message : compte actuel (type: 'presence' ET 'online' pour compat)
   try {
     res.write('data: ' + JSON.stringify({ type: 'presence', count: presenceClients.size }) + '\n\n');
     res.write('data: ' + JSON.stringify({ type: 'online', count: presenceClients.size }) + '\n\n');
   } catch (e) {}
 
-  // Informe tout le monde du nouveau count
   broadcastOnlineCount();
 
   const hb = setInterval(() => {
@@ -374,7 +414,6 @@ app.get('/api/presence/stream', (req, res) => {
   req.on('close', () => {
     clearInterval(hb);
     presenceClients.delete(client);
-    // Informe tout le monde que quelqu'un est parti
     broadcastOnlineCount();
   });
 });
@@ -516,7 +555,6 @@ app.get('/api/admin/stats', requireAdmin, (req, res) => {
   const totalMessages = messages.length;
   const bannedUsers = users.filter((u) => u.banned).length;
 
-  // Recherche la plus fréquente
   const compteur = {};
   searchHistory.forEach((h) => {
     const key = h.query.toLowerCase();
@@ -608,7 +646,12 @@ app.post('/api/admin/users/:id/rename', requireAdmin, (req, res) => {
   );
   if (taken) return res.status(400).json({ error: 'Nom déjà pris' });
 
+  // Mettre à jour aussi les messages et l'historique pour garder la cohérence
+  const oldName = user.username;
   user.username = newName;
+  messages.forEach((m) => { if (m.username === oldName) m.username = newName; });
+  searchHistory.forEach((h) => { if (h.username === oldName) h.username = newName; });
+
   res.json({ success: true });
 });
 
@@ -623,7 +666,6 @@ app.post('/api/admin/users/:id/reset-avatar', requireAdmin, (req, res) => {
 
   user.avatar = null;
 
-  // Met à jour les messages en mémoire
   messages.forEach((m) => {
     if (m.userId === user.id) m.avatar = null;
   });
