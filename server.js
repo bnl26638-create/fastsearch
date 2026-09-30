@@ -716,7 +716,7 @@ app.post('/api/ai/chat', requireAuth, async (req, res) => {
     messagesForGroq.push({ role: 'user', content: message });
 
     const completion = await groq.chat.completions.create({
-      model: 'llama-3.3-70b-versatile',
+      model: 'openai/gpt-oss-120b',
       messages: messagesForGroq,
       tools: AI_TOOLS,
       tool_choice: 'auto',
