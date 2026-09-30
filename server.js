@@ -238,6 +238,12 @@ app.post('/api/avatar', requireAuth, (req, res) => {
   }
 
   user.avatar = dataUrl;
+
+  // Met à jour tous les messages existants de cet utilisateur
+  messages.forEach((m) => {
+    if (m.userId === user.id) m.avatar = dataUrl;
+  });
+
   res.json({ success: true });
 });
 
@@ -247,6 +253,9 @@ app.delete('/api/avatar', requireAuth, (req, res) => {
     return res.status(404).json({ error: 'Utilisateur introuvable' });
   }
   user.avatar = null;
+  messages.forEach((m) => {
+    if (m.userId === user.id) m.avatar = null;
+  });
   res.json({ success: true });
 });
 
@@ -436,13 +445,17 @@ app.get('/api/chat/messages', requireAuth, (req, res) => {
   cleanupMessages();
 
   res.json({
-    messages: messages.map((m) => ({
-      id: m.id,
-      username: m.username,
-      text: m.text,
-      createdAt: m.createdAt,
-      admin: isAdmin(m.username)
-    })),
+    messages: messages.map((m) => {
+      const u = users.find((x) => x.id === m.userId);
+      return {
+        id: m.id,
+        username: m.username,
+        text: m.text,
+        createdAt: m.createdAt,
+        admin: isAdmin(m.username),
+        avatar: u ? u.avatar : null
+      };
+    }),
     online: sseClients.size
   });
 });
@@ -457,13 +470,16 @@ app.post('/api/chat/messages', requireAuth, (req, res) => {
     return res.status(400).json({ error: 'Message trop long (max ' + MAX_MESSAGE_LENGTH + ')' });
   }
 
+  const me = users.find((u) => u.id === req.session.userId);
+
   const message = {
     id: Date.now() + '-' + Math.random().toString(36).slice(2, 8),
     userId: req.session.userId,
     username: req.session.username,
     text: text,
     createdAt: Date.now(),
-    admin: isAdmin(req.session.username)
+    admin: isAdmin(req.session.username),
+    avatar: me ? me.avatar : null
   };
 
   messages.push(message);
@@ -591,6 +607,12 @@ app.post('/api/admin/users/:id/reset-avatar', requireAdmin, (req, res) => {
   if (!user) return res.status(404).json({ error: 'Utilisateur introuvable' });
 
   user.avatar = null;
+
+  // Met à jour les messages en mémoire
+  messages.forEach((m) => {
+    if (m.userId === user.id) m.avatar = null;
+  });
+
   res.json({ success: true });
 });
 
