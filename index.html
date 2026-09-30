@@ -1193,8 +1193,43 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
   .footer{padding-bottom:96px;}
   .floatChat{bottom:88px;}
   .chatPanel{bottom:150px;height:min(520px, calc(100vh - 190px));}
-  .aiPage{height:calc(100vh - 60px - 110px);}
-  .aiPageInputBar{padding:12px 14px;}
+
+  /* ===== PAGE IA — Pleine hauteur sur mobile ===== */
+  #ai.page{
+    padding: 14px 12px 90px;
+  }
+  .aiPage{
+    height: calc(100vh - 130px) !important;
+    min-height: 0 !important;
+    border-radius: 16px;
+  }
+  .aiPageHead{padding:14px 16px;}
+  .aiPageHead .aiPageIcon{width:36px;height:36px;border-radius:10px;}
+  .aiPageHead .aiPageIcon svg{width:20px;height:20px;}
+  .aiPageHead .aiPageTitle{font-size:14px;}
+  .aiPageHead .aiPageSub{font-size:10px;}
+  .aiPageHead .aiPageLimit{font-size:10px;padding:4px 8px;}
+  .aiPageMessages{padding:16px;gap:12px;}
+  .aiMsgPage .aiBubblePage{max-width:92%;font-size:13.5px;padding:11px 14px;}
+  .aiResultCard{max-width:92%;font-size:10px;}
+  .aiPageInputBar{padding:12px 14px;gap:8px;}
+  .aiPageInputBar textarea{min-height:44px;font-size:14px;padding:11px 14px;}
+  .aiPageSendBtn{width:44px;height:44px;border-radius:11px;}
+  .aiPageSendBtn svg{width:18px;height:18px;}
+  .aiWelcomePage{padding:34px 14px;}
+  .aiWelcomePage .aiWelcomePageIcon{width:54px;height:54px;margin-bottom:14px;}
+  .aiWelcomePage .aiWelcomePageIcon svg{width:26px;height:26px;}
+  .aiWelcomePage .aiWelcomePageTitle{font-size:18px;margin-bottom:8px;}
+  .aiWelcomePage .aiWelcomePageSub{font-size:13px;margin-bottom:16px;}
+  .aiSuggestions{gap:8px;}
+  .aiSuggestion{font-size:12px;padding:8px 12px;}
+  .aiTypingPage{padding:0 16px 8px;font-size:11px;}
+  .aiLocked{margin:30px auto;padding:34px 22px;border-radius:18px;}
+  .aiLocked .aiLockedIcon{width:60px;height:60px;margin-bottom:18px;}
+  .aiLocked .aiLockedIcon svg{width:30px;height:30px;}
+  .aiLocked h2{font-size:22px;}
+  .aiLocked p{font-size:13px;margin-bottom:22px;}
+  .aiLocked .aiLockedBtn{padding:12px 22px;font-size:13px;}
 }
 </style>
 </head>
@@ -2086,7 +2121,6 @@ function escapeHtml(s){
   return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 }
 
-// ⚡ Convertit le markdown simple en HTML (gras, italique, code)
 function formatAiMessage(raw){
   const safe = String(raw == null ? '' : raw)
     .replace(/&/g, '&amp;')
@@ -2365,7 +2399,7 @@ async function sendAiPageMessage(e){
 }
 
 // ============================================
-// PAGE DISCORD — Recherche (pas encore dispo)
+// PAGE DISCORD
 // ============================================
 function initDiscordPage(){
   const input = document.getElementById('discordIdInput');
@@ -2386,7 +2420,6 @@ function initDiscordPage(){
       return;
     }
 
-    // Pas encore branché côté serveur
     toast('Service Discord pas disponible pour le moment');
   };
 
@@ -2394,7 +2427,6 @@ function initDiscordPage(){
   input.addEventListener('keydown', (e) => {
     if(e.key === 'Enter'){ e.preventDefault(); handler(); }
   });
-  // filtre : que des chiffres
   input.addEventListener('input', () => {
     input.value = input.value.replace(/\D/g, '').slice(0, 19);
   });
