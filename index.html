@@ -44,7 +44,6 @@ svg{display:block;flex-shrink:0}
   font-family:ui-monospace,monospace;
   letter-spacing:.4px;
   white-space:nowrap;
-  transition:border-color .2s ease, background .2s ease;
 }
 .onlineBadge .onlineDot{
   width:7px;height:7px;border-radius:50%;
@@ -57,6 +56,18 @@ svg{display:block;flex-shrink:0}
   50%{opacity:.5;transform:scale(.85)}
 }
 .onlineBadge .onlineLabel{color:rgba(45,240,174,.75);font-weight:600}
+
+/* ===== BADGE PRO (nav) ===== */
+.navProBadge{
+  display:inline-flex;align-items:center;gap:4px;
+  padding:2px 6px;margin-left:4px;
+  border-radius:6px;
+  background:rgba(168,85,247,.2);
+  border:1px solid rgba(168,85,247,.6);
+  color:#c4b5fd;
+  font-size:9px;font-weight:900;letter-spacing:.7px;
+  line-height:1;text-transform:uppercase;
+}
 
 main{padding-top:60px}
 .page{min-height:calc(100vh - 60px);padding:52px 7vw 70px}
@@ -374,7 +385,267 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
   color:#fff;
 }
 
-/* ===== CHAT FLOTTANT ===== */
+/* ===== PAGE ASSISTANT IA ===== */
+.aiPage{
+  max-width:980px;
+  margin:0 auto;
+  display:flex;
+  flex-direction:column;
+  height:calc(100vh - 60px - 130px);
+  min-height:520px;
+  background:linear-gradient(180deg,rgba(20,8,25,.92),rgba(10,3,15,.95));
+  border:1px solid rgba(168,85,247,.35);
+  border-radius:22px;
+  overflow:hidden;
+  box-shadow:0 30px 80px rgba(0,0,0,.6),0 0 60px rgba(168,85,247,.12);
+}
+.aiPageHead{
+  display:flex;align-items:center;gap:12px;
+  padding:18px 22px;
+  border-bottom:1px solid rgba(168,85,247,.2);
+  background:rgba(0,0,0,.35);
+}
+.aiPageHead .aiPageIcon{
+  width:40px;height:40px;
+  border-radius:12px;
+  background:linear-gradient(135deg,#7c3aed,#a855f7);
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 0 20px rgba(168,85,247,.5);
+  flex-shrink:0;
+}
+.aiPageHead .aiPageIcon svg{
+  width:22px;height:22px;
+  stroke:#fff;fill:none;stroke-width:2;
+  stroke-linecap:round;stroke-linejoin:round;
+}
+.aiPageHead .aiPageTitle{
+  font-size:16px;font-weight:800;
+  background:linear-gradient(90deg,#c4b5fd,#a855f7);
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+}
+.aiPageHead .aiPageSub{
+  font-size:11px;color:#a89cb2;margin-top:2px;
+  -webkit-text-fill-color:initial;
+}
+.aiPageHead .aiPageLimit{
+  margin-left:auto;
+  font-family:ui-monospace,monospace;
+  font-size:11px;
+  color:#c4b5fd;
+  padding:5px 10px;
+  border-radius:20px;
+  border:1px solid rgba(168,85,247,.4);
+  background:rgba(168,85,247,.1);
+  white-space:nowrap;
+}
+.aiPageMessages{
+  flex:1;
+  overflow-y:auto;
+  padding:22px;
+  display:flex;flex-direction:column;gap:14px;
+  scrollbar-width:thin;
+  scrollbar-color:rgba(168,85,247,.3) transparent;
+}
+.aiPageMessages::-webkit-scrollbar{width:6px}
+.aiPageMessages::-webkit-scrollbar-thumb{background:rgba(168,85,247,.3);border-radius:3px}
+.aiPageMessages::-webkit-scrollbar-thumb:hover{background:#a855f7}
+.aiWelcomePage{
+  text-align:center;
+  padding:50px 20px;
+  color:#a89cb2;
+}
+.aiWelcomePage .aiWelcomePageIcon{
+  width:64px;height:64px;
+  margin:0 auto 18px;
+  border-radius:18px;
+  background:linear-gradient(135deg,#7c3aed,#a855f7);
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 0 35px rgba(168,85,247,.5);
+}
+.aiWelcomePage .aiWelcomePageIcon svg{
+  width:32px;height:32px;
+  stroke:#fff;fill:none;stroke-width:2;
+  stroke-linecap:round;stroke-linejoin:round;
+}
+.aiWelcomePage .aiWelcomePageTitle{
+  font-size:22px;font-weight:800;
+  color:#fff;margin-bottom:10px;
+}
+.aiWelcomePage .aiWelcomePageSub{
+  font-size:14px;color:#a89cb2;line-height:1.6;
+  max-width:520px;margin:0 auto 22px;
+}
+.aiSuggestions{
+  display:flex;flex-wrap:wrap;gap:10px;justify-content:center;
+  max-width:600px;margin:0 auto;
+}
+.aiSuggestion{
+  background:rgba(168,85,247,.1);
+  border:1px solid rgba(168,85,247,.3);
+  color:#c4b5fd;
+  padding:10px 16px;
+  border-radius:20px;
+  font-size:13px;
+  cursor:pointer;
+  transition:all .15s;
+  font-family:inherit;
+}
+.aiSuggestion:hover{
+  background:rgba(168,85,247,.2);
+  border-color:#a855f7;
+  color:#fff;
+  transform:translateY(-1px);
+}
+.aiMsgPage{
+  display:flex;flex-direction:column;gap:5px;
+  animation:fadeIn .25s ease;
+  max-width:100%;
+}
+.aiMsgPage.user{align-items:flex-end}
+.aiMsgPage.assistant{align-items:flex-start}
+.aiMsgPage .aiMetaPage{
+  font-size:10px;
+  color:#8e8789;
+  font-family:ui-monospace,monospace;
+  padding:0 8px;
+}
+.aiMsgPage .aiBubblePage{
+  padding:12px 16px;
+  border-radius:14px;
+  font-size:14px;
+  line-height:1.6;
+  white-space:pre-wrap;
+  word-wrap:break-word;
+  max-width:82%;
+}
+.aiMsgPage.user .aiBubblePage{
+  background:linear-gradient(135deg,#7c3aed,#a855f7);
+  color:#fff;
+  border-bottom-right-radius:4px;
+}
+.aiMsgPage.assistant .aiBubblePage{
+  background:rgba(168,85,247,.08);
+  border:1px solid rgba(168,85,247,.22);
+  color:#e5e2e3;
+  border-bottom-left-radius:4px;
+}
+.aiResultCard{
+  margin-top:10px;
+  background:rgba(10,3,15,.6);
+  border:1px solid rgba(168,85,247,.25);
+  border-radius:10px;
+  padding:10px 14px;
+  font-family:ui-monospace,monospace;
+  font-size:11px;
+  color:#a89cb2;
+  max-width:82%;
+}
+.aiResultCard .aiResultCount{color:#c4b5fd;font-weight:700}
+.aiTypingPage{
+  padding:0 22px 10px;
+  font-size:12px;
+  color:#a89cb2;
+  font-style:italic;
+  font-family:ui-monospace,monospace;
+  min-height:18px;
+}
+.aiTypingPage .aiDotsPage::after{
+  content:'';
+  animation:aiDotsPage 1.4s steps(4, end) infinite;
+}
+@keyframes aiDotsPage{
+  0%{content:''}
+  25%{content:'.'}
+  50%{content:'..'}
+  75%{content:'...'}
+}
+.aiPageInputBar{
+  display:flex;gap:10px;
+  padding:16px 22px;
+  border-top:1px solid rgba(168,85,247,.2);
+  background:rgba(0,0,0,.35);
+  align-items:flex-end;
+}
+.aiPageInputBar textarea{
+  flex:1;
+  padding:13px 16px;
+  background:#0a0410;
+  border:1px solid #2a1040;
+  border-radius:12px;
+  color:#fff;
+  font-size:14px;
+  font-family:inherit;
+  outline:none;
+  resize:none;
+  min-height:48px;
+  max-height:140px;
+  line-height:1.45;
+}
+.aiPageInputBar textarea:focus{border-color:#a855f7;box-shadow:0 0 0 3px rgba(168,85,247,.15)}
+.aiPageInputBar textarea::placeholder{color:#5c4a6b}
+.aiPageSendBtn{
+  width:48px;height:48px;
+  border:0;border-radius:12px;
+  background:linear-gradient(135deg,#7c3aed,#a855f7);
+  color:#fff;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  transition:all .15s;
+  flex-shrink:0;
+}
+.aiPageSendBtn svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.aiPageSendBtn:hover{filter:brightness(1.1);transform:translateY(-1px)}
+.aiPageSendBtn:disabled{opacity:.5;cursor:not-allowed;transform:none}
+
+/* Écran "réservé PRO" */
+.aiLocked{
+  max-width:560px;
+  margin:60px auto;
+  padding:48px 36px;
+  background:linear-gradient(180deg,rgba(20,8,25,.92),rgba(10,3,15,.95));
+  border:1px solid rgba(168,85,247,.35);
+  border-radius:22px;
+  text-align:center;
+  box-shadow:0 30px 80px rgba(0,0,0,.6),0 0 60px rgba(168,85,247,.12);
+}
+.aiLocked .aiLockedIcon{
+  width:72px;height:72px;
+  margin:0 auto 22px;
+  border-radius:20px;
+  background:linear-gradient(135deg,#7c3aed,#a855f7);
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 0 40px rgba(168,85,247,.5);
+}
+.aiLocked .aiLockedIcon svg{
+  width:36px;height:36px;
+  stroke:#fff;fill:none;stroke-width:2;
+  stroke-linecap:round;stroke-linejoin:round;
+}
+.aiLocked h2{
+  margin:0 0 12px;
+  font-size:26px;
+  background:linear-gradient(90deg,#c4b5fd,#a855f7);
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+}
+.aiLocked p{
+  color:#a89cb2;
+  font-size:14px;
+  line-height:1.7;
+  margin:0 0 28px;
+}
+.aiLocked .aiLockedBtn{
+  background:linear-gradient(135deg,#7c3aed,#a855f7);
+  border:0;color:#fff;
+  padding:14px 28px;
+  border-radius:12px;
+  font-size:14px;font-weight:800;
+  cursor:pointer;
+  box-shadow:0 10px 30px rgba(168,85,247,.35);
+  font-family:inherit;
+  transition:all .15s;
+}
+.aiLocked .aiLockedBtn:hover{transform:translateY(-2px);filter:brightness(1.1)}
+
+/* ===== CHAT PUBLIC ===== */
 .floatChat{position:fixed;right:24px;bottom:24px;width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,var(--red),#ff4555);border:0;color:#fff;cursor:pointer;box-shadow:0 8px 30px rgba(255,25,48,.5);z-index:30;transition:transform .2s;display:flex;align-items:center;justify-content:center}
 .floatChat svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .floatChat:hover{transform:scale(1.1)}
@@ -496,197 +767,6 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
   box-shadow:0 0 10px rgba(255,25,48,.6);
 }
 
-/* ===== ASSISTANT IA — BOUTON FLOTTANT ===== */
-.floatAI{
-  position:fixed;left:24px;bottom:24px;width:56px;height:56px;border-radius:50%;
-  background:linear-gradient(135deg,#7c3aed,#a855f7);
-  border:0;color:#fff;cursor:pointer;
-  box-shadow:0 8px 30px rgba(168,85,247,.5);
-  z-index:30;transition:transform .2s;
-  display:flex;align-items:center;justify-content:center;
-}
-.floatAI svg{width:24px;height:24px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-.floatAI:hover{transform:scale(1.1)}
-
-/* ===== ASSISTANT IA — PANNEAU ===== */
-.aiPanel{
-  position:fixed;left:24px;bottom:92px;
-  width:400px;max-width:calc(100vw - 48px);
-  height:min(600px, calc(100vh - 130px));
-  background:linear-gradient(180deg,rgba(20,8,25,.98),rgba(10,3,15,.98));
-  border:1px solid rgba(168,85,247,.4);border-radius:18px;
-  box-shadow:0 30px 80px rgba(0,0,0,.7),0 0 60px rgba(168,85,247,.18);
-  z-index:40;display:flex;flex-direction:column;overflow:hidden;
-  transform:translateY(20px) scale(.96);opacity:0;pointer-events:none;
-  transition:all .25s cubic-bezier(.4,0,.2,1);
-}
-.aiPanel.open{transform:none;opacity:1;pointer-events:auto}
-.aiHeader{
-  display:flex;align-items:center;gap:10px;
-  padding:14px 16px;
-  border-bottom:1px solid rgba(168,85,247,.2);
-  background:rgba(0,0,0,.35);
-}
-.aiHeader .aiTitle{
-  font-weight:800;font-size:14px;flex:1;
-  display:flex;align-items:center;gap:8px;
-  background:linear-gradient(90deg,#c4b5fd,#a855f7);
-  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
-}
-.aiHeader .aiTitle svg{
-  color:#a855f7;
-  filter:drop-shadow(0 0 6px rgba(168,85,247,.6));
-  -webkit-text-fill-color:initial;
-}
-.aiHeader .aiLimit{
-  font-family:ui-monospace,monospace;
-  font-size:10px;
-  color:#8e8789;
-  padding:3px 8px;
-  border-radius:20px;
-  border:1px solid rgba(168,85,247,.3);
-  background:rgba(168,85,247,.08);
-}
-.aiClose{background:transparent;border:0;color:#8e8789;font-size:20px;line-height:1;padding:4px 8px;border-radius:6px}
-.aiClose:hover{color:#fff;background:rgba(168,85,247,.2)}
-.aiMessages{
-  flex:1;overflow-y:auto;
-  padding:14px 16px;
-  display:flex;flex-direction:column;gap:10px;
-  scrollbar-width:thin;scrollbar-color:rgba(168,85,247,.3) transparent;
-}
-.aiMessages::-webkit-scrollbar{width:6px}
-.aiMessages::-webkit-scrollbar-thumb{background:rgba(168,85,247,.3);border-radius:3px}
-.aiMessages::-webkit-scrollbar-thumb:hover{background:#a855f7}
-.aiWelcome{
-  text-align:center;
-  padding:30px 20px;
-  color:#a89cb2;
-  font-size:13px;
-  line-height:1.6;
-}
-.aiWelcome .aiWelcomeIcon{
-  width:48px;height:48px;
-  margin:0 auto 14px;
-  border-radius:14px;
-  background:linear-gradient(135deg,#7c3aed,#a855f7);
-  display:flex;align-items:center;justify-content:center;
-  box-shadow:0 0 25px rgba(168,85,247,.5);
-}
-.aiWelcome .aiWelcomeIcon svg{
-  width:26px;height:26px;
-  stroke:#fff;fill:none;stroke-width:2;
-  stroke-linecap:round;stroke-linejoin:round;
-}
-.aiWelcome .aiWelcomeTitle{
-  font-size:15px;font-weight:800;
-  color:#e5e2e3;margin-bottom:8px;
-}
-.aiWelcome .aiWelcomeHint{
-  font-size:12px;
-  color:#8e8789;
-  font-family:ui-monospace,monospace;
-}
-.aiMsg{
-  display:flex;flex-direction:column;gap:3px;
-  animation:fadeIn .25s ease;
-  max-width:100%;
-}
-.aiMsg.user{align-items:flex-end}
-.aiMsg.assistant{align-items:flex-start}
-.aiMsg .aiMeta{
-  font-size:10px;
-  color:#8e8789;
-  font-family:ui-monospace,monospace;
-  padding:0 6px;
-}
-.aiMsg .aiBubble{
-  padding:10px 13px;
-  border-radius:12px;
-  font-size:13px;
-  line-height:1.5;
-  white-space:pre-wrap;
-  word-wrap:break-word;
-  max-width:90%;
-}
-.aiMsg.user .aiBubble{
-  background:linear-gradient(135deg,#7c3aed,#a855f7);
-  color:#fff;
-  border-bottom-right-radius:4px;
-}
-.aiMsg.assistant .aiBubble{
-  background:rgba(168,85,247,.1);
-  border:1px solid rgba(168,85,247,.25);
-  color:#e5e2e3;
-  border-bottom-left-radius:4px;
-}
-.aiMsg .aiToolBadge{
-  display:inline-flex;align-items:center;gap:5px;
-  margin-top:6px;
-  padding:3px 8px;
-  border-radius:8px;
-  background:rgba(45,240,174,.1);
-  border:1px solid rgba(45,240,174,.35);
-  color:#2df0ae;
-  font-size:10px;
-  font-family:ui-monospace,monospace;
-  font-weight:700;
-}
-.aiTyping{
-  padding:0 16px 6px;
-  font-size:11px;
-  color:#a89cb2;
-  font-style:italic;
-  font-family:ui-monospace,monospace;
-  min-height:16px;
-}
-.aiTyping .aiDots::after{
-  content:'';
-  animation:aiDots 1.4s steps(4, end) infinite;
-}
-@keyframes aiDots{
-  0%{content:''}
-  25%{content:'.'}
-  50%{content:'..'}
-  75%{content:'...'}
-}
-.aiInputBar{
-  display:flex;gap:8px;
-  padding:12px 14px;
-  border-top:1px solid rgba(168,85,247,.2);
-  background:rgba(0,0,0,.35);
-  align-items:center;
-}
-.aiInputBar textarea{
-  flex:1;
-  padding:11px 14px;
-  background:#0a0410;
-  border:1px solid #2a1040;
-  border-radius:10px;
-  color:#fff;
-  font-size:13px;
-  font-family:inherit;
-  outline:none;
-  resize:none;
-  min-height:40px;
-  max-height:120px;
-  line-height:1.4;
-}
-.aiInputBar textarea:focus{border-color:#a855f7;box-shadow:0 0 0 3px rgba(168,85,247,.15)}
-.aiInputBar textarea::placeholder{color:#5c4a6b}
-.aiSendBtn{
-  width:44px;height:40px;
-  border:0;border-radius:10px;
-  background:linear-gradient(135deg,#7c3aed,#a855f7);
-  color:#fff;cursor:pointer;
-  display:flex;align-items:center;justify-content:center;
-  transition:all .15s;
-  flex-shrink:0;
-}
-.aiSendBtn svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-.aiSendBtn:hover{filter:brightness(1.1)}
-.aiSendBtn:disabled{opacity:.5;cursor:not-allowed}
-
 /* ===== BADGE CRÉATEUR ===== */
 .creator-badge{
   display:inline-flex;align-items:center;gap:4px;
@@ -697,6 +777,17 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
   font-size:9px;font-weight:900;letter-spacing:.7px;
   line-height:1;text-transform:uppercase;
   box-shadow:0 0 10px rgba(255,215,0,.18);
+  white-space:nowrap;
+}
+.pro-badge{
+  display:inline-flex;align-items:center;gap:3px;
+  padding:3px 7px;border-radius:999px;
+  background:rgba(168,85,247,.15);
+  border:1px solid rgba(168,85,247,.65);
+  color:#c4b5fd;
+  font-size:9px;font-weight:900;letter-spacing:.7px;
+  line-height:1;text-transform:uppercase;
+  box-shadow:0 0 10px rgba(168,85,247,.2);
   white-space:nowrap;
 }
 .chatMsg .creator-badge{font-size:8px;padding:3px 6px;letter-spacing:.45px}
@@ -724,28 +815,33 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
 .adminSectionHead{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:15px}
 .adminSection h3{margin:0;font-size:16px;display:flex;align-items:center;gap:9px}
 .adminSectionSub{margin:4px 0 0;color:#777072;font-size:11px}
-.adminStats{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:11px}
+.adminStats{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:11px}
 .adminStat{position:relative;overflow:hidden;background:rgba(20,8,10,.58);border:1px solid rgba(255,42,59,.14);border-radius:14px;padding:16px}
 .adminStat:after{content:"";position:absolute;left:0;right:0;bottom:0;height:2px;background:linear-gradient(90deg,transparent,rgba(255,42,59,.7),transparent);opacity:.7}
+.adminStat.pro:after{background:linear-gradient(90deg,transparent,rgba(168,85,247,.8),transparent)}
 .adminStat .label{font-family:ui-monospace,monospace;font-size:9px;color:#777072;letter-spacing:1.4px;text-transform:uppercase}
 .adminStat .value{font-size:27px;font-weight:900;color:#fff;margin-top:8px;word-break:break-word}
 .adminStat.top .value{font-size:15px;color:#ff7a87;line-height:1.35}
+.adminStat.pro .value{color:#c4b5fd}
 .adminToolbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}
 .adminSearchBox{display:flex;align-items:center;gap:8px;flex:1;max-width:420px}
 .adminSearchBox input{width:100%;padding:11px 13px;background:#090506;border:1px solid #32151a;border-radius:10px;color:#fff;outline:none}
 .adminSearchBox input:focus{border-color:rgba(255,42,59,.65);box-shadow:0 0 0 3px rgba(255,30,50,.08)}
 .adminTableWrap{overflow:auto;border:1px solid rgba(255,42,59,.12);border-radius:13px;background:rgba(4,2,3,.25)}
-.adminTable{width:100%;border-collapse:collapse;min-width:790px}
+.adminTable{width:100%;border-collapse:collapse;min-width:880px}
 .adminTable th,.adminTable td{padding:12px 13px;border-bottom:1px solid rgba(255,42,59,.08);text-align:left;font-size:12px;vertical-align:middle}
 .adminTable th{background:rgba(255,25,45,.055);color:#81797b;font-family:ui-monospace,monospace;font-size:9px;letter-spacing:1.2px;text-transform:uppercase;position:sticky;top:0;z-index:1}
 .adminTable td{color:#e5e2e3}.adminTable tr:hover td{background:rgba(255,25,45,.025)}.adminTable tr:last-child td{border-bottom:0}
 .adminTable .mono{font-family:ui-monospace,monospace}.adminTable .userCell{font-weight:800;color:#fff}.adminTable .userCell .creator-badge{margin-left:6px;vertical-align:middle}
+.adminTable .userCell .pro-badge{margin-left:6px;vertical-align:middle}
 .adminTable .statusBadge{display:inline-flex;padding:4px 8px;border-radius:999px;font-size:9px;font-weight:800;letter-spacing:.7px;text-transform:uppercase}
 .adminTable .statusBadge.ok{background:rgba(45,240,174,.08);border:1px solid rgba(45,240,174,.25);color:var(--green)}
 .adminTable .statusBadge.banned{background:rgba(255,25,45,.1);border:1px solid rgba(255,42,59,.3);color:#ff6b7a}
+.adminTable .statusBadge.pro{background:rgba(168,85,247,.12);border:1px solid rgba(168,85,247,.35);color:#c4b5fd}
 .adminActions{display:flex;flex-wrap:wrap;gap:6px}.adminBtn{border:1px solid #32151a;background:#0b0506;color:#d8d3d4;border-radius:8px;padding:7px 9px;font-size:10px;font-weight:800;white-space:nowrap;transition:.15s}
 .adminBtn:hover{border-color:#65303a;background:rgba(255,25,45,.09);color:#fff;transform:translateY(-1px)}
-.adminBtn.warn{color:#ffd52a;border-color:rgba(255,213,42,.25)}.adminBtn.green{color:var(--green);border-color:rgba(45,240,174,.25)}.adminBtn.danger{color:#ff6b7a;border-color:rgba(255,42,59,.3)}.adminBtn.blue{color:#54a7ff;border-color:rgba(84,167,255,.25)}
+.adminBtn.warn{color:#ffd52a;border-color:rgba(255,213,42,.25)}.adminBtn.green{color:var(--green);border-color:rgba(45,240,174,.25)}.adminBtn.danger{color:#ff6b7a;border-color:rgba(255,42,59,.3)}.adminBtn.blue{color:#54a7ff;border-color:rgba(84,167,255,.25)}.adminBtn.purple{color:#c4b5fd;border-color:rgba(168,85,247,.4)}
+.adminBtn.purple:hover{background:rgba(168,85,247,.15);border-color:#a855f7;color:#fff}
 .adminEmpty{text-align:center;color:#6f6769;padding:30px;font-size:13px}.adminDangerRow{display:flex;align-items:center;justify-content:space-between;gap:15px;padding:16px;border:1px solid rgba(255,42,59,.18);background:rgba(255,25,45,.035);border-radius:13px}.adminDangerRow p{margin:0;color:#aaa;font-size:12px;line-height:1.5}.adminClearChat{background:linear-gradient(135deg,#8f1020,#d61d34);color:#fff;border:0;border-radius:10px;padding:11px 16px;font-weight:800;white-space:nowrap}.adminClearChat:hover{filter:brightness(1.1);transform:translateY(-1px)}
 @media(max-width:1050px){.adminStats{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media(max-width:650px){.adminHero{padding:22px}.adminHeroInner{align-items:flex-start;flex-direction:column}.adminStats{grid-template-columns:repeat(2,minmax(0,1fr))}.adminStat .value{font-size:23px}.adminDangerRow{align-items:flex-start;flex-direction:column}.adminClearChat{width:100%}.adminToolbar{align-items:stretch;flex-direction:column}.adminSearchBox{max-width:none}}
@@ -772,6 +868,7 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
 .userDropdown .uhead{padding:12px 14px;border-bottom:1px solid var(--line);margin-bottom:6px}
 .userDropdown .uhead .uname{font-weight:800;font-size:14px;color:#fff;display:flex;align-items:center;gap:8px}
 .userDropdown .uhead .uplan{display:inline-block;margin-top:6px;font-size:9px;font-weight:800;letter-spacing:1.5px;padding:3px 8px;border-radius:20px;background:rgba(255,42,59,.15);color:#ff6b7a;border:1px solid rgba(255,42,59,.4);text-transform:uppercase}
+.userDropdown .uhead .uplan.pro{background:rgba(168,85,247,.15);color:#c4b5fd;border-color:rgba(168,85,247,.5)}
 .userDropdown button{display:flex;width:100%;align-items:center;gap:10px;padding:10px 14px;border-radius:8px;background:transparent;border:0;color:#d9d4d6;font-size:13px;font-weight:500;cursor:pointer;font-family:inherit;text-align:left}
 .userDropdown button:hover{background:rgba(255,25,45,.1);color:#fff}
 .userDropdown button svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
@@ -786,13 +883,13 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
 .profilPhotoBtn{position:absolute;bottom:-2px;right:-2px;width:30px;height:30px;border-radius:50%;border:2px solid #0a0507;background:linear-gradient(135deg,var(--red),#ff4555);color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0;transition:transform .15s}
 .profilPhotoBtn:hover{transform:scale(1.1)}
 .profilPhotoBtn svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-.profilInfo h2{margin:0 0 6px;font-size:24px;color:#fff}
+.profilInfo h2{margin:0 0 6px;font-size:24px;color:#fff;display:flex;align-items:center;gap:10px}
 .profilInfo p{margin:0;color:var(--muted);font-size:13px}
 .profilGrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-bottom:24px}
 .profilCard{background:rgba(15,5,7,.6);border:1px solid var(--line);border-radius:12px;padding:18px}
 .profilCard .label{font-family:ui-monospace,monospace;font-size:10px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-bottom:8px}
 .profilCard .value{font-size:16px;font-weight:700;color:#fff}
-.profilCard .value.pro{color:#ff6b7a}
+.profilCard .value.pro{color:#c4b5fd}
 
 @media(max-width:700px){.accInner{grid-template-columns:1fr}.advFooter{flex-wrap:wrap}.btnSearch{flex:1}}
 @media(max-width:560px){
@@ -801,7 +898,6 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
   .actions{width:100%}
   .bigbtn{width:100%}
   .chatPanel{right:12px;bottom:88px;width:calc(100vw - 24px)}
-  .aiPanel{left:12px;bottom:88px;width:calc(100vw - 24px)}
   .pill{font-size:11px;padding:8px 14px;gap:6px}
   .onlineBadge{padding:5px 9px;font-size:11px;gap:5px}
   .onlineBadge .onlineLabel{display:none}
@@ -847,7 +943,7 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
     border-radius:14px;
     color:#8a8285;
     text-decoration:none;
-    font-size:11px;
+    font-size:10px;
     font-weight:600;
     cursor:pointer;
     transition:color .2s ease, background .2s ease;
@@ -855,7 +951,7 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
     min-width:0;
   }
   .bottomNav button svg{
-    width:24px;height:24px;
+    width:22px;height:22px;
     stroke:currentColor;fill:none;
     stroke-width:2;stroke-linecap:round;stroke-linejoin:round;
     transition:color .2s ease, filter .2s ease;
@@ -881,17 +977,28 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
     position:absolute;
     bottom:2px;left:50%;
     transform:translateX(-50%);
-    width:26px;height:2.5px;
+    width:22px;height:2.5px;
     border-radius:2px;
     background:#ff4b59;
     box-shadow:0 0 10px rgba(255,75,89,.8);
   }
+  .bottomNav button.aiBtn.active{
+    color:#c4b5fd;
+  }
+  .bottomNav button.aiBtn.active svg{
+    color:#c4b5fd;
+    filter:drop-shadow(0 0 10px rgba(196,181,253,.65));
+  }
+  .bottomNav button.aiBtn.active::after{
+    background:#c4b5fd;
+    box-shadow:0 0 10px rgba(196,181,253,.8);
+  }
   main{padding-bottom:80px;}
   .footer{padding-bottom:96px;}
   .floatChat{bottom:88px;}
-  .floatAI{bottom:88px;left:12px;}
   .chatPanel{bottom:150px;height:min(520px, calc(100vh - 190px));}
-  .aiPanel{bottom:150px;height:min(520px, calc(100vh - 190px));}
+  .aiPage{height:calc(100vh - 60px - 110px);}
+  .aiPageInputBar{padding:12px 14px;}
 }
 </style>
 </head>
@@ -913,6 +1020,11 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
     <button data-page="advsearch">
       <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
       Recherche
+    </button>
+    <button data-page="ai" class="aiNavBtn">
+      <svg viewBox="0 0 24 24"><path d="M12 2l2 7h7l-5.5 4.5L17 21l-5-4-5 4 1.5-7.5L3 9h7z"/></svg>
+      Assistant IA
+      <span class="navProBadge">PRO</span>
     </button>
     <button data-page="delete">
       <svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
@@ -983,9 +1095,13 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
     <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
     <span>Recherche</span>
   </button>
+  <button data-page="ai" class="aiBtn" type="button">
+    <svg viewBox="0 0 24 24"><path d="M12 2l2 7h7l-5.5 4.5L17 21l-5-4-5 4 1.5-7.5L3 9h7z"/></svg>
+    <span>IA</span>
+  </button>
   <button data-page="delete" type="button">
     <svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
-    <span>Suppression</span>
+    <span>Suppr.</span>
   </button>
   <button data-page="shop" type="button">
     <svg viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
@@ -1112,6 +1228,11 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
   <div id="advResults" class="resultsWrap"></div>
 </section>
 
+<!-- ================= ASSISTANT IA ================= -->
+<section id="ai" class="page hidden">
+  <div id="aiContent"></div>
+</section>
+
 <!-- ================= AUTH ================= -->
 <section id="auth" class="page hidden">
   <div class="authWrap">
@@ -1158,25 +1279,26 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
     </div>
 
     <div class="adminSection">
-      <div class="adminSectionHead"><div><h3>📊 Statistiques</h3><p class="adminSectionSub">Vue d’ensemble de l’activité.</p></div></div>
+      <div class="adminSectionHead"><div><h3>📊 Statistiques</h3><p class="adminSectionSub">Vue d'ensemble de l'activité.</p></div></div>
       <div class="adminStats">
         <div class="adminStat"><div class="label">Utilisateurs</div><div class="value" id="adminStatUsers">—</div></div>
         <div class="adminStat"><div class="label">Recherches</div><div class="value" id="adminStatSearches">—</div></div>
         <div class="adminStat"><div class="label">Messages</div><div class="value" id="adminStatMessages">—</div></div>
         <div class="adminStat"><div class="label">Bannis</div><div class="value" id="adminStatBanned">—</div></div>
+        <div class="adminStat pro"><div class="label">PRO</div><div class="value" id="adminStatPro">—</div></div>
         <div class="adminStat top"><div class="label">Top recherche</div><div class="value" id="adminStatTopSearch">—</div></div>
       </div>
     </div>
 
     <div class="adminSection">
-      <div class="adminSectionHead"><div><h3>👥 Comptes utilisateurs</h3><p class="adminSectionSub">Bannir, renommer, réinitialiser ou supprimer un compte.</p></div></div>
+      <div class="adminSectionHead"><div><h3>👥 Comptes utilisateurs</h3><p class="adminSectionSub">Bannir, renommer, PRO, réinitialiser ou supprimer un compte.</p></div></div>
       <div class="adminToolbar"><div class="adminSearchBox">
         <input id="adminUserFilter" type="search" placeholder="Rechercher un pseudo…" autocomplete="off">
       </div></div>
       <div class="adminTableWrap">
         <table class="adminTable">
-          <thead><tr><th>Utilisateur</th><th>Inscription</th><th>Statut</th><th>Avatar</th><th>Actions</th></tr></thead>
-          <tbody id="adminUsersBody"><tr><td colspan="5" class="adminEmpty">Chargement…</td></tr></tbody>
+          <thead><tr><th>Utilisateur</th><th>Inscription</th><th>Statut</th><th>Plan</th><th>Avatar</th><th>Actions</th></tr></thead>
+          <tbody id="adminUsersBody"><tr><td colspan="6" class="adminEmpty">Chargement…</td></tr></tbody>
         </table>
       </div>
     </div>
@@ -1210,38 +1332,6 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
   </div>
 </section>
 </main>
-
-<!-- ================= ASSISTANT IA ================= -->
-<button class="floatAI" id="aiToggle" title="Assistant IA" type="button">
-  <svg viewBox="0 0 24 24"><path d="M12 2l2 7h7l-5.5 4.5L17 21l-5-4-5 4 1.5-7.5L3 9h7z"/></svg>
-</button>
-
-<div class="aiPanel" id="aiPanel">
-  <div class="aiHeader">
-    <div class="aiTitle">
-      <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2 7h7l-5.5 4.5L17 21l-5-4-5 4 1.5-7.5L3 9h7z"/></svg>
-      Assistant IA
-    </div>
-    <span class="aiLimit" id="aiLimit">30/h</span>
-    <button class="aiClose" id="aiClose" type="button">×</button>
-  </div>
-  <div class="aiMessages" id="aiMessages">
-    <div class="aiWelcome">
-      <div class="aiWelcomeIcon">
-        <svg viewBox="0 0 24 24"><path d="M12 2l2 7h7l-5.5 4.5L17 21l-5-4-5 4 1.5-7.5L3 9h7z"/></svg>
-      </div>
-      <div class="aiWelcomeTitle">Assistant FastSearch</div>
-      <div class="aiWelcomeHint">Décris ta recherche en langage naturel<br>et je remplis le formulaire pour toi.</div>
-    </div>
-  </div>
-  <div class="aiTyping" id="aiTyping"></div>
-  <form class="aiInputBar" id="aiForm">
-    <textarea id="aiInput" placeholder="Ex: Trouve Jean Dupont né en 1985 à Lyon..." maxlength="2000" rows="1"></textarea>
-    <button class="aiSendBtn" type="submit" id="aiSend">
-      <svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-    </button>
-  </form>
-</div>
 
 <!-- ================= CHAT PUBLIC ================= -->
 <button class="floatChat" id="chatToggle" title="Chat en direct" type="button">
@@ -1284,11 +1374,12 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
 // ============================================
 // ÉTAT
 // ============================================
-const PAGES = ['home','advsearch','auth','admin','info'];
+const PAGES = ['home','advsearch','ai','auth','admin','info'];
 let mode = 'login';
 let currentUser = null;
 let currentAvatar = null;
 let currentUserIsAdmin = false;
+let currentUserIsPro = false;
 let adminUsersCache = [];
 let chatOpen = false;
 let chatEventSource = null;
@@ -1298,7 +1389,7 @@ let lastSearchResults = [];
 let unreadChatCount = 0;
 let presenceSource = null;
 
-let aiOpen = false;
+// IA
 let aiHistory = [];
 let aiSending = false;
 let aiRemaining = 30;
@@ -1308,13 +1399,12 @@ function isTouchDevice(){
 }
 
 // ============================================
-// PRÉSENCE — compteur "en ligne"
+// PRÉSENCE
 // ============================================
 function updateOnlineCount(count){
   const el = document.getElementById('onlineCount');
   if(el) el.textContent = count;
 }
-
 async function fetchOnlineCountOnce(){
   try {
     const r = await fetch('/api/presence');
@@ -1323,7 +1413,6 @@ async function fetchOnlineCountOnce(){
     if(typeof data.online === 'number') updateOnlineCount(data.online);
   } catch(e){}
 }
-
 function startPresenceStream(){
   fetchOnlineCountOnce();
   if(presenceSource){ try { presenceSource.close(); } catch(e){} presenceSource = null; }
@@ -1357,6 +1446,8 @@ function showPage(id, bottomActive){
     b.classList.toggle('active', b.dataset.page === target);
   });
   window.scrollTo({top:0, behavior:'smooth'});
+
+  if(id === 'ai') renderAiPage();
 }
 
 function toast(msg){
@@ -1387,7 +1478,6 @@ function evaluatePasswordStrength(pwd){
   if(pwd.length < 6 && varietyCount <= 1) score = Math.max(1, score - 1);
   return Math.min(5, Math.max(1, score));
 }
-
 function updatePasswordStrength(pwd){
   const el = document.getElementById('pwdStrength');
   const label = document.getElementById('pwdLabel');
@@ -1411,7 +1501,6 @@ function openAuth(register){
   document.getElementById('pwdStrength').classList.add('hidden');
   showPage('auth');
 }
-
 function setMode(m){
   mode = m;
   document.getElementById('tabLogin').classList.toggle('active', m === 'login');
@@ -1436,7 +1525,6 @@ function setMode(m){
   document.getElementById('authSubmit').textContent = m === 'register' ? 'Créer mon compte' : 'Se connecter';
   document.getElementById('authSubtitle').textContent = m === 'register' ? 'Créez votre compte pour accéder au système.' : 'Connectez-vous pour accéder au système.';
 }
-
 async function submitAuth(e){
   e.preventDefault();
   const msg = document.getElementById('authMsg');
@@ -1445,10 +1533,10 @@ async function submitAuth(e){
   const username = document.getElementById('username').value.trim();
   const password = document.getElementById('password').value;
   if(mode === 'register' && username.length < 3 && username.toLowerCase() !== 'zk'){
-  msg.textContent = '✗ Le pseudo doit contenir au moins 3 caractères';
-  msg.className = 'authMsg error';
-  return;
-}
+    msg.textContent = '✗ Le pseudo doit contenir au moins 3 caractères';
+    msg.className = 'authMsg error';
+    return;
+  }
   const confirm = document.getElementById('confirm').value;
   if(mode === 'register' && password !== confirm){
     msg.textContent = '✗ Les mots de passe ne correspondent pas';
@@ -1470,6 +1558,7 @@ async function submitAuth(e){
     }
     currentUser = data.username;
     currentUserIsAdmin = data.isAdmin === true;
+    currentUserIsPro = data.isPro === true;
     msg.textContent = '✓ ' + (mode === 'register' ? 'Compte créé !' : 'Connexion réussie !');
     msg.className = 'authMsg success';
     await refreshAvatar();
@@ -1495,7 +1584,6 @@ function applyAvatarToEl(el, photo, initial){
     el.textContent = initial;
   }
 }
-
 function updateChatInputAvatar(){
   const el = document.getElementById('chatInputAvatar');
   if(!el) return;
@@ -1517,7 +1605,12 @@ function updateAuthUI(){
   const startLabel = document.getElementById('startSearchLabel');
   const subtitle = document.getElementById('homeSubtitle');
   const adminNav = document.getElementById('adminNav');
+  const planBadge = document.getElementById('userPlanBadge');
   if(adminNav) adminNav.classList.toggle('hidden', currentUserIsAdmin !== true);
+  if(planBadge){
+    planBadge.textContent = currentUserIsPro ? 'PRO' : 'FREE';
+    planBadge.classList.toggle('pro', currentUserIsPro);
+  }
   if(currentUser){
     loginBtn.classList.add('hidden');
     userMenu.classList.remove('hidden');
@@ -1542,8 +1635,15 @@ function updateAuthUI(){
 async function refreshAvatar(){
   try {
     const r = await fetch('/api/me');
-    if(r.ok){ const data = await r.json(); currentAvatar = data.avatar || null; currentUserIsAdmin = data.isAdmin === true; updateAuthUI(); }
-    else { currentAvatar = null; }
+    if(r.ok){
+      const data = await r.json();
+      currentAvatar = data.avatar || null;
+      currentUserIsAdmin = data.isAdmin === true;
+      currentUserIsPro = data.isPro === true;
+      updateAuthUI();
+    } else {
+      currentAvatar = null;
+    }
   } catch(e){ currentAvatar = null; }
 }
 
@@ -1552,8 +1652,9 @@ async function doLogout(){
   currentUser = null;
   currentAvatar = null;
   currentUserIsAdmin = false;
+  currentUserIsPro = false;
   closeChat();
-  closeAI();
+  aiHistory = [];
   document.getElementById('userMenu').classList.remove('open');
   updateAuthUI();
   showPage('home');
@@ -1567,6 +1668,7 @@ async function checkSession(){
       const data = await r.json();
       currentUser = data.username;
       currentUserIsAdmin = data.isAdmin === true;
+      currentUserIsPro = data.isPro === true;
       currentAvatar = data.avatar || null;
       updateAuthUI();
     }
@@ -1584,7 +1686,6 @@ const SECTION_FIELDS = {
   jeux: ['fivem', 'minecraft', 'discord_id', 'steam_id'],
   autres: ['iban', 'vin', 'profession', 'employeur', 'twitter', 'snapchat']
 };
-
 function updateSectionCounts(){
   for(const section in SECTION_FIELDS){
     let count = 0;
@@ -1612,12 +1713,10 @@ function buildFiche(p, index){
   const initiales = ((p.first_name && p.first_name[0] || '') + (p.last_name && p.last_name[0] || '')).toUpperCase() || '?';
   const titre = [p.first_name, p.last_name].filter(Boolean).join(' ') || 'Sans nom';
   const delay = Math.min(index * 40, 400);
-
   const f = (label, value, mono) => {
     const v = value ? escapeHtml(value) : '<span class="empty">—</span>';
     return '<div class="fiche-field"><div class="lbl">' + label + '</div><div class="val' + (mono ? ' mono' : '') + (value ? '' : ' empty') + '">' + v + '</div></div>';
   };
-
   return '<div class="fiche" style="animation-delay:' + delay + 'ms">' +
     '<div class="fiche-top">' +
       '<div class="fiche-avatar">' + escapeHtml(initiales) + '</div>' +
@@ -1653,21 +1752,16 @@ async function doAdvSearch(){
     if(v) data[inp.dataset.field] = v;
   });
   const resultsEl = document.getElementById('advResults');
-
   if(Object.keys(data).length === 0){ toast('Renseigne au moins un critère'); resultsEl.innerHTML = ''; return; }
   if(!currentUser){ toast('Connecte-toi pour rechercher'); openAuth(false); return; }
-
   const btn = document.getElementById('advDoSearch');
   btn.disabled = true;
   const oldHtml = btn.innerHTML;
   btn.innerHTML = 'Recherche...';
-
   const resumeParts = [];
   for(const key in data){ if(FIELD_LABELS[key]) resumeParts.push(data[key]); }
   const resume = resumeParts.join(', ');
-
   resultsEl.innerHTML = '<div class="noResult"><div class="loader"></div></div>';
-
   try {
     const r = await fetch('/api/search?q=' + encodeURIComponent(resume));
     const resp = await r.json();
@@ -1677,7 +1771,6 @@ async function doAdvSearch(){
     }
     const results = resp.results || [];
     lastSearchResults = results;
-
     if(results.length === 0){
       resultsEl.innerHTML = '<div class="noResult"><div class="ico">'+SEARCH_ICON+'</div><div class="title">Aucun résultat pour « '+escapeHtml(resume)+' »</div><div class="hint">Essaie d\'autres termes ou vérifie l\'orthographe.</div></div>';
     } else {
@@ -1707,7 +1800,6 @@ function clearAdvSearch(){
 function relaunchSearch(query){
   document.querySelectorAll('[data-field]').forEach(inp => { inp.value = ''; });
   updateSectionCounts();
-
   const parts = String(query).split(',').map(s => s.trim()).filter(Boolean);
   const remaining = [];
   for(const part of parts){
@@ -1743,7 +1835,6 @@ function relaunchSearch(query){
     if(inp) inp.value = remaining[2];
   }
   updateSectionCounts();
-
   showPage('advsearch');
   toast('Recherche rechargée, vérifie les champs');
 }
@@ -1754,17 +1845,13 @@ function escapeHtml(s){
 }
 
 // ============================================
-// COPIER LES INFOS D'UNE FICHE
+// COPIER
 // ============================================
 function copyFiche(index, btn){
   const p = lastSearchResults[index];
   if(!p) return;
-
   const lines = [];
-  const push = (label, value) => {
-    if(value) lines.push(label + ': ' + value);
-  };
-
+  const push = (label, value) => { if(value) lines.push(label + ': ' + value); };
   push('Nom', p.last_name);
   push('Prénom', p.first_name);
   push('Date de naissance', p.birth_date || p.date_naissance);
@@ -1774,23 +1861,11 @@ function copyFiche(index, btn){
   push('Ville', p.city || p.ville);
   push('Code postal', p.postal_code || p.code_postal);
   push('Département', p.department || p.dept);
-
   const sepTop = '═══════════════════════════════';
   const sepBot = '───────────────────────────────';
-
-  const header =
-    sepTop + '\n' +
-    '        FASTSEARCH.SITE\n' +
-    sepTop + '\n\n';
-
-  const footer =
-    '\n' + sepBot + '\n' +
-    'Fait avec ⚡ FastSearch\n' +
-    '→ https://fastsearch.site\n' +
-    sepBot;
-
+  const header = sepTop + '\n' + '        FASTSEARCH.SITE\n' + sepTop + '\n\n';
+  const footer = '\n' + sepBot + '\n' + 'Fait avec ⚡ FastSearch\n' + '→ https://fastsearch.site\n' + sepBot;
   const text = header + lines.join('\n') + footer;
-
   const copyToClipboard = (str) => {
     if(navigator.clipboard && window.isSecureContext){
       return navigator.clipboard.writeText(str);
@@ -1802,182 +1877,230 @@ function copyFiche(index, btn){
         ta.style.opacity = '0';
         document.body.appendChild(ta);
         ta.select();
-        try {
-          document.execCommand('copy');
-          resolve();
-        } catch(e) { reject(e); }
+        try { document.execCommand('copy'); resolve(); } catch(e) { reject(e); }
         document.body.removeChild(ta);
       });
     }
   };
-
   copyToClipboard(text).then(() => {
     const originalHtml = btn.innerHTML;
     btn.classList.add('copied');
     btn.innerHTML = '<svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Copié';
-
     toast('✓ Infos copiées dans le presse-papiers');
-
     setTimeout(() => {
       btn.classList.remove('copied');
       btn.innerHTML = originalHtml;
     }, 1800);
-  }).catch(() => {
-    toast('✗ Impossible de copier');
+  }).catch(() => { toast('✗ Impossible de copier'); });
+}
+
+// ============================================
+// PAGE ASSISTANT IA
+// ============================================
+function renderAiPage(){
+  const container = document.getElementById('aiContent');
+  if(!container) return;
+
+  if(!currentUser){
+    container.innerHTML =
+      '<div class="aiLocked">' +
+        '<div class="aiLockedIcon"><svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>' +
+        '<h2>Connecte-toi</h2>' +
+        '<p>L\'assistant IA nécessite un compte FastSearch.</p>' +
+        '<button class="aiLockedBtn" id="aiLockedLogin">Se connecter</button>' +
+      '</div>';
+    const b = document.getElementById('aiLockedLogin');
+    if(b) b.addEventListener('click', () => openAuth(false));
+    return;
+  }
+
+  if(!currentUserIsPro){
+    container.innerHTML =
+      '<div class="aiLocked">' +
+        '<div class="aiLockedIcon"><svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>' +
+        '<h2>Réservé aux PRO</h2>' +
+        '<p>L\'assistant IA est une fonctionnalité <b style="color:#c4b5fd">PRO</b>. Il te permet de poser une question en langage naturel et d\'obtenir directement les résultats depuis la base FastSearch.</p>' +
+        '<button class="aiLockedBtn" id="aiLockedShop">Découvrir les offres</button>' +
+      '</div>';
+    const b = document.getElementById('aiLockedShop');
+    if(b) b.addEventListener('click', () => infoPage('shop'));
+    return;
+  }
+
+  // Interface chat
+  container.innerHTML =
+    '<div class="aiPage">' +
+      '<div class="aiPageHead">' +
+        '<div class="aiPageIcon"><svg viewBox="0 0 24 24"><path d="M12 2l2 7h7l-5.5 4.5L17 21l-5-4-5 4 1.5-7.5L3 9h7z"/></svg></div>' +
+        '<div>' +
+          '<div class="aiPageTitle">Assistant IA FastSearch</div>' +
+          '<div class="aiPageSub">Pose ta question en langage naturel</div>' +
+        '</div>' +
+        '<span class="aiPageLimit" id="aiPageLimit">' + aiRemaining + '/h</span>' +
+      '</div>' +
+      '<div class="aiPageMessages" id="aiPageMessages"></div>' +
+      '<div class="aiTypingPage" id="aiPageTyping"></div>' +
+      '<form class="aiPageInputBar" id="aiPageForm">' +
+        '<textarea id="aiPageInput" placeholder="Ex: Trouve Jean Dupont né en 1985 à Lyon..." maxlength="2000" rows="1"></textarea>' +
+        '<button class="aiPageSendBtn" type="submit" id="aiPageSend">' +
+          '<svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>' +
+        '</button>' +
+      '</form>' +
+    '</div>';
+
+  const messagesEl = document.getElementById('aiPageMessages');
+
+  if(aiHistory.length === 0){
+    messagesEl.innerHTML =
+      '<div class="aiWelcomePage">' +
+        '<div class="aiWelcomePageIcon"><svg viewBox="0 0 24 24"><path d="M12 2l2 7h7l-5.5 4.5L17 21l-5-4-5 4 1.5-7.5L3 9h7z"/></svg></div>' +
+        '<div class="aiWelcomePageTitle">Comment puis-je t\'aider ?</div>' +
+        '<div class="aiWelcomePageSub">Décris la personne que tu cherches en langage naturel. Je comprendrai les infos et je chercherai directement dans la base.</div>' +
+        '<div class="aiSuggestions">' +
+          '<button class="aiSuggestion" data-suggest="Trouve Jean Dupont né en 1985 à Lyon">Trouve Jean Dupont né en 1985 à Lyon</button>' +
+          '<button class="aiSuggestion" data-suggest="Cherche quelqu\'un avec l\'email jean.dupont@gmail.com">Cherche par email</button>' +
+          '<button class="aiSuggestion" data-suggest="Trouve tous les Dupont à Paris">Tous les Dupont à Paris</button>' +
+        '</div>' +
+      '</div>';
+    messagesEl.querySelectorAll('[data-suggest]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const inp = document.getElementById('aiPageInput');
+        inp.value = btn.dataset.suggest;
+        inp.focus();
+      });
+    });
+  } else {
+    aiHistory.forEach(turn => {
+      appendAiPageMessage(turn.role, turn.content, turn.toolInfo, true);
+    });
+    messagesEl.scrollTop = messagesEl.scrollHeight;
+  }
+
+  const form = document.getElementById('aiPageForm');
+  const input = document.getElementById('aiPageInput');
+  const sendBtn = document.getElementById('aiPageSend');
+
+  form.addEventListener('submit', sendAiPageMessage);
+  input.addEventListener('input', () => {
+    input.style.height = 'auto';
+    input.style.height = Math.min(input.scrollHeight, 140) + 'px';
+  });
+  input.addEventListener('keydown', (e) => {
+    if(e.key === 'Enter' && !e.shiftKey){
+      e.preventDefault();
+      form.dispatchEvent(new Event('submit', {cancelable:true, bubbles:true}));
+    }
   });
 }
 
-// ============================================
-// ASSISTANT IA
-// ============================================
-function openAI(){
-  if(!currentUser){ toast('Connecte-toi pour utiliser l\'assistant IA'); openAuth(false); return; }
-  aiOpen = true;
-  document.getElementById('aiPanel').classList.add('open');
-  setTimeout(() => document.getElementById('aiInput').focus(), 200);
-}
-
-function closeAI(){
-  aiOpen = false;
-  document.getElementById('aiPanel').classList.remove('open');
-}
-
-function updateAiLimitBadge(){
-  const el = document.getElementById('aiLimit');
-  if(!el) return;
-  el.textContent = aiRemaining + '/h';
-}
-
-function appendAiMessage(role, content, toolInfo){
-  const container = document.getElementById('aiMessages');
-  // Retire le message de bienvenue si présent
-  const welcome = container.querySelector('.aiWelcome');
+function appendAiPageMessage(role, content, toolInfo, silent){
+  const messagesEl = document.getElementById('aiPageMessages');
+  if(!messagesEl) return;
+  const welcome = messagesEl.querySelector('.aiWelcomePage');
   if(welcome) welcome.remove();
 
   const wrap = document.createElement('div');
-  wrap.className = 'aiMsg ' + (role === 'user' ? 'user' : 'assistant');
-
+  wrap.className = 'aiMsgPage ' + (role === 'user' ? 'user' : 'assistant');
   const meta = document.createElement('div');
-  meta.className = 'aiMeta';
+  meta.className = 'aiMetaPage';
   const now = new Date();
   meta.textContent = (role === 'user' ? 'Toi' : 'Assistant') + ' · ' +
     now.toLocaleTimeString('fr-FR', {hour:'2-digit', minute:'2-digit'});
   wrap.appendChild(meta);
 
   const bubble = document.createElement('div');
-  bubble.className = 'aiBubble';
+  bubble.className = 'aiBubblePage';
   bubble.textContent = content || '';
   wrap.appendChild(bubble);
 
-  if(toolInfo){
-    const badge = document.createElement('div');
-    badge.className = 'aiToolBadge';
-    badge.textContent = '✓ ' + toolInfo;
-    wrap.appendChild(badge);
+  if(toolInfo && toolInfo.total !== undefined){
+    const card = document.createElement('div');
+    card.className = 'aiResultCard';
+    card.innerHTML = '<span class="aiResultCount">' + toolInfo.total + '</span> résultat' + (toolInfo.total > 1 ? 's' : '') + ' depuis la base';
+    wrap.appendChild(card);
   }
 
-  container.appendChild(wrap);
-  container.scrollTop = container.scrollHeight;
+  messagesEl.appendChild(wrap);
+  if(!silent) messagesEl.scrollTop = messagesEl.scrollHeight;
 }
 
-function showAiTyping(on){
-  const el = document.getElementById('aiTyping');
+function showAiPageTyping(on){
+  const el = document.getElementById('aiPageTyping');
   if(!el) return;
   if(on){
-    el.innerHTML = '<span>L\'assistant réfléchit<span class="aiDots"></span></span>';
+    el.innerHTML = '<span>L\'assistant analyse et cherche<span class="aiDotsPage"></span></span>';
   } else {
     el.innerHTML = '';
   }
 }
 
-function fillFormFromAI(fields){
-  if(!fields || typeof fields !== 'object') return 0;
-  let count = 0;
-  for(const key in fields){
-    if(!fields[key]) continue;
-    const inp = document.querySelector('[data-field="' + key + '"]');
-    if(inp){
-      inp.value = fields[key];
-      count++;
-    }
-  }
-  if(count > 0) updateSectionCounts();
-  return count;
+function updateAiPageLimit(){
+  const el = document.getElementById('aiPageLimit');
+  if(el) el.textContent = aiRemaining + '/h';
 }
 
-async function sendAiMessage(e){
+async function sendAiPageMessage(e){
   e.preventDefault();
   if(aiSending) return;
-  const input = document.getElementById('aiInput');
+  const input = document.getElementById('aiPageInput');
+  const sendBtn = document.getElementById('aiPageSend');
+  if(!input || !sendBtn) return;
   const message = input.value.trim();
   if(!message) return;
 
-  if(!currentUser){ toast('Connecte-toi pour utiliser l\'IA'); openAuth(false); return; }
-
-  // Ajoute le message user
-  appendAiMessage('user', message);
+  // Ajoute le message user à l'historique + au DOM
+  appendAiPageMessage('user', message);
   aiHistory.push({ role: 'user', content: message });
-
   input.value = '';
   input.style.height = 'auto';
   aiSending = true;
-  document.getElementById('aiSend').disabled = true;
-  showAiTyping(true);
+  sendBtn.disabled = true;
+  showAiPageTyping(true);
 
   try {
-    const r = await fetch('/api/ai/chat', {
+    const r = await fetch('/api/ai/search', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         message: message,
-        history: aiHistory.slice(0, -1) // sans le dernier message qu'on vient d'ajouter
+        history: aiHistory.slice(0, -1)
       })
     });
-
     const data = await r.json();
 
     if(!r.ok){
-      showAiTyping(false);
-      appendAiMessage('assistant', '❌ ' + (data.error || 'Erreur inconnue'));
+      showAiPageTyping(false);
+      const errMsg = data.error || 'Erreur inconnue';
+      appendAiPageMessage('assistant', '❌ ' + errMsg);
+      aiHistory.push({ role: 'assistant', content: '❌ ' + errMsg });
       aiSending = false;
-      document.getElementById('aiSend').disabled = false;
+      sendBtn.disabled = false;
       return;
     }
 
-    // Met à jour le compteur restant
     if(typeof data.remaining === 'number'){
       aiRemaining = data.remaining;
-      updateAiLimitBadge();
+      updateAiPageLimit();
     }
 
-    // Prépare le badge "outil utilisé"
-    let toolInfo = '';
-    if(data.fillFields){
-      const n = fillFormFromAI(data.fillFields);
-      if(n > 0) toolInfo = 'Formulaire pré-rempli (' + n + ' champ' + (n > 1 ? 's' : '') + ')';
+    showAiPageTyping(false);
+    let toolInfo = null;
+    if(data.results && typeof data.results.total === 'number'){
+      toolInfo = { total: data.results.total };
     }
-
-    showAiTyping(false);
-    appendAiMessage('assistant', data.reply || '(réponse vide)', toolInfo);
-    aiHistory.push({ role: 'assistant', content: data.reply || '' });
-
-    // Si l'IA demande de lancer la recherche → on bascule sur la page de recherche
-    if(data.launchSearch){
-      showPage('advsearch');
-      toast('Formulaire prêt, clique sur Rechercher');
-      // petit scroll vers le formulaire
-      setTimeout(() => {
-        const el = document.querySelector('.advSearch');
-        if(el) el.scrollIntoView({behavior:'smooth', block:'start'});
-      }, 250);
-    }
+    appendAiPageMessage('assistant', data.reply || '(réponse vide)', toolInfo);
+    aiHistory.push({
+      role: 'assistant',
+      content: data.reply || '',
+      toolInfo: toolInfo
+    });
 
   } catch(err){
-    showAiTyping(false);
-    appendAiMessage('assistant', '❌ Erreur réseau, réessaie.');
+    showAiPageTyping(false);
+    appendAiPageMessage('assistant', '❌ Erreur réseau, réessaie.');
   } finally {
     aiSending = false;
-    document.getElementById('aiSend').disabled = false;
+    sendBtn.disabled = false;
     input.focus();
   }
 }
@@ -1996,7 +2119,6 @@ function openChat(){
   startChatStream();
   setTimeout(() => document.getElementById('chatInput').focus(), 200);
 }
-
 function closeChat(){
   chatOpen = false;
   document.getElementById('chatPanel').classList.remove('open');
@@ -2004,7 +2126,6 @@ function closeChat(){
   typingUsers = {};
   renderTypingIndicator();
 }
-
 function startChatStream(){
   stopChatStream();
   try {
@@ -2025,11 +2146,9 @@ function startChatStream(){
     };
   } catch(e){}
 }
-
 function stopChatStream(){
   if(chatEventSource){ try { chatEventSource.close(); } catch(e){} chatEventSource = null; }
 }
-
 async function loadChatMessages(){
   try {
     const r = await fetch('/api/chat/messages');
@@ -2045,7 +2164,6 @@ async function loadChatMessages(){
     scrollChatToBottom(false);
   } catch(e){}
 }
-
 function appendMessage(m){
   const container = document.getElementById('chatMessages');
   const empty = container.querySelector('.chatEmpty');
@@ -2056,42 +2174,33 @@ function appendMessage(m){
   const el = document.createElement('div');
   el.className = 'chatMsg' + (isMe ? ' me' : '');
   el.id = 'msg-' + m.id;
-
   const creatorBadge = m.admin === true ? '<span class="creator-badge">👑 CRÉATEUR</span>' : '';
   const deleteBtn = currentUserIsAdmin === true ? '<button class="chatDeleteBtn" type="button" title="Supprimer le message" onclick="deleteChatMessage(' + JSON.stringify(m.id) + ')">🗑️</button>' : '';
-
   const initial = (m.username || '?').charAt(0).toUpperCase();
   const avatarStyle = m.avatar ? ' style="background-image:url(' + m.avatar + ')"' : '';
   const avatarClass = 'msgAvatar' + (m.avatar ? ' hasPhoto' : '');
-
   el.innerHTML =
     '<div class="' + avatarClass + '"' + avatarStyle + '>' + escapeHtml(initial) + '</div>' +
     '<div class="msgBody">' +
       '<div class="meta"><span class="name">'+escapeHtml(m.username)+'</span>'+creatorBadge+'<span class="time">'+time+'</span>'+deleteBtn+'</div>' +
       '<div class="text">'+escapeHtml(m.text)+'</div>' +
     '</div>';
-
   container.appendChild(el);
   if(typingUsers[m.username]){ delete typingUsers[m.username]; renderTypingIndicator(); }
   if(chatOpen){
     if(isMe){
-      if(isTouchDevice()){
-        scrollChatToBottom(false);
-      } else {
-        setTimeout(() => scrollChatToBottom(true), 30);
-      }
+      if(isTouchDevice()){ scrollChatToBottom(false); }
+      else { setTimeout(() => scrollChatToBottom(true), 30); }
     } else {
       scrollChatBottom();
     }
   }
 }
-
 function isChatScrolledToBottom(){
   const c = document.getElementById('chatMessages');
   if(!c) return true;
   return (c.scrollHeight - c.scrollTop - c.clientHeight) < 40;
 }
-
 function updateChatScrollButton(){
   const btn = document.getElementById('chatScrollBtn');
   const badge = document.getElementById('chatScrollBadge');
@@ -2107,11 +2216,7 @@ function updateChatScrollButton(){
     badge.classList.add('hidden');
   }
 }
-
-function onChatScroll(){
-  updateChatScrollButton();
-}
-
+function onChatScroll(){ updateChatScrollButton(); }
 function scrollChatToBottom(smooth){
   const c = document.getElementById('chatMessages');
   if(!c) return;
@@ -2123,7 +2228,6 @@ function scrollChatToBottom(smooth){
     c.scrollTop = c.scrollHeight;
   }
 }
-
 function scrollChatBottom(){
   const c = document.getElementById('chatMessages');
   if(!c) return;
@@ -2136,7 +2240,6 @@ function scrollChatBottom(){
   }
   updateChatScrollButton();
 }
-
 async function sendMessage(e){
   e.preventDefault();
   const input = document.getElementById('chatInput');
@@ -2150,7 +2253,6 @@ async function sendMessage(e){
     if(!r.ok){ toast('Erreur : ' + (data.error || 'envoi échoué')); }
   } catch(err){ toast('Erreur réseau'); }
 }
-
 function handleTypingEvent(username, isTyping){
   if(!username) return;
   if(isTyping){
@@ -2164,7 +2266,6 @@ function handleTypingEvent(username, isTyping){
     }, 3000);
   } else { delete typingUsers[username]; renderTypingIndicator(); }
 }
-
 function renderTypingIndicator(){
   const el = document.getElementById('chatTyping');
   if(!el) return;
@@ -2174,7 +2275,6 @@ function renderTypingIndicator(){
   else if(users.length === 2){ el.textContent = users[0] + ' et ' + users[1] + ' sont en train d\'écrire...'; }
   else { el.textContent = 'Plusieurs personnes sont en train d\'écrire...'; }
 }
-
 async function sendTyping(){
   if(!currentUser) return;
   const now = Date.now();
@@ -2190,14 +2290,11 @@ function adminOnly(){
   if(currentUserIsAdmin !== true){ toast('Accès administrateur refusé'); return false; }
   return true;
 }
-
 async function adminFetch(url, options = {}){
   let r;
   try {
     r = await fetch(url, { credentials:'same-origin', ...options });
-  } catch(e) {
-    throw new Error('Erreur réseau');
-  }
+  } catch(e) { throw new Error('Erreur réseau'); }
   let data = {};
   const type = r.headers.get('content-type') || '';
   if(type.includes('application/json')){
@@ -2206,39 +2303,40 @@ async function adminFetch(url, options = {}){
   if(!r.ok) throw new Error(data.error || ('Erreur serveur (' + r.status + ')'));
   return data;
 }
-
 function formatAdminDate(value){
   if(!value) return '—';
   const d = new Date(value);
   if(Number.isNaN(d.getTime())) return escapeHtml(value);
   return d.toLocaleString('fr-FR', {dateStyle:'short', timeStyle:'short'});
 }
-
 function getUserId(user){
   if(!user) return null;
   return user.id ?? user._id ?? user.userId ?? null;
 }
-
 function renderAdminUsers(){
   const body = document.getElementById('adminUsersBody');
   if(!body) return;
   const filter = (document.getElementById('adminUserFilter')?.value || '').trim().toLowerCase();
   const users = adminUsersCache.filter(u => String(u.username || '').toLowerCase().includes(filter));
-  if(!users.length){ body.innerHTML = '<tr><td colspan="5" class="adminEmpty">Aucun utilisateur.</td></tr>'; return; }
+  if(!users.length){ body.innerHTML = '<tr><td colspan="6" class="adminEmpty">Aucun utilisateur.</td></tr>'; return; }
   body.innerHTML = users.map(u => {
     const id = getUserId(u);
     const isCreator = u.username === 'zk';
     const banned = u.banned === true;
+    const isPro = u.isPro === true;
     const avatar = u.avatar || u.photo || u.profilePicture;
     const safeId = id == null ? 'null' : JSON.stringify(String(id));
+    const planBadge = isPro ? '<span class="statusBadge pro">PRO</span>' : '<span class="statusBadge">FREE</span>';
     return '<tr>' +
-      '<td class="userCell">' + escapeHtml(u.username || '—') + (isCreator ? ' <span class="creator-badge">👑 CRÉATEUR</span>' : '') + '</td>' +
+      '<td class="userCell">' + escapeHtml(u.username || '—') + (isCreator ? ' <span class="creator-badge">👑 CRÉATEUR</span>' : '') + (isPro && !isCreator ? ' <span class="pro-badge">PRO</span>' : '') + '</td>' +
       '<td class="mono">' + formatAdminDate(u.createdAt || u.created_at || u.registeredAt || u.dateInscription) + '</td>' +
       '<td><span class="statusBadge ' + (banned ? 'banned' : 'ok') + '">' + (banned ? 'Banni' : 'Actif') + '</span></td>' +
+      '<td>' + planBadge + '</td>' +
       '<td>' + (avatar ? '✓' : '—') + '</td>' +
       '<td><div class="adminActions">' +
         (isCreator ? '<span style="color:#777;font-size:11px">Compte protégé</span>' :
           '<button class="adminBtn ' + (banned ? 'green' : 'warn') + '" onclick="adminToggleBan(' + safeId + ',' + (!banned) + ')">' + (banned ? '♻️ Débannir' : '🚫 Bannir') + '</button>' +
+          '<button class="adminBtn purple" onclick="adminTogglePro(' + safeId + ',' + (!isPro) + ')">' + (isPro ? '⬇️ Retirer PRO' : '⬆️ Passer PRO') + '</button>' +
           '<button class="adminBtn blue" onclick="adminRenameUser(' + safeId + ',' + JSON.stringify(String(u.username || '')) + ')">✏️ Renommer</button>' +
           '<button class="adminBtn" onclick="adminResetAvatar(' + safeId + ')">🖼️ Reset PP</button>' +
           '<button class="adminBtn danger" onclick="adminDeleteUser(' + safeId + ',' + JSON.stringify(String(u.username || '')) + ')">🗑️ Supprimer</button>') +
@@ -2254,21 +2352,21 @@ async function loadAdminStats(){
   const searches = stats.searches ?? stats.searchCount ?? stats.totalSearches ?? '—';
   const messages = stats.messages ?? stats.messageCount ?? stats.totalMessages ?? '—';
   const banned = stats.banned ?? stats.bannedUsers ?? stats.bannedCount ?? '—';
+  const pro = stats.pro ?? stats.proUsers ?? stats.proCount ?? '—';
   let top = stats.topSearch ?? stats.top_search ?? stats.topRecherche ?? stats.topQuery ?? '—';
   if(top && typeof top === 'object') top = top.query || top.term || top.search || '—';
   document.getElementById('adminStatUsers').textContent = Number.isFinite(Number(users)) ? Number(users).toLocaleString('fr-FR') : String(users);
   document.getElementById('adminStatSearches').textContent = Number.isFinite(Number(searches)) ? Number(searches).toLocaleString('fr-FR') : String(searches);
   document.getElementById('adminStatMessages').textContent = Number.isFinite(Number(messages)) ? Number(messages).toLocaleString('fr-FR') : String(messages);
   document.getElementById('adminStatBanned').textContent = Number.isFinite(Number(banned)) ? Number(banned).toLocaleString('fr-FR') : String(banned);
+  document.getElementById('adminStatPro').textContent = Number.isFinite(Number(pro)) ? Number(pro).toLocaleString('fr-FR') : String(pro);
   document.getElementById('adminStatTopSearch').textContent = top == null || top === '' ? '—' : String(top);
 }
-
 async function loadAdminUsers(){
   const data = await adminFetch('/api/admin/users');
   adminUsersCache = Array.isArray(data) ? data : (data.users || []);
   renderAdminUsers();
 }
-
 async function loadAdminHistory(){
   const data = await adminFetch('/api/admin/search-history');
   const history = Array.isArray(data) ? data : (data.history || data.searchHistory || []);
@@ -2281,14 +2379,12 @@ async function loadAdminHistory(){
     '<td>' + escapeHtml(String(h.resultsCount ?? h.resultCount ?? h.results ?? 0)) + '</td>' +
   '</tr>').join('');
 }
-
 async function loadAdminPage(){
   if(!adminOnly()) return;
   try {
     await Promise.all([loadAdminStats(), loadAdminUsers(), loadAdminHistory()]);
   } catch(err){ toast('Erreur admin : ' + err.message); }
 }
-
 async function adminToggleBan(id, banned){
   if(!adminOnly()) return;
   if(!confirm((banned ? 'Bannir' : 'Débannir') + ' ce compte ?')) return;
@@ -2298,7 +2394,15 @@ async function adminToggleBan(id, banned){
     await Promise.all([loadAdminUsers(), loadAdminStats()]);
   } catch(err){ toast('Erreur : ' + err.message); }
 }
-
+async function adminTogglePro(id, makePro){
+  if(!adminOnly()) return;
+  if(!confirm((makePro ? 'Passer' : 'Retirer le statut PRO de') + ' ce compte ?')) return;
+  try {
+    await adminFetch('/api/admin/users/' + encodeURIComponent(id) + '/toggle-pro', {method:'POST'});
+    toast(makePro ? 'Compte passé en PRO' : 'Statut PRO retiré');
+    await Promise.all([loadAdminUsers(), loadAdminStats()]);
+  } catch(err){ toast('Erreur : ' + err.message); }
+}
 async function adminRenameUser(id, oldUsername){
   if(!adminOnly()) return;
   const newUsername = prompt('Nouveau pseudo pour « ' + oldUsername + ' » :', oldUsername);
@@ -2311,7 +2415,6 @@ async function adminRenameUser(id, oldUsername){
     await loadAdminUsers();
   } catch(err){ toast('Erreur : ' + err.message); }
 }
-
 async function adminResetAvatar(id){
   if(!adminOnly()) return;
   if(!confirm('Réinitialiser la photo de profil de ce compte ?')) return;
@@ -2321,7 +2424,6 @@ async function adminResetAvatar(id){
     await loadAdminUsers();
   } catch(err){ toast('Erreur : ' + err.message); }
 }
-
 async function adminDeleteUser(id, username){
   if(!adminOnly()) return;
   if(!confirm('Supprimer définitivement le compte « ' + username + ' » ?')) return;
@@ -2331,7 +2433,6 @@ async function adminDeleteUser(id, username){
     await Promise.all([loadAdminUsers(), loadAdminStats()]);
   } catch(err){ toast('Erreur : ' + err.message); }
 }
-
 async function deleteChatMessage(id){
   if(!adminOnly()) return;
   if(!confirm('Supprimer ce message ?')) return;
@@ -2346,7 +2447,6 @@ async function deleteChatMessage(id){
     toast('Message supprimé');
   } catch(err){ toast('Erreur : ' + err.message); }
 }
-
 async function adminClearChat(){
   if(!adminOnly()) return;
   if(!confirm('Vider entièrement le chat ? Cette action est irréversible.')) return;
@@ -2358,26 +2458,23 @@ async function adminClearChat(){
 }
 
 // ============================================
-// MES RECHERCHES — page perso
+// MES RECHERCHES
 // ============================================
 async function loadMySearches(){
   const content = document.getElementById('infoContent');
   content.innerHTML = '<p class="muted">Chargement…</p>';
   showPage('info', null);
-
   try {
     const r = await fetch('/api/my-searches');
     if(!r.ok) throw new Error('Erreur serveur');
     const data = await r.json();
     const searches = data.searches || [];
-
     let html = '<div class="mySearchHeader">';
     html += '<h2 style="margin:0">Mes recherches</h2>';
     if(searches.length > 0){
       html += '<button class="mySearchClearAll" id="clearAllSearches">🗑️ Tout effacer</button>';
     }
     html += '</div>';
-
     if(searches.length === 0){
       html += '<div class="mySearchEmpty">';
       html += '<svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>';
@@ -2386,7 +2483,7 @@ async function loadMySearches(){
     } else {
       html += '<p class="muted" style="text-align:left;font-size:12px;margin-bottom:16px">' + searches.length + ' recherche' + (searches.length > 1 ? 's' : '') + ' (30 dernières max)</p>';
       html += '<div class="mySearchList">';
-      searches.forEach((s, i) => {
+      searches.forEach((s) => {
         const date = new Date(s.timestamp).toLocaleString('fr-FR', {dateStyle:'short', timeStyle:'short'});
         const query = s.query || '';
         const count = s.resultsCount ?? 0;
@@ -2405,15 +2502,10 @@ async function loadMySearches(){
       });
       html += '</div>';
     }
-
     content.innerHTML = html;
-
     content.querySelectorAll('[data-relaunch]').forEach(btn => {
-      btn.addEventListener('click', () => {
-        relaunchSearch(btn.dataset.relaunch);
-      });
+      btn.addEventListener('click', () => relaunchSearch(btn.dataset.relaunch));
     });
-
     const clearBtn = document.getElementById('clearAllSearches');
     if(clearBtn){
       clearBtn.addEventListener('click', async () => {
@@ -2434,6 +2526,7 @@ async function loadMySearches(){
 // INFO / SUPPRESSION / BOUTIQUE / PROFIL
 // ============================================
 function infoPage(kind){
+  const proText = currentUserIsPro ? 'PRO' : 'FREE';
   const content = {
     profile: `
       <div class="profilHeader">
@@ -2451,7 +2544,7 @@ function infoPage(kind){
       <input type="file" id="profilPhotoInput" accept="image/*" style="display:none">
       <div class="profilGrid">
         <div class="profilCard"><div class="label">Nom d'utilisateur</div><div class="value" id="profilUsername">user</div></div>
-        <div class="profilCard"><div class="label">Plan actuel</div><div class="value pro" id="profilPlan">FREE</div></div>
+        <div class="profilCard"><div class="label">Plan actuel</div><div class="value ${currentUserIsPro ? 'pro' : ''}" id="profilPlan">${proText}</div></div>
         <div class="profilCard"><div class="label">Statut</div><div class="value" style="color:#2df0ae">● Actif</div></div>
         <div class="profilCard"><div class="label">Rôle</div><div class="value">Utilisateur</div></div>
       </div>
@@ -2519,17 +2612,17 @@ function infoPage(kind){
           </ul>
           <button class="submit" onclick="toast('Plan Free déjà actif')" style="margin:0">Plan actuel</button>
         </div>
-        <div style="background:linear-gradient(145deg,rgba(40,10,15,.95),rgba(20,5,8,.95));border:2px solid #ff1830;border-radius:16px;padding:28px;display:flex;flex-direction:column;position:relative;box-shadow:0 0 40px rgba(255,24,48,.3)">
-          <div style="position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,#ff1830,#ff4555);color:#fff;font-size:10px;font-weight:800;letter-spacing:1.5px;padding:4px 12px;border-radius:20px">RECOMMANDÉ</div>
-          <div style="font-family:ui-monospace,monospace;font-size:11px;color:#ff6b7a;letter-spacing:2px;margin-bottom:12px">PRO</div>
+        <div style="background:linear-gradient(145deg,rgba(40,10,15,.95),rgba(20,5,8,.95));border:2px solid #a855f7;border-radius:16px;padding:28px;display:flex;flex-direction:column;position:relative;box-shadow:0 0 40px rgba(168,85,247,.35)">
+          <div style="position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,#7c3aed,#a855f7);color:#fff;font-size:10px;font-weight:800;letter-spacing:1.5px;padding:4px 12px;border-radius:20px">RECOMMANDÉ</div>
+          <div style="font-family:ui-monospace,monospace;font-size:11px;color:#c4b5fd;letter-spacing:2px;margin-bottom:12px">PRO</div>
           <div style="font-size:36px;font-weight:900;color:#fff;margin-bottom:4px">9,99€<span style="font-size:13px;color:#8e8789;font-weight:500">/mois</span></div>
           <p style="font-size:12px;color:#9a9295;margin:8px 0 20px;line-height:1.5">Pour les utilisateurs réguliers.</p>
           <ul style="list-style:none;padding:0;margin:0 0 20px;font-size:13px;color:#b9b0b2;line-height:2;flex:1">
             <li>✓ Recherches illimitées</li>
-            <li>✓ <b style="color:#ff6b7a">Assistant IA</b> à disposition</li>
+            <li>✓ <b style="color:#c4b5fd">Assistant IA</b> à disposition</li>
             <li>✓ Badge PRO dans le chat</li>
           </ul>
-          <button class="submit" onclick="subscribe('PRO')" style="margin:0">Passer à PRO</button>
+          <button class="submit" onclick="subscribe('PRO')" style="margin:0;background:linear-gradient(135deg,#7c3aed,#a855f7)">Passer à PRO</button>
         </div>
       </div>
       <p class="muted" style="font-size:12px;margin-top:20px">Paiement sécurisé · Annulation en un clic · Sans engagement</p>
@@ -2673,6 +2766,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const p = b.dataset.page;
       if(p === 'home') showPage('home');
       else if(p === 'advsearch'){ if(!currentUser){ toast('Connecte-toi'); openAuth(false); } else showPage('advsearch'); }
+      else if(p === 'ai'){ showPage('ai'); }
       else if(p === 'delete') infoPage('delete');
       else if(p === 'shop') infoPage('shop');
       else if(p === 'admin'){ if(adminOnly()){ showPage('admin'); loadAdminPage(); } }
@@ -2720,28 +2814,6 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('chatInput').addEventListener('input', sendTyping);
   document.getElementById('chatMessages').addEventListener('scroll', onChatScroll);
   document.getElementById('chatScrollBtn').addEventListener('click', () => scrollChatToBottom(true));
-
-  // Assistant IA
-  document.getElementById('aiToggle').addEventListener('click', () => {
-    if(aiOpen) closeAI(); else openAI();
-  });
-  document.getElementById('aiClose').addEventListener('click', closeAI);
-  document.getElementById('aiForm').addEventListener('submit', sendAiMessage);
-
-  // Auto-resize textarea de l'IA
-  const aiInput = document.getElementById('aiInput');
-  aiInput.addEventListener('input', () => {
-    aiInput.style.height = 'auto';
-    aiInput.style.height = Math.min(aiInput.scrollHeight, 120) + 'px';
-  });
-  aiInput.addEventListener('keydown', (e) => {
-    if(e.key === 'Enter' && !e.shiftKey){
-      e.preventDefault();
-      document.getElementById('aiForm').dispatchEvent(new Event('submit', {cancelable:true, bubbles:true}));
-    }
-  });
-
-  updateAiLimitBadge();
 
   checkSession();
   startPresenceStream();
