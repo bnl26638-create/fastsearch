@@ -31,6 +31,33 @@ svg{display:block;flex-shrink:0}
 .dot{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 12px var(--green)}
 .cta{background:linear-gradient(135deg,#ff172f,#ff3b4c)!important;color:white!important;box-shadow:0 0 25px rgba(255,25,48,.3)}
 
+/* ===== BADGE EN LIGNE ===== */
+.onlineBadge{
+  display:inline-flex;align-items:center;gap:7px;
+  padding:6px 12px;
+  border-radius:20px;
+  border:1px solid rgba(45,240,174,.35);
+  background:rgba(45,240,174,.08);
+  color:#2df0ae;
+  font-size:12px;
+  font-weight:700;
+  font-family:ui-monospace,monospace;
+  letter-spacing:.4px;
+  white-space:nowrap;
+  transition:border-color .2s ease, background .2s ease;
+}
+.onlineBadge .onlineDot{
+  width:7px;height:7px;border-radius:50%;
+  background:#2df0ae;
+  box-shadow:0 0 8px rgba(45,240,174,.9);
+  animation:onlinePulse 2s ease-in-out infinite;
+}
+@keyframes onlinePulse{
+  0%,100%{opacity:1;transform:scale(1)}
+  50%{opacity:.5;transform:scale(.85)}
+}
+.onlineBadge .onlineLabel{color:rgba(45,240,174,.75);font-weight:600}
+
 main{padding-top:60px}
 .page{min-height:calc(100vh - 60px);padding:52px 7vw 70px}
 
@@ -498,6 +525,8 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
   .bigbtn{width:100%}
   .chatPanel{right:12px;bottom:88px;width:calc(100vw - 24px)}
   .pill{font-size:11px;padding:8px 14px;gap:6px}
+  .onlineBadge{padding:5px 9px;font-size:11px;gap:5px}
+  .onlineBadge .onlineLabel{display:none}
 }
 @media(max-width:900px){
   .navlinks{display:none}
@@ -621,6 +650,11 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
     </button>
   </div>
   <div class="navright">
+    <span class="onlineBadge" id="onlineBadge" title="Visiteurs en ligne">
+      <span class="onlineDot"></span>
+      <span id="onlineCount">0</span>
+      <span class="onlineLabel">en ligne</span>
+    </span>
     <button class="cta" id="loginNav">Se connecter</button>
     <div class="userMenu hidden" id="userMenu">
       <button class="userBtn" id="userBtn" type="button">
@@ -948,10 +982,50 @@ let typingUsers = {};
 let lastTypingSent = 0;
 let lastSearchResults = [];
 let unreadChatCount = 0;
+let presenceSource = null;
 
 // Détection tactile (mobile/tablette) pour adapter les comportements de scroll
 function isTouchDevice(){
   return window.matchMedia('(hover: none) and (pointer: coarse)').matches;
+}
+
+// ============================================
+// PRÉSENCE — compteur "en ligne"
+// ============================================
+function updateOnlineCount(count){
+  const el = document.getElementById('onlineCount');
+  if(el) el.textContent = count;
+}
+
+async function fetchOnlineCountOnce(){
+  try {
+    const r = await fetch('/api/presence');
+    if(!r.ok) return;
+    const data = await r.json();
+    if(typeof data.online === 'number') updateOnlineCount(data.online);
+  } catch(e){}
+}
+
+function startPresenceStream(){
+  // Première valeur immédiate (même avant le SSE)
+  fetchOnlineCountOnce();
+
+  if(presenceSource){ try { presenceSource.close(); } catch(e){} presenceSource = null; }
+
+  try {
+    presenceSource = new EventSource('/api/presence/stream');
+    presenceSource.onmessage = (e) => {
+      try {
+        const data = JSON.parse(e.data);
+        if(data.type === 'online' && typeof data.count === 'number'){
+          updateOnlineCount(data.count);
+        }
+      } catch(err){}
+    };
+    presenceSource.onerror = () => {
+      // EventSource se reconnecte automatiquement tout seul
+    };
+  } catch(e){}
 }
 
 // ============================================
@@ -2069,6 +2143,9 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('chatScrollBtn').addEventListener('click', () => scrollChatToBottom(true));
 
   checkSession();
+  startPresenceStream();
+  // Filet de sécurité : rafraîchit le compteur toutes les 15 secondes
+  setInterval(fetchOnlineCountOnce, 15000);
   showPage('home');
 });
 </script>
