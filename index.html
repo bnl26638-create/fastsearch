@@ -563,11 +563,11 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
     background:rgba(255,255,255,.04);
   }
   .bottomNav button.active{
-    color:#c4b5fd;
+    color:#ff4b59;
   }
   .bottomNav button.active svg{
-    color:#c4b5fd;
-    filter:drop-shadow(0 0 8px rgba(196,181,253,.5));
+    color:#ff4b59;
+    filter:drop-shadow(0 0 10px rgba(255,75,89,.65));
   }
   .bottomNav button.active::after{
     content:"";
@@ -576,8 +576,8 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
     transform:translateX(-50%);
     width:26px;height:2.5px;
     border-radius:2px;
-    background:#c4b5fd;
-    box-shadow:0 0 8px rgba(196,181,253,.7);
+    background:#ff4b59;
+    box-shadow:0 0 10px rgba(255,75,89,.8);
   }
   /* Espace en bas pour ne pas que la barre cache le contenu */
   main{padding-bottom:80px;}
@@ -688,7 +688,8 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
   </button>
   <button data-page="delete">
     <svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
-    Suppression  </button>
+    Suppression
+  </button>
   <button data-page="shop">
     <svg viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
     Boutique
@@ -956,7 +957,7 @@ function isTouchDevice(){
 // ============================================
 // NAV
 // ============================================
-function showPage(id){
+function showPage(id, bottomActive){
   if(id === 'admin' && currentUserIsAdmin !== true){ toast('Accès administrateur refusé'); return; }
   PAGES.forEach(p => {
     const el = document.getElementById(p);
@@ -965,8 +966,11 @@ function showPage(id){
   document.querySelectorAll('.navlinks button').forEach(b => {
     b.classList.toggle('active', b.dataset.page === id);
   });
+  // Sur mobile, si on est sur une page "info" (delete/shop/profile/settings),
+  // on active le bouton bottom nav correspondant
+  const target = bottomActive || id;
   document.querySelectorAll('#bottomNav button').forEach(b => {
-    b.classList.toggle('active', b.dataset.page === id);
+    b.classList.toggle('active', b.dataset.page === target);
   });
   window.scrollTo({top:0, behavior:'smooth'});
 }
@@ -1880,7 +1884,9 @@ function infoPage(kind){
     `
   };
   document.getElementById('infoContent').innerHTML = content[kind] || '';
-  showPage('info');
+  // On garde l'ID de la page info mais on active le bon bouton bottom nav
+  const bottomTarget = (kind === 'delete') ? 'delete' : (kind === 'shop' ? 'shop' : null);
+  showPage('info', bottomTarget);
 
   if(kind === 'profile'){
     const initial = (currentUser || '?').charAt(0).toUpperCase();
