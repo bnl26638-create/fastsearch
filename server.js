@@ -323,18 +323,29 @@ app.get('/api/stats', (req, res) => {
 });
 
 // ============================================================
-// PRÉSENCE
+// PRÉSENCE — compteur "en ligne" temps réel
 // ============================================================
 
-function broadcastPresence() {
+// Renvoie le nombre de visiteurs actuellement connectés au flux présence
+app.get('/api/presence', (req, res) => {
+  res.json({ online: presenceClients.size });
+});
+
+// Diffuse le compte à tous les clients connectés au flux présence
+function broadcastOnlineCount() {
   const payload =
     'data: ' +
-    JSON.stringify({ type: 'presence', count: presenceClients.size }) +
+    JSON.stringify({ type: 'online', count: presenceClients.size }) +
     '\n\n';
 
   for (const client of presenceClients) {
     try { client.res.write(payload); } catch (e) {}
   }
+}
+
+// Ancien nom conservé pour compat (utilisé nulle part ailleurs mais au cas où)
+function broadcastPresence() {
+  broadcastOnlineCount();
 }
 
 app.get('/api/presence/stream', (req, res) => {
@@ -347,11 +358,14 @@ app.get('/api/presence/stream', (req, res) => {
   const client = { res: res };
   presenceClients.add(client);
 
+  // Premier message : compte actuel (type: 'presence' ET 'online' pour compat)
   try {
     res.write('data: ' + JSON.stringify({ type: 'presence', count: presenceClients.size }) + '\n\n');
+    res.write('data: ' + JSON.stringify({ type: 'online', count: presenceClients.size }) + '\n\n');
   } catch (e) {}
 
-  broadcastPresence();
+  // Informe tout le monde du nouveau count
+  broadcastOnlineCount();
 
   const hb = setInterval(() => {
     try { res.write(': ping\n\n'); } catch (e) {}
@@ -360,7 +374,8 @@ app.get('/api/presence/stream', (req, res) => {
   req.on('close', () => {
     clearInterval(hb);
     presenceClients.delete(client);
-    broadcastPresence();
+    // Informe tout le monde que quelqu'un est parti
+    broadcastOnlineCount();
   });
 });
 
