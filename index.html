@@ -195,8 +195,35 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
 .btnSearch svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
 .btnSearch:hover{transform:translateY(-2px);filter:brightness(1.08)}
 .btnSearch:disabled{opacity:.6;cursor:not-allowed;transform:none}
-.btnClear{background:transparent;color:#8e8789;border:1px solid #32151a;padding:15px 26px;border-radius:12px;font-size:15px;font-weight:600;cursor:pointer;transition:all .15s;font-family:inherit}
-.btnClear:hover{color:#fff;border-color:#521923;background:rgba(255,25,45,.05)}
+.btnClear{
+  background:transparent;
+  color:#8e8789;
+  border:1px solid #32151a;
+  padding:15px 26px;
+  border-radius:12px;
+  font-size:15px;
+  font-weight:600;
+  cursor:pointer;
+  transition:all .15s;
+  font-family:inherit;
+  display:inline-flex;
+  align-items:center;
+  gap:9px;
+}
+.btnClear svg{
+  width:16px;
+  height:16px;
+  stroke:currentColor;
+  fill:none;
+  stroke-width:2.2;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+}
+.btnClear:hover{
+  color:#fff;
+  border-color:#521923;
+  background:rgba(255,25,45,.05);
+}
 
 /* ===== RÉSULTATS ===== */
 .resultsWrap{max-width:1240px;margin:24px auto 0;padding:0}
@@ -1331,8 +1358,7 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
     </button>
     <button data-page="ai" class="aiNavBtn">
       <svg viewBox="0 0 24 24"><path d="M12 2l2 7h7l-5.5 4.5L17 21l-5-4-5 4 1.5-7.5L3 9h7z"/></svg>
-      Assistant IA
-      <span class="navProBadge">PRO</span>
+      IA
     </button>
     <button data-page="discord">
       <svg viewBox="0 0 24 24"><path d="M3 21V9l6-4v4l6-4v4l6-4v16z"/><path d="M3 21h18"/></svg>
@@ -1499,7 +1525,10 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
         <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
         Rechercher
       </button>
-      <button class="btnClear" id="advClear">Effacer les résultats</button>
+      <button class="btnClear" id="advClear">
+        <svg viewBox="0 0 24 24"><path d="M20 20H7L3 16a1 1 0 0 1 0-1.4l9-9a1 1 0 0 1 1.4 0l6 6a1 1 0 0 1 0 1.4L13 20"/><line x1="8" y1="20" x2="17" y2="11"/><line x1="15" y1="20" x2="20" y2="15"/></svg>
+        Effacer
+      </button>
     </div>
   </div>
 
@@ -2139,8 +2168,21 @@ async function doAdvSearch(){
 }
 
 function clearAdvSearch(){
+  // Vide tous les champs du formulaire de recherche
+  document.querySelectorAll('[data-field]').forEach(inp => {
+    inp.value = '';
+  });
+
+  // Remet à zéro les compteurs par section
+  updateSectionCounts();
+
+  // Efface les résultats affichés
   document.getElementById('advResults').innerHTML = '';
-  toast('Résultats effacés');
+
+  // Reset des derniers résultats en mémoire (pour le bouton Copier)
+  lastSearchResults = [];
+
+  toast('Formulaire et résultats effacés');
 }
 
 function relaunchSearch(query){
@@ -3125,14 +3167,21 @@ function infoPage(kind){
       </div>
       <input type="file" id="profilPhotoInput" accept="image/*" style="display:none">
       <div class="profilGrid">
-        <div class="profilCard"><div class="label">Nom d'utilisateur</div><div class="value" id="profilUsername">user</div></div>
         <div class="profilCard"><div class="label">Plan actuel</div><div class="value ${currentUserIsPro ? 'pro' : ''}" id="profilPlan">${proText}</div></div>
         <div class="profilCard"><div class="label">Statut</div><div class="value" style="color:#2df0ae">● Actif</div></div>
         <div class="profilCard"><div class="label">Rôle</div><div class="value">Utilisateur</div></div>
       </div>
-      <p class="muted" style="text-align:left;font-size:13px;line-height:1.7">
-        Ceci est votre espace personnel. Les informations affichées ici sont celles de votre compte.
-        Pour modifier vos préférences, rendez-vous dans <b style="color:#fff">Paramètres</b>.
+
+      <h3 style="margin:28px 0 8px;font-size:15px;color:#fff">Changer mon pseudo</h3>
+      <p class="muted" style="text-align:left;font-size:12px;margin-bottom:16px">Choisis un nouveau pseudo (3 à 24 caractères : lettres, chiffres, _ . -).</p>
+      <form id="usernameForm">
+        <div class="field"><label>Nouveau pseudo *</label><input type="text" id="usernameNew" placeholder="mon_nouveau_pseudo" required minlength="3" maxlength="24"></div>
+        <p id="usernameMsg" style="margin:12px 0 0;font-size:13px;font-family:ui-monospace,monospace;min-height:18px"></p>
+        <button type="submit" class="submit" id="usernameSubmit">Enregistrer le nouveau pseudo</button>
+      </form>
+
+      <p class="muted" style="text-align:left;font-size:13px;line-height:1.7;margin-top:22px">
+        Pour modifier ton mot de passe, va dans <b style="color:#fff">Paramètres</b>.
       </p>
     `,
     settings: `
@@ -3158,7 +3207,6 @@ function infoPage(kind){
     const initial = (currentUser || '?').charAt(0).toUpperCase();
     const avatarEl = document.getElementById('profilAvatar');
     document.getElementById('profilName').textContent = currentUser || 'user';
-    document.getElementById('profilUsername').textContent = currentUser || 'user';
     const creatorBadge = document.getElementById('profilCreatorBadge');
     if(creatorBadge) creatorBadge.classList.toggle('hidden', currentUserIsAdmin !== true);
     applyAvatarToEl(avatarEl, currentAvatar, initial);
@@ -3187,6 +3235,51 @@ function infoPage(kind){
         };
         reader.readAsDataURL(file);
       };
+    }
+
+    // Gestion du changement de pseudo
+    const usernameForm = document.getElementById('usernameForm');
+    const usernameInput = document.getElementById('usernameNew');
+    if(usernameForm && usernameInput){
+      usernameInput.value = currentUser || '';
+      usernameForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const msgEl = document.getElementById('usernameMsg');
+        const btnEl = document.getElementById('usernameSubmit');
+        msgEl.textContent = ''; msgEl.style.color = '';
+
+        const newUsername = usernameInput.value.trim();
+        if(!newUsername){ msgEl.textContent = '✗ Pseudo vide'; msgEl.style.color = '#ff5665'; return; }
+        if(newUsername === currentUser){ msgEl.textContent = '✗ C\'est déjà ton pseudo'; msgEl.style.color = '#ff5665'; return; }
+
+        btnEl.disabled = true; btnEl.textContent = 'Enregistrement...';
+        try {
+          const r = await fetch('/api/change-username', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({ newUsername })
+          });
+          const data = await r.json();
+          if(!r.ok){
+            msgEl.textContent = '✗ ' + (data.error || 'Erreur');
+            msgEl.style.color = '#ff5665';
+          } else {
+            currentUser = data.username;
+            msgEl.textContent = '✓ Pseudo modifié';
+            msgEl.style.color = '#2df0ae';
+            updateAuthUI();
+            document.getElementById('profilName').textContent = currentUser;
+            usernameInput.value = currentUser;
+            toast('Pseudo modifié');
+          }
+        } catch(err){
+          msgEl.textContent = '✗ Erreur réseau';
+          msgEl.style.color = '#ff5665';
+        } finally {
+          btnEl.disabled = false;
+          btnEl.textContent = 'Enregistrer le nouveau pseudo';
+        }
+      });
     }
   }
 
