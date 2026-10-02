@@ -31,7 +31,6 @@ svg{display:block;flex-shrink:0}
 .dot{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 12px var(--green)}
 .cta{background:linear-gradient(135deg,#ff172f,#ff3b4c)!important;color:white!important;box-shadow:0 0 25px rgba(255,25,48,.3)}
 
-/* ===== BADGE EN LIGNE ===== */
 .onlineBadge{
   display:inline-flex;align-items:center;gap:7px;
   padding:6px 12px;
@@ -66,7 +65,6 @@ main{padding-top:60px}
 .pill{display:inline-flex;align-items:center;gap:9px;border:1px solid rgba(255,39,57,.5);padding:10px 17px;border-radius:30px;background:rgba(10,3,4,.6);font-family:ui-monospace,monospace;font-size:14px;position:relative;white-space:nowrap;max-width:100%}
 h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spacing:-5px;font-weight:900;text-shadow:0 0 20px rgba(255,38,53,.45)}
 
-/* ===== TITRE FASTSEARCH ANIMÉ ===== */
 .glow{
   position:relative;display:inline-block;color:#fff;
   background:linear-gradient(90deg,#ff1830 0%,#ff6b7a 25%,#ffffff 50%,#ff6b7a 75%,#ff1830 100%);
@@ -132,7 +130,6 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
 .authMsg.error{color:#ff5665}
 .authMsg.success{color:var(--green)}
 
-/* ===== FORCE MOT DE PASSE ===== */
 .pwdStrength{margin-top:10px;animation:fadeIn .25s ease}
 .pwdBars{display:flex;gap:4px;margin-bottom:6px}
 .pwdBars span{flex:1;height:4px;background:rgba(255,255,255,.08);border-radius:2px;transition:background .25s ease}
@@ -148,12 +145,11 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
 .pwdStrength[data-level="5"] .pwdBars span{background:#00ff9d;box-shadow:0 0 8px rgba(0,255,157,.6)}
 .pwdStrength[data-level="5"] .pwdLabel{color:#00ff9d;text-shadow:0 0 10px rgba(0,255,157,.5)}
 
-/* ===== TOAST / FOOTER ===== */
 .toast{position:fixed;right:20px;bottom:100px;z-index:50;background:#120709;border:1px solid #5a1820;border-radius:12px;padding:13px 16px;box-shadow:0 15px 45px #000;transform:translateY(20px);opacity:0;transition:.25s;pointer-events:none;font-size:13px;max-width:340px}
 .toast.show{transform:none;opacity:1}
 .footer{text-align:center;color:#575052;font-size:12px;padding:20px}
 
-/* ===== PAGE RECHERCHE (nouveau design) ===== */
+/* ===== PAGE RECHERCHE (nouveau design rouge) ===== */
 .advPageHead{
   max-width:1240px;
   margin:0 auto 22px;
@@ -174,11 +170,11 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
 .advCard{
   max-width:1240px;
   margin:0 auto;
-  background:linear-gradient(180deg,rgba(20,10,22,.92),rgba(10,5,12,.94));
-  border:1px solid rgba(168,85,247,.28);
+  background:linear-gradient(180deg,rgba(15,5,7,.92),rgba(8,3,4,.94));
+  border:1px solid rgba(255,42,59,.28);
   border-radius:22px;
   overflow:hidden;
-  box-shadow:0 20px 70px rgba(0,0,0,.5),0 0 60px rgba(168,85,247,.08);
+  box-shadow:0 20px 70px rgba(0,0,0,.5),0 0 60px rgba(255,25,48,.08);
 }
 
 .advCardTabs{
@@ -186,7 +182,7 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
   align-items:center;
   gap:4px;
   padding:14px 18px;
-  border-bottom:1px solid rgba(168,85,247,.18);
+  border-bottom:1px solid rgba(255,42,59,.18);
   background:rgba(0,0,0,.25);
   position:relative;
   flex-wrap:wrap;
@@ -212,11 +208,11 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
   stroke:currentColor;fill:none;
   stroke-width:2;stroke-linecap:round;stroke-linejoin:round;
 }
-.advCardTab:hover{color:#fff;background:rgba(168,85,247,.06)}
+.advCardTab:hover{color:#fff;background:rgba(255,25,45,.06)}
 .advCardTab.active{
   color:#fff;
-  background:linear-gradient(135deg,#7c3aed,#a855f7);
-  box-shadow:0 6px 22px rgba(168,85,247,.4);
+  background:linear-gradient(135deg,#ff1830,#ff4b59);
+  box-shadow:0 6px 22px rgba(255,25,48,.4);
 }
 
 .advCardBadge{
@@ -226,9 +222,9 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
   gap:6px;
   padding:7px 14px;
   border-radius:10px;
-  border:1px solid rgba(168,85,247,.5);
-  background:rgba(168,85,247,.12);
-  color:#c4b5fd;
+  border:1px solid rgba(255,42,59,.5);
+  background:rgba(255,25,45,.12);
+  color:#ff6b7a;
   font-size:12px;
   font-weight:800;
   font-family:ui-monospace,monospace;
@@ -239,7 +235,6 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
 
 .advCardBody{padding:0}
 
-/* Onglet historique dans la carte */
 .advHistoryInner{padding:22px}
 .advHistoryInner .mySearchEmpty{color:#a89cb2}
 
@@ -382,7 +377,6 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
 .fiche-field .val.empty{color:var(--muted);font-style:italic;opacity:.5}
 .fiche-field .val.mono{font-family:ui-monospace,monospace;color:var(--red);font-size:12px}
 
-/* ===== COMPTEUR PAR SECTION ===== */
 .accCount{
   display:inline-flex;align-items:center;justify-content:center;
   min-width:34px;height:34px;padding:0 8px;margin-left:10px;
@@ -466,12 +460,6 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
   stroke:#5c5456;fill:none;stroke-width:1.5;
   margin:0 auto 16px;
 }
-.mySearchHeader{
-  display:flex;align-items:center;justify-content:space-between;gap:12px;
-  margin-bottom:22px;
-  flex-wrap:wrap;
-}
-.mySearchHeader h2{margin:0;font-size:18px}
 .mySearchClearAll{
   border:1px solid rgba(255,42,59,.35);
   background:rgba(255,25,45,.08);
@@ -1164,7 +1152,7 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
 }
 .chatDeleteBtn:hover{background:rgba(255,25,45,.2);border-color:var(--red);color:#fff}
 
-/* ===== ADMIN — INTERFACE ===== */
+/* ===== ADMIN ===== */
 .adminWrap{max-width:1280px;margin:0 auto}
 .adminHero{position:relative;overflow:hidden;padding:28px 30px;margin-bottom:18px;border:1px solid rgba(255,42,59,.22);border-radius:20px;background:linear-gradient(135deg,rgba(27,8,12,.96),rgba(10,4,6,.92));box-shadow:0 22px 70px rgba(0,0,0,.32)}
 .adminHero:after{content:"";position:absolute;width:280px;height:280px;right:-90px;top:-120px;background:radial-gradient(circle,rgba(255,25,45,.22),transparent 68%);pointer-events:none}
@@ -1210,7 +1198,6 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
 @media(max-width:1050px){.adminStats{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media(max-width:650px){.adminHero{padding:22px}.adminHeroInner{align-items:flex-start;flex-direction:column}.adminStats{grid-template-columns:repeat(2,minmax(0,1fr))}.adminStat .value{font-size:23px}.adminDangerRow{align-items:flex-start;flex-direction:column}.adminClearChat{width:100%}.adminToolbar{align-items:stretch;flex-direction:column}.adminSearchBox{max-width:none}}
 
-/* ===== MENU UTILISATEUR ===== */
 .userMenu{position:relative}
 .userBtn{background:transparent;border:1px solid var(--line);color:#fff;padding:6px 14px 6px 6px;border-radius:24px;font-size:13px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:8px;font-family:inherit;transition:all .15s}
 .userBtn:hover{background:rgba(255,25,45,.1);border-color:var(--red)}
@@ -1266,7 +1253,6 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
   .userDropdown{right:-60px}
 }
 
-/* ===== BOTTOM NAV (mobile uniquement) ===== */
 .bottomNav{display:none}
 
 @media(max-width:900px){
@@ -1337,36 +1323,18 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
     background:#ff4b59;
     box-shadow:0 0 10px rgba(255,75,89,.8);
   }
-  .bottomNav button.aiBtn.active{
-    color:#c4b5fd;
-  }
-  .bottomNav button.aiBtn.active svg{
-    color:#c4b5fd;
-    filter:drop-shadow(0 0 10px rgba(196,181,253,.65));
-  }
-  .bottomNav button.aiBtn.active::after{
-    background:#c4b5fd;
-    box-shadow:0 0 10px rgba(196,181,253,.8);
-  }
-  .bottomNav button.dcBtn.active{
-    color:#7983f5;
-  }
-  .bottomNav button.dcBtn.active svg{
-    color:#7983f5;
-    filter:drop-shadow(0 0 10px rgba(121,131,245,.65));
-  }
-  .bottomNav button.dcBtn.active::after{
-    background:#7983f5;
-    box-shadow:0 0 10px rgba(121,131,245,.8);
-  }
+  .bottomNav button.aiBtn.active{color:#c4b5fd;}
+  .bottomNav button.aiBtn.active svg{color:#c4b5fd;filter:drop-shadow(0 0 10px rgba(196,181,253,.65));}
+  .bottomNav button.aiBtn.active::after{background:#c4b5fd;box-shadow:0 0 10px rgba(196,181,253,.8);}
+  .bottomNav button.dcBtn.active{color:#7983f5;}
+  .bottomNav button.dcBtn.active svg{color:#7983f5;filter:drop-shadow(0 0 10px rgba(121,131,245,.65));}
+  .bottomNav button.dcBtn.active::after{background:#7983f5;box-shadow:0 0 10px rgba(121,131,245,.8);}
   main{padding-bottom:80px;}
   .footer{padding-bottom:96px;}
   .floatChat{bottom:88px;}
   .chatPanel{bottom:150px;height:min(520px, calc(100vh - 190px));}
 
-  #ai.page{
-    padding: 14px 12px 90px;
-  }
+  #ai.page{padding: 14px 12px 90px;}
   .aiPage{
     height: calc(100vh - 130px) !important;
     min-height: 0 !important;
@@ -1473,7 +1441,6 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
   </div>
 </header>
 
-<!-- ================= BOTTOM NAV (mobile) ================= -->
 <nav class="bottomNav" id="bottomNav">
   <button data-page="home" class="active" type="button">
     <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
@@ -1494,7 +1461,6 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
 </nav>
 
 <main>
-<!-- ================= HOME ================= -->
 <section id="home" class="page home">
   <div class="pill"><span id="indexPill">11 102 948 369</span> enregistrements indexés</div>
   <h1><span class="glow">FastSearch</span></h1>
@@ -1517,7 +1483,6 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
   <div class="gridbg"></div>
 </section>
 
-<!-- ================= RECHERCHE AVANCÉE ================= -->
 <section id="advsearch" class="page hidden">
   <div class="advPageHead">
     <h2>Recherche</h2>
@@ -1537,7 +1502,6 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
       <span class="advCardBadge" id="advCriteriaBadge"><span class="num">0</span> critère</span>
     </div>
 
-    <!-- Contenu onglet Recherche -->
     <div class="advCardBody" id="advTabSearchContent">
       <div class="advSearch">
         <div class="advBody">
@@ -1614,7 +1578,6 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
       </div>
     </div>
 
-    <!-- Contenu onglet Historique -->
     <div class="advCardBody hidden" id="advTabHistoryContent">
       <div class="advHistoryInner" id="advHistoryInner">
         <p class="muted" style="text-align:left;color:#a89cb2">Chargement…</p>
@@ -1625,12 +1588,10 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
   <div id="advResults" class="resultsWrap"></div>
 </section>
 
-<!-- ================= ASSISTANT IA ================= -->
 <section id="ai" class="page hidden">
   <div id="aiContent"></div>
 </section>
 
-<!-- ================= CSINT ================= -->
 <section id="discord" class="page hidden">
   <div class="csintPage">
 
@@ -1698,7 +1659,6 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
   </div>
 </section>
 
-<!-- ================= AUTH ================= -->
 <section id="auth" class="page hidden">
   <div class="authWrap">
     <div class="authCard">
@@ -1732,7 +1692,6 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
   </div>
 </section>
 
-<!-- ================= ADMIN ================= -->
 <section id="admin" class="page hidden">
   <div class="adminWrap">
     <div class="adminHeader">
@@ -1788,7 +1747,6 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
   </div>
 </section>
 
-<!-- ================= INFO ================= -->
 <section id="info" class="page hidden">
   <div class="authWrap">
     <div class="authCard wide">
@@ -1798,7 +1756,6 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
 </section>
 </main>
 
-<!-- ================= CHAT PUBLIC ================= -->
 <button class="floatChat" id="chatToggle" title="Chat en direct" type="button">
   <svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
   <span class="badge hidden" id="chatBadge">0</span>
@@ -1859,6 +1816,21 @@ let aiHistory = [];
 let aiSending = false;
 let aiRemaining = 30;
 
+// ============================================
+// URL / HISTORIQUE
+// ============================================
+const PAGE_URLS = {
+  home: '/',
+  advsearch: '/recherche',
+  ai: '/ia',
+  discord: '/csint',
+  admin: '/admin',
+  auth: '/connexion',
+  info: '/info'
+};
+const URL_TO_PAGE = {};
+Object.keys(PAGE_URLS).forEach(k => { URL_TO_PAGE[PAGE_URLS[k]] = k; });
+
 function isTouchDevice(){
   return window.matchMedia('(hover: none) and (pointer: coarse)').matches;
 }
@@ -1897,8 +1869,9 @@ function startPresenceStream(){
 // ============================================
 // NAV
 // ============================================
-function showPage(id, bottomActive){
+function showPage(id, bottomActive, skipHistory){
   if(id === 'admin' && currentUserIsAdmin !== true){ toast('Accès administrateur refusé'); return; }
+
   PAGES.forEach(p => {
     const el = document.getElementById(p);
     if(el) el.classList.toggle('hidden', p !== id);
@@ -1913,6 +1886,14 @@ function showPage(id, bottomActive){
   window.scrollTo({top:0, behavior:'smooth'});
 
   if(id === 'ai') renderAiPage();
+
+  // Met à jour l'URL sans recharger la page
+  if(!skipHistory){
+    const url = PAGE_URLS[id] || '/';
+    if(window.location.pathname !== url){
+      history.pushState({ page: id }, '', url);
+    }
+  }
 }
 
 function toast(msg){
@@ -3250,11 +3231,9 @@ function switchAdvTab(tab){
   document.getElementById('advTabSearchContent').classList.toggle('hidden', !isSearch);
   document.getElementById('advTabHistoryContent').classList.toggle('hidden', isSearch);
 
-  // Masque/affiche le badge compteur selon l'onglet
   const badge = document.getElementById('advCriteriaBadge');
   if(badge) badge.style.visibility = isSearch ? 'visible' : 'hidden';
 
-  // Masque/affiche les résultats selon l'onglet
   const resultsEl = document.getElementById('advResults');
   if(resultsEl) resultsEl.style.display = isSearch ? '' : 'none';
 
@@ -3426,6 +3405,23 @@ function infoPage(kind){
 // INIT
 // ============================================
 document.addEventListener('DOMContentLoaded', () => {
+
+  // ===== RESTAURATION DEPUIS L'URL AU CHARGEMENT =====
+  const path = window.location.pathname;
+  const initialPage = URL_TO_PAGE[path] || 'home';
+
+  // Bouton retour / avancer du navigateur
+  window.addEventListener('popstate', (e) => {
+    const p = (e.state && e.state.page) || URL_TO_PAGE[window.location.pathname] || 'home';
+    if(p === 'admin' && currentUserIsAdmin !== true){
+      showPage('home', null, true);
+      history.replaceState({ page: 'home' }, '', '/');
+      toast('Accès administrateur refusé');
+      return;
+    }
+    showPage(p, null, true);
+  });
+
   const userBtn = document.getElementById('userBtn');
   const userMenuEl = document.getElementById('userMenu');
   const userDropdown = document.getElementById('userDropdown');
@@ -3479,7 +3475,6 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('advDoSearch').addEventListener('click', doAdvSearch);
   document.getElementById('advClear').addEventListener('click', clearAdvSearch);
 
-  // Onglets de la page Recherche
   document.getElementById('advTabSearch').addEventListener('click', () => switchAdvTab('search'));
   document.getElementById('advTabHistory').addEventListener('click', () => switchAdvTab('history'));
 
@@ -3512,7 +3507,10 @@ document.addEventListener('DOMContentLoaded', () => {
   checkSession();
   startPresenceStream();
   setInterval(fetchOnlineCountOnce, 15000);
-  showPage('home');
+
+  // Charge la page depuis l'URL initiale (ou home par défaut)
+  showPage(initialPage, null, true);
+  history.replaceState({ page: initialPage }, '', PAGE_URLS[initialPage] || '/');
 });
 </script>
 </body>
