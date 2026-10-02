@@ -797,22 +797,111 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
 }
 .csintHint b{color:#c9c3c5;font-style:normal;font-weight:700}
 
-/* Message "bientôt disponible" */
-.csintNotice{
-  margin-top:22px;
-  padding:16px 18px;
-  border-radius:12px;
+/* ===== CSINT — RÉSULTATS ===== */
+.csintResults{
+  margin-top:24px;
+  display:flex;flex-direction:column;gap:18px;
+}
+.csintResultsHead{
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  margin-bottom:4px;
+}
+.csintResultsTitle{
+  font-size:12px;font-weight:900;letter-spacing:2.2px;text-transform:uppercase;
+  color:#ff4b59;font-family:ui-monospace,monospace;
+}
+.csintResultsTitle span{color:#8e8789;font-weight:600;letter-spacing:1.5px}
+.csintCopyAllBtn{
+  display:inline-flex;align-items:center;gap:7px;
+  padding:8px 14px;border-radius:9px;
+  border:1px solid rgba(255,42,59,.4);
   background:rgba(255,25,45,.08);
-  border:1px solid rgba(255,42,59,.28);
-  color:#ffb0b8;
-  font-size:13.5px;
-  display:flex;align-items:center;gap:10px;
+  color:#ff6b7a;font-size:12px;font-weight:700;
+  font-family:inherit;cursor:pointer;
+  transition:all .15s ease;
+}
+.csintCopyAllBtn:hover{
+  background:rgba(255,25,45,.18);
+  border-color:var(--red);color:#fff;transform:translateY(-1px);
+}
+.csintCopyAllBtn svg{
+  width:12px;height:12px;stroke:currentColor;fill:none;
+  stroke-width:2;stroke-linecap:round;stroke-linejoin:round;
+}
+
+.csintBlock{
+  background:linear-gradient(180deg,rgba(20,8,10,.75),rgba(10,3,5,.85));
+  border:1px solid rgba(255,42,59,.25);
+  border-radius:16px;
+  padding:18px 18px 14px;
+  position:relative;
+  box-shadow:0 10px 40px rgba(0,0,0,.4);
+}
+.csintBlockCopyBtn{
+  position:absolute;top:14px;right:14px;
+  display:inline-flex;align-items:center;gap:6px;
+  padding:6px 11px;border-radius:8px;
+  border:1px solid rgba(255,42,59,.35);
+  background:rgba(255,25,45,.08);
+  color:#ff6b7a;font-size:11px;font-weight:700;
+  font-family:inherit;cursor:pointer;
+  transition:all .15s ease;
+}
+.csintBlockCopyBtn:hover{
+  background:rgba(255,25,45,.18);
+  border-color:var(--red);color:#fff;
+}
+.csintBlockCopyBtn svg{
+  width:11px;height:11px;stroke:currentColor;fill:none;
+  stroke-width:2;stroke-linecap:round;stroke-linejoin:round;
+}
+
+.csintField{
+  display:grid;
+  grid-template-columns:130px 1fr;
+  gap:14px;
+  align-items:center;
+  padding:12px 0;
+  border-bottom:1px solid rgba(255,42,59,.1);
+}
+.csintField:first-of-type{margin-top:28px}
+.csintField:last-child{border-bottom:0}
+.csintField .cfLabel{
+  font-size:14px;font-weight:700;color:#fff;
+}
+.csintField .cfValue{
+  font-family:ui-monospace,monospace;
+  font-size:13px;
+  color:#e5e2e3;
+  background:rgba(9,5,6,.6);
+  border:1px solid rgba(255,42,59,.14);
+  border-radius:8px;
+  padding:10px 12px;
+  word-break:break-all;
+  user-select:all;
+}
+
+.csintNoResult{
+  margin-top:24px;
+  padding:40px 24px;
+  text-align:center;
+  background:rgba(20,8,10,.5);
+  border:1px solid rgba(255,42,59,.2);
+  border-radius:14px;
   animation:fadeIn .25s ease;
 }
-.csintNotice svg{
-  width:18px;height:18px;flex-shrink:0;
-  stroke:currentColor;fill:none;
-  stroke-width:2;stroke-linecap:round;stroke-linejoin:round;
+.csintNoResult .cnrIco{
+  color:#ff4b59;opacity:.5;display:flex;justify-content:center;margin-bottom:14px;
+}
+.csintNoResult .cnrIco svg{
+  width:40px;height:40px;stroke:currentColor;fill:none;
+  stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;
+}
+.csintNoResult .cnrTitle{
+  font-size:16px;font-weight:800;color:#fff;margin-bottom:8px;
+}
+.csintNoResult .cnrHint{
+  font-size:13px;color:#8e8789;line-height:1.6;
 }
 
 @media(max-width:700px){
@@ -822,6 +911,11 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
   .csintPanel{padding:20px 16px 18px;border-radius:14px}
   .csintForm{flex-direction:column}
   .csintForm button{padding:14px 20px;justify-content:center}
+}
+@media(max-width:600px){
+  .csintField{grid-template-columns:1fr;gap:6px}
+  .csintField .cfLabel{font-size:12px;color:#c9c3c5}
+  .csintResultsHead{flex-direction:column;align-items:flex-start}
 }
 
 /* ===== CHAT PUBLIC ===== */
@@ -1511,9 +1605,9 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
       <p class="csintHint" id="csintHint">
         Une seule requête : <b>identifiant, pseudo ou autre terme FiveM.</b>
       </p>
-
-      <div id="csintNoticeWrap"></div>
     </div>
+
+    <div class="csintResults" id="csintResults"></div>
 
   </div>
 </section>
@@ -2447,13 +2541,46 @@ const CSINT_CONFIG = {
   }
 };
 
+// Base temporaire FiveM (en dur pour l'instant, à remplacer par une vraie API plus tard)
+const CSINT_FIVEM_DB = {
+  '701787960374329344': [
+    {
+      fields: {
+        'Discord': '701787960374329344',
+        'License': '205155e1263983d2a5da19ba29fd590edd5e0fb4',
+        'Steam': '11000013c53159c',
+        'Xbox Live': '2535411087075516',
+        'Microsoft Live': '914797982818267'
+      }
+    },
+    {
+      fields: {
+        'Discord': '701787960374329344',
+        'License': '205155e1263983d2a5da19ba29fd590edd5e0fb4',
+        'Microsoft Live': '914797982818267'
+      }
+    },
+    {
+      fields: {
+        'Pseudo': 'benjamindetry',
+        'Discord': '701787960374329344',
+        'License': '205155e1263983d2a5da19ba29fd590edd5e0fb4',
+        'License 2': '5ab89ecd1f73c912406024ba6209c87f614ff472',
+        'Xbox Live': '2535411087075516',
+        'Microsoft Live': '914797982818267',
+        'IP': '127.0.0.1'
+      }
+    }
+  ]
+};
+
 function initCsintPage(){
   const tabs = document.querySelectorAll('.csintTab');
   const titleEl = document.getElementById('csintPanelTitle');
   const inputEl = document.getElementById('csintInput');
   const hintEl = document.getElementById('csintHint');
   const btnEl = document.getElementById('csintSearchBtn');
-  const noticeWrap = document.getElementById('csintNoticeWrap');
+  const resultsEl = document.getElementById('csintResults');
   if(!tabs.length || !inputEl || !btnEl) return;
 
   let currentTab = 'fivem';
@@ -2467,7 +2594,7 @@ function initCsintPage(){
     inputEl.placeholder = cfg.placeholder;
     hintEl.innerHTML = cfg.hint;
     inputEl.value = '';
-    noticeWrap.innerHTML = '';
+    resultsEl.innerHTML = '';
     inputEl.focus();
   }
 
@@ -2475,22 +2602,112 @@ function initCsintPage(){
     tab.addEventListener('click', () => applyTab(tab.dataset.tab));
   });
 
+  function renderBlocks(blocks){
+    let html = '<div class="csintResultsHead">';
+    html += '<div class="csintResultsTitle">Résultats FiveM <span>— ' + blocks.length + ' affiché(s)</span></div>';
+    html += '<button class="csintCopyAllBtn" id="csintCopyAll">';
+    html += '<svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>';
+    html += 'Copier tout</button>';
+    html += '</div>';
+
+    blocks.forEach((block, i) => {
+      html += '<div class="csintBlock" data-block-index="' + i + '">';
+      html += '<button class="csintBlockCopyBtn" data-copy-block="' + i + '">';
+      html += '<svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>';
+      html += 'Copier</button>';
+      for(const label in block.fields){
+        html += '<div class="csintField">';
+        html += '<div class="cfLabel">' + escapeHtml(label) + '</div>';
+        html += '<div class="cfValue">' + escapeHtml(block.fields[label]) + '</div>';
+        html += '</div>';
+      }
+      html += '</div>';
+    });
+
+    resultsEl.innerHTML = html;
+
+    resultsEl.querySelectorAll('[data-copy-block]').forEach(b => {
+      b.addEventListener('click', () => {
+        const idx = parseInt(b.dataset.copyBlock, 10);
+        const block = blocks[idx];
+        if(!block) return;
+        const text = Object.keys(block.fields).map(k => k + ': ' + block.fields[k]).join('\n');
+        copyText(text, b);
+      });
+    });
+
+    const copyAllBtn = document.getElementById('csintCopyAll');
+    if(copyAllBtn){
+      copyAllBtn.addEventListener('click', () => {
+        const text = blocks.map((block, i) => {
+          const lines = Object.keys(block.fields).map(k => k + ': ' + block.fields[k]);
+          return '--- Profil ' + (i + 1) + ' ---\n' + lines.join('\n');
+        }).join('\n\n');
+        copyText(text, copyAllBtn);
+      });
+    }
+  }
+
+  function renderNoResult(query){
+    resultsEl.innerHTML =
+      '<div class="csintNoResult">' +
+        '<div class="cnrIco"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="8" y1="11" x2="14" y2="11"/></svg></div>' +
+        '<div class="cnrTitle">Aucun résultat pour « ' + escapeHtml(query) + ' »</div>' +
+        '<div class="cnrHint">Aucune donnée FiveM trouvée pour cet identifiant.</div>' +
+      '</div>';
+  }
+
+  function renderNotAvailable(tabLabel){
+    resultsEl.innerHTML =
+      '<div class="csintNoResult">' +
+        '<div class="cnrIco"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div>' +
+        '<div class="cnrTitle">Service ' + escapeHtml(tabLabel) + ' bientôt disponible</div>' +
+        '<div class="cnrHint">Cette source de données n\'est pas encore branchée.</div>' +
+      '</div>';
+  }
+
+  function copyText(text, btnEl){
+    const done = () => {
+      const originalHtml = btnEl.innerHTML;
+      btnEl.innerHTML = '<svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Copié';
+      toast('✓ Copié');
+      setTimeout(() => { btnEl.innerHTML = originalHtml; }, 1500);
+    };
+    const fail = () => toast('✗ Impossible de copier');
+
+    if(navigator.clipboard && window.isSecureContext){
+      navigator.clipboard.writeText(text).then(done).catch(fail);
+    } else {
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      try { document.execCommand('copy'); done(); } catch(e) { fail(); }
+      document.body.removeChild(ta);
+    }
+  }
+
   const doSearch = () => {
     const value = (inputEl.value || '').trim();
     if(!value){
-      noticeWrap.innerHTML =
-        '<div class="csintNotice">' +
-          '<svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>' +
-          'Entre une requête avant de lancer la recherche.' +
-        '</div>';
+      toast('Entre une requête avant de lancer la recherche');
       inputEl.focus();
       return;
     }
-    noticeWrap.innerHTML =
-      '<div class="csintNotice">' +
-        '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>' +
-        'Service <b>' + CSINT_CONFIG[currentTab].title.replace('Recherche ','') + '</b> bientôt disponible.' +
-      '</div>';
+
+    if(currentTab !== 'fivem'){
+      renderNotAvailable(CSINT_CONFIG[currentTab].title.replace('Recherche ',''));
+      return;
+    }
+
+    const blocks = CSINT_FIVEM_DB[value];
+    if(!blocks || blocks.length === 0){
+      renderNoResult(value);
+      return;
+    }
+    renderBlocks(blocks);
   };
 
   btnEl.addEventListener('click', doSearch);
