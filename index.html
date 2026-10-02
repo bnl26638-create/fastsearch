@@ -148,7 +148,138 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
 
 .toast{position:fixed;right:20px;bottom:100px;z-index:50;background:#120709;border:1px solid #5a1820;border-radius:12px;padding:13px 16px;box-shadow:0 15px 45px #000;transform:translateY(20px);opacity:0;transition:.25s;pointer-events:none;font-size:13px;max-width:340px}
 .toast.show{transform:none;opacity:1}
-.footer{text-align:center;color:#575052;font-size:12px;padding:20px}
+/* ===== FOOTER COMPLET ===== */
+.footer{
+  margin-top:60px;
+  border-top:1px solid rgba(255,42,59,.18);
+  background:linear-gradient(180deg,rgba(8,3,5,.6),rgba(4,2,3,.95));
+  padding:44px 7vw 22px;
+  position:relative;
+  overflow:hidden;
+  text-align:left;
+}
+.footer:before{
+  content:"";
+  position:absolute;
+  top:-80px;left:50%;
+  transform:translateX(-50%);
+  width:520px;height:160px;
+  background:radial-gradient(ellipse,rgba(255,24,48,.18),transparent 70%);
+  filter:blur(20px);
+  pointer-events:none;
+}
+.footerInner{
+  max-width:1240px;
+  margin:0 auto;
+  display:grid;
+  grid-template-columns:1.6fr 1fr 1fr;
+  gap:40px;
+  position:relative;
+  z-index:1;
+}
+.footerBrand{
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+.footerBrand .fbTitle{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-weight:900;
+  font-size:20px;
+  color:#fff;
+  letter-spacing:-.4px;
+}
+.footerBrand .fbTitle svg{
+  width:20px;height:20px;
+  color:var(--red);
+  filter:drop-shadow(0 0 9px var(--red));
+}
+.footerBrand .fbSub{
+  color:#9a9295;
+  font-size:13px;
+  line-height:1.65;
+  max-width:360px;
+}
+.footerCol h4{
+  margin:0 0 16px;
+  font-size:11px;
+  font-weight:800;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  color:#ff6b7a;
+  font-family:ui-monospace,monospace;
+}
+.footerCol ul{
+  list-style:none;
+  padding:0;
+  margin:0;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+.footerCol a,
+.footerCol button{
+  color:#c9c3c5;
+  text-decoration:none;
+  font-size:13.5px;
+  background:transparent;
+  border:0;
+  padding:0;
+  text-align:left;
+  font-family:inherit;
+  cursor:pointer;
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  transition:color .15s, transform .15s;
+}
+.footerCol a:hover,
+.footerCol button:hover{
+  color:#fff;
+  transform:translateX(3px);
+}
+.footerCol a svg{
+  width:13px;height:13px;
+  stroke:currentColor;fill:none;
+  stroke-width:2;stroke-linecap:round;stroke-linejoin:round;
+  opacity:.6;
+}
+.footerBottom{
+  max-width:1240px;
+  margin:36px auto 0;
+  padding-top:20px;
+  border-top:1px solid rgba(255,42,59,.14);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  flex-wrap:wrap;
+  position:relative;
+  z-index:1;
+}
+.footerBottom .fbCopy{
+  font-size:12px;
+  color:#7a7173;
+  font-family:ui-monospace,monospace;
+}
+.footerBottom .fbCopy b{color:#ff6b7a;font-weight:800}
+.footerBottom .fbLegal{
+  font-size:11.5px;
+  color:#6e6668;
+  font-style:italic;
+}
+
+@media(max-width:900px){
+  .footer{padding:36px 20px 22px;margin-top:40px}
+  .footerInner{grid-template-columns:1fr 1fr;gap:28px}
+  .footerBrand{grid-column:1 / -1}
+}
+@media(max-width:560px){
+  .footerInner{grid-template-columns:1fr;gap:26px}
+  .footerBottom{flex-direction:column;align-items:flex-start;text-align:left}
+}
 
 /* ===== PAGE RECHERCHE (nouveau design rouge) ===== */
 .advPageHead{
@@ -1791,7 +1922,50 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
 </div>
 
 <div id="toast" class="toast"></div>
-<footer class="footer">FastSearch</footer>
+<footer class="footer">
+  <div class="footerInner">
+    <div class="footerBrand">
+      <div class="fbTitle">
+        <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        FastSearch
+      </div>
+      <p class="fbSub">Recherche en fuites de données et investigation OSINT. Service temporaire pendant la maintenance.</p>
+    </div>
+
+    <div class="footerCol">
+      <h4>Navigation</h4>
+      <ul>
+        <li><button data-page="home" type="button">Accueil</button></li>
+        <li><button data-page="advsearch" type="button">Recherche</button></li>
+        <li><button data-page="ai" type="button">IA</button></li>
+        <li><button data-page="discord" type="button">CSINT</button></li>
+      </ul>
+    </div>
+
+    <div class="footerCol">
+      <h4>Communauté</h4>
+      <ul>
+        <li>
+          <a href="https://discord.gg/MmEaBR5WrH" target="_blank" rel="noopener noreferrer">
+            <svg viewBox="0 0 24 24"><path d="M20.317 4.37a19.79 19.79 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.74 19.74 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.11 13.11 0 0 1-1.872-.892.077.077 0 0 1-.008-.128c.126-.094.252-.192.372-.291a.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.099.246.198.373.292a.077.077 0 0 1-.006.127 12.3 12.3 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.84 19.84 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
+            Serveur Discord
+          </a>
+        </li>
+        <li>
+          <button type="button" onclick="return false;">
+            <svg viewBox="0 0 24 24"><path d="M21.5 4.5L2.5 12l5 2 2 6 3-4 5 4 4-15z"/></svg>
+            Telegram
+          </button>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footerBottom">
+    <div class="fbCopy"><b>FastSearch</b> © 2026</div>
+    <div class="fbLegal">Plateforme réservée à un usage professionnel et légal.</div>
+  </div>
+</footer>
 
 <script>
 // ============================================
