@@ -248,6 +248,73 @@ app.post('/api/change-password', requireAuth, async (req, res) => {
 });
 
 // ============================================================
+// CHANGER LE NOM D'UTILISATEUR
+// ============================================================
+
+app.post('/api/change-username', requireAuth, (req, res) => {
+  try {
+    const newUsername = (req.body.newUsername || '').trim();
+
+    if (!newUsername) {
+      return res.status(400).json({ error: 'Nouveau pseudo manquant' });
+    }
+    if (newUsername.length < 3 && newUsername.toLowerCase() !== ADMIN_USERNAME) {
+      return res.status(400).json({ error: 'Nom trop court (min 3)' });
+    }
+    if (newUsername.length > 24) {
+      return res.status(400).json({ error: 'Nom trop long (max 24)' });
+    }
+    if (!/^[a-zA-Z0-9_.-]+$/.test(newUsername)) {
+      return res.status(400).json({ error: 'Caractères autorisés : lettres, chiffres, _ . -' });
+    }
+
+    const user = users.find((u) => u.id === req.session.userId);
+    if (!user) {
+      return res.status(404).json({ error: 'Utilisateur introuvable' });
+    }
+
+    // Le créateur ne peut pas être renommé
+    if (isAdmin(user.username)) {
+      return res.status(400).json({ error: 'Le créateur ne peut pas être renommé' });
+    }
+
+    // Le nouveau nom est-il déjà pris (par un autre) ?
+    const taken = users.find(
+      (u) => u.id !== user.id && u.username.toLowerCase() === newUsername.toLowerCase()
+    );
+    if (taken) {
+      return res.status(400).json({ error: 'Ce pseudo est déjà pris' });
+    }
+
+    if (newUsername === user.username) {
+      return res.status(400).json({ error: 'C\'est déjà ton pseudo actuel' });
+    }
+
+    const oldUsername = user.username;
+    user.username = newUsername;
+
+    // Met à jour partout
+    messages.forEach((m) => {
+      if (m.username === oldUsername) m.username = newUsername;
+    });
+    searchHistory.forEach((h) => {
+      if (h.username === oldUsername) h.username = newUsername;
+    });
+    for (const client of sseClients) {
+      if (client.username === oldUsername) client.username = newUsername;
+    }
+
+    // Met à jour la session
+    req.session.username = newUsername;
+
+    res.json({ success: true, username: newUsername });
+  } catch (err) {
+    console.error('Erreur change-username:', err);
+    res.status(500).json({ error: 'Erreur serveur' });
+  }
+});
+
+// ============================================================
 // AVATAR
 // ============================================================
 
