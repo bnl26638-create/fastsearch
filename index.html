@@ -1119,15 +1119,6 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
 @media(max-width:1050px){.adminStats{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media(max-width:650px){.adminHero{padding:22px}.adminHeroInner{align-items:flex-start;flex-direction:column}.adminStats{grid-template-columns:repeat(2,minmax(0,1fr))}.adminStat .value{font-size:23px}.adminDangerRow{align-items:flex-start;flex-direction:column}.adminClearChat{width:100%}.adminToolbar{align-items:stretch;flex-direction:column}.adminSearchBox{max-width:none}}
 
-/* ===== MENU MOBILE ===== */
-.burger{display:none;background:transparent;border:1px solid var(--line);color:#fff;width:38px;height:38px;border-radius:10px;align-items:center;justify-content:center;cursor:pointer;padding:0}
-.burger svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-.mobileMenu{position:fixed;top:70px;left:8px;right:8px;background:rgba(10,5,7,.98);backdrop-filter:blur(20px);border:1px solid var(--line);border-radius:18px;padding:12px;z-index:19;transform:translateY(-12px);opacity:0;pointer-events:none;transition:all .25s cubic-bezier(.4,0,.2,1);box-shadow:0 20px 60px rgba(0,0,0,.6)}
-.mobileMenu.open{transform:none;opacity:1;pointer-events:auto}
-.mobileMenu button{display:flex;width:100%;align-items:center;gap:12px;padding:14px 16px;border-radius:12px;background:transparent;border:0;color:#d9d4d6;font-size:15px;font-weight:600;cursor:pointer;font-family:inherit;text-align:left}
-.mobileMenu button svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-.mobileMenu button:hover,.mobileMenu button.active{background:rgba(255,32,51,.12);color:#fff}
-
 /* ===== MENU UTILISATEUR ===== */
 .userMenu{position:relative}
 .userBtn{background:transparent;border:1px solid var(--line);color:#fff;padding:6px 14px 6px 6px;border-radius:24px;font-size:13px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:8px;font-family:inherit;transition:all .15s}
@@ -1179,8 +1170,6 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
   .navlinks{display:none}
   .nav{margin:0 5px}
   .page{padding:35px 18px}
-  .burger{display:none !important}
-  .mobileMenu{display:none !important}
   .userDropdown{right:-60px}
 }
 
@@ -1394,9 +1383,6 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
         </button>
       </div>
     </div>
-    <button class="burger" id="burgerBtn" type="button" title="Menu">
-      <svg viewBox="0 0 24 24"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
-    </button>
   </div>
 </header>
 
@@ -1419,25 +1405,6 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
     <span>CSINT</span>
   </button>
 </nav>
-
-<div class="mobileMenu" id="mobileMenu">
-  <button data-page="home">
-    <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-    Accueil
-  </button>
-  <button data-page="advsearch">
-    <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-    Recherche
-  </button>
-  <button data-page="ai">
-    <svg viewBox="0 0 24 24"><path d="M12 2l2 7h7l-5.5 4.5L17 21l-5-4-5 4 1.5-7.5L3 9h7z"/></svg>
-    Assistant IA
-  </button>
-  <button data-page="discord">
-    <svg viewBox="0 0 24 24"><path d="M3 21V9l6-4v4l6-4v4l6-4v16z"/><path d="M3 21h18"/></svg>
-    CSINT
-  </button>
-</div>
 
 <main>
 <!-- ================= HOME ================= -->
@@ -3252,21 +3219,6 @@ function infoPage(kind){
 // INIT
 // ============================================
 document.addEventListener('DOMContentLoaded', () => {
-  const burger = document.getElementById('burgerBtn');
-  const mobileMenu = document.getElementById('mobileMenu');
-  if(burger && mobileMenu){
-    burger.addEventListener('click', (e) => {
-      e.stopPropagation();
-      mobileMenu.classList.toggle('open');
-    });
-    document.addEventListener('click', (e) => {
-      if(!mobileMenu.contains(e.target) && e.target !== burger){ mobileMenu.classList.remove('open'); }
-    });
-    mobileMenu.querySelectorAll('button').forEach(b => {
-      b.addEventListener('click', () => mobileMenu.classList.remove('open'));
-    });
-  }
-
   const userBtn = document.getElementById('userBtn');
   const userMenuEl = document.getElementById('userMenu');
   const userDropdown = document.getElementById('userDropdown');
