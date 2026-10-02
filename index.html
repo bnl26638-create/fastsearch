@@ -882,6 +882,7 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
 }
 .aiLocked .aiLockedBtn:hover{transform:translateY(-2px);filter:brightness(1.1)}
 
+  
 /* ===== PAGE CSINT ===== */
 .csintPage{max-width:1240px;margin:0 auto}
 
@@ -1500,9 +1501,40 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
   .aiLocked p{font-size:13px;margin-bottom:22px;}
   .aiLocked .aiLockedBtn{padding:12px 22px;font-size:13px;}
 }
+  /* ===== PARTICULES DE FOND ===== */
+#bgParticles{
+  position:fixed;
+  inset:0;
+  z-index:-1;
+  pointer-events:none;
+  overflow:hidden;
+}
+.bgParticle{
+  position:absolute;
+  bottom:-10px;
+  border-radius:50%;
+  background:#ff1830;
+  box-shadow:0 0 8px rgba(255,24,48,.85);
+  opacity:0;
+  animation:bgFloat linear infinite;
+  will-change:transform,opacity;
+}
+@keyframes bgFloat{
+  0%{transform:translateY(0) scale(.4);opacity:0}
+  10%{opacity:.55}
+  90%{opacity:.55}
+  100%{transform:translateY(-110vh) scale(1);opacity:0}
+}
+/* Désactive les particules si l'utilisateur préfère moins d'animation */
+@media (prefers-reduced-motion: reduce){
+  #bgParticles{display:none}
+}
 </style>
 </head>
 <body>
+
+<!-- ===== PARTICULES DE FOND ===== -->
+<div id="bgParticles" aria-hidden="true"></div>
 
 <!-- ================= NAVBAR ================= -->
 <header class="nav">
@@ -3578,6 +3610,28 @@ function infoPage(kind){
 // INIT
 // ============================================
 document.addEventListener('DOMContentLoaded', () => {
+
+  // ===== GÉNÉRATION DES PARTICULES DE FOND =====
+  (function generateBgParticles(){
+    const wrap = document.getElementById('bgParticles');
+    if(!wrap) return;
+    // Respecte la préférence système "réduire les animations"
+    if(window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    const COUNT = 20;
+    for(let i = 0; i < COUNT; i++){
+      const p = document.createElement('span');
+      p.className = 'bgParticle';
+      const size = 1 + Math.random() * 1.5;       // 1 à 2.5px
+      p.style.width = size + 'px';
+      p.style.height = size + 'px';
+      p.style.left = Math.random() * 100 + 'vw';
+      p.style.animationDuration = (12 + Math.random() * 10) + 's'; // 12 à 22s
+      p.style.animationDelay = (Math.random() * 15) + 's';
+      wrap.appendChild(p);
+    }
+  })();
+
 
   // ===== RESTAURATION DEPUIS L'URL AU CHARGEMENT =====
   const path = window.location.pathname;
