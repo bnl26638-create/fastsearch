@@ -1490,6 +1490,16 @@ const FIELD_LABELS = { nom:'Nom', prenom:'Prénom', nom_naissance:'Nom de naissa
 const SEARCH_ICON = '<svg viewBox="0 0 24 24" width="44" height="44" stroke="currentColor" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>';
 const WARN_ICON = '<svg viewBox="0 0 24 24" width="44" height="44" stroke="currentColor" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>';
 
+function formatDate(value){
+  if(!value) return '';
+  const s = String(value);
+  // Si c'est une date ISO (contient un T), on coupe au T
+  const tIndex = s.indexOf('T');
+  if(tIndex !== -1) return s.slice(0, tIndex);
+  // Sinon on renvoie tel quel
+  return s;
+}
+  
 function buildFiche(p, index){
   const initiales = ((p.first_name && p.first_name[0] || '') + (p.last_name && p.last_name[0] || '')).toUpperCase() || '?';
   const titre = [p.first_name, p.last_name].filter(Boolean).join(' ') || 'Sans nom';
@@ -1515,7 +1525,7 @@ function buildFiche(p, index){
     '<div class="fiche-grid">' +
       f('Nom', p.last_name) +
       f('Prénom', p.first_name) +
-      f('Date de naissance', p.birth_date || p.date_naissance) +
+      f('Date de naissance', formatDate(p.birth_date || p.date_naissance)) +
       f('Email', p.email) +
       f('Téléphone', p.phone || p.telephone) +
       f('Adresse', p.address || p.adresse) +
@@ -1653,7 +1663,7 @@ function copyFiche(index, btn){
   const push = (label, value) => { if(value) lines.push(label + ': ' + value); };
   push('Nom', p.last_name);
   push('Prénom', p.first_name);
-  push('Date de naissance', p.birth_date || p.date_naissance);
+  push('Date de naissance', formatDate(p.birth_date || p.date_naissance));
   push('Email', p.email);
   push('Téléphone', p.phone || p.telephone);
   push('Adresse', p.address || p.adresse);
