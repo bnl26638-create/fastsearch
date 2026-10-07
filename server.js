@@ -373,7 +373,7 @@ app.get('/api/search', requireAuth, async (req, res) => {
     const sql =
       'SELECT ' +
       'id, last_name, first_name, email, address, postal_code, city, ' +
-      'birth_date, department, phone ' +
+      'birth_date, department, phone, source ' +
       'FROM people ' +
       'WHERE ' +
       'last_name ILIKE $1 OR first_name ILIKE $1 OR email ILIKE $1 ' +
