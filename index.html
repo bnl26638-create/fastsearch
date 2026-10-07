@@ -1567,7 +1567,7 @@ function buildFiche(p, index){
       '<div class="fiche-avatar">' + escapeHtml(initiales) + '</div>' +
       '<div>' +
         '<div class="fiche-name">' + escapeHtml(titre) + '</div>' +
-        '<div class="fiche-sub">' + escapeHtml(p.city || '') + (p.city && p.postal_code ? ' · ' : '') + escapeHtml(p.postal_code || '') + '</div>' +
+        '<div class="fiche-sub">' + escapeHtml(p.source || 'SOURCE INCONNUE') + '</div>' +
       '</div>' +
       '<div class="fiche-actions">' +
         '<button class="fiche-copy-btn" onclick="copyFiche(' + index + ', this)">' +
