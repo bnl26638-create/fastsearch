@@ -236,6 +236,34 @@ h1{font-size:clamp(58px,8vw,108px);line-height:.95;margin:30px 0 18px;letter-spa
 
 .advCardBadge{margin-left:auto;display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:10px;border:1px solid rgba(255,42,59,.5);background:rgba(255,25,45,.12);color:#ff6b7a;font-size:12px;font-weight:800;font-family:ui-monospace,monospace;letter-spacing:.5px;white-space:nowrap}
 .advCardBadge .num{color:#fff;font-weight:900}
+/* ===== VERSION MOBILE DES ONGLETS ===== */
+@media(max-width:700px){
+  .advCardTabs{
+    padding:12px 12px;
+    gap:6px;
+    flex-wrap:nowrap;
+    overflow-x:auto;
+    scrollbar-width:none;
+    -webkit-overflow-scrolling:touch;
+  }
+  .advCardTabs::-webkit-scrollbar{display:none}
+  .advCardTab{
+    padding:10px 14px;
+    font-size:13px;
+    white-space:nowrap;
+    flex-shrink:0;
+  }
+  .advCardTab svg{
+    width:14px;
+    height:14px;
+  }
+  .advCardBadge{
+    margin-left:auto;
+    padding:6px 10px;
+    font-size:11px;
+    flex-shrink:0;
+  }
+}
 
 .advCardBody{padding:0}
 .advHistoryInner{padding:22px}
