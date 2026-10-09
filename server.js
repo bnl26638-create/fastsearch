@@ -397,7 +397,7 @@ app.get('/api/search', requireAuth, async (req, res) => {
       message: payload.message
     });
 
-    if (!response.ok || payload.meta?.maintenance) {
+    if (!response.ok) {
       return res.status(502).json({
         error: 'Service BrixHub indisponible ou en maintenance',
         upstreamStatus: response.status,
