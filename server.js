@@ -409,7 +409,8 @@ app.get('/api/search', requireAuth, async (req, res) => {
 
     // 5. Lire la réponse de l'API
     const payload = await response.json().catch(() => null);
-
+    console.log('BrixHub HTTP :', response.status);
+    console.log('BrixHub réponse :', JSON.stringify(payload, null, 2));
     if (!response.ok) {
       console.error('Erreur BrixHub :', {
         status: response.status,
