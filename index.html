@@ -1576,15 +1576,27 @@ function buildFiche(p, index) {
       (value ? '' : ' empty') + '">' + v + '</div>' +
       '</div>';
   };
-  const fields = [
-    ['Nom', lastName],
-    ['Prénom', firstName],
-    ['Date de naissance', formatDate(p.birth_date || p.date_naissance)],
-    ['Ville', p.city || p.ville],
-    ['Code postal', p.postal_code || p.code_postal],
-    ['Profession', p.profession],
-    ['Employeur', p.employeur]
-  ];
+const fields = [
+  ['Nom', p.nom_famille || p.last_name],
+  ['Prénom', p.prenom || p.first_name],
+  ['Nom de naissance', p.nom_naissance],
+  ['Nom affiché', p.nom_affichage],
+  ['Genre', p.genre],
+  ['Date de naissance', formatDate(p.date_naissance || p.birth_date)],
+  ['Ville', p.ville || p.city],
+  ['Code postal', p.code_postal || p.postal_code],
+  ['Adresse', p.adresse],
+  ['Complément d’adresse', p.complement_adresse],
+  ['Département', p.departement],
+  ['Région', p.region],
+  ['Pays', p.pays],
+  ['E-mail', p.email],
+  ['Téléphone', p.telephone],
+  ['Mobile', p.mobile],
+  ['Profession', p.profession],
+  ['Fonction', p.fonction],
+  ['Société', p.societe || p.employeur]
+];
 
   const grid = fields
     .filter(([label, value]) => value != null && value !== '')
