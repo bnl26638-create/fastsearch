@@ -358,87 +358,95 @@ app.delete('/api/avatar', requireAuth, (req, res) => {
 
 
 // ============================================================
-// RECHERCHE — BRIXHUB (diagnostic et données de test)
+// RECHERCHE — BRIXHUB
 // ============================================================
 
 app.get('/api/search', requireAuth, async (req, res) => {
   try {
-    const allowedFields = ['nom', 'prenom', 'ville', 'code_postal'];
+    // 1. Récupération des critères envoyés par le formulaire
+    const allowedFields = {
+      nom: 'nom_famille',
+      prenom: 'prenom',
+      ville: 'ville',
+      code_postal: 'code_postal'
+    };
+
     const criteria = {};
 
-    for (const field of allowedFields) {
-      const value = String(req.query[field] || '').trim();
-      if (value) criteria[field] = value;
+    for (const [formField, apiField] of Object.entries(allowedFields)) {
+      const value = String(req.query[formField] || '').trim();
+
+      if (value) {
+        criteria[apiField] = value;
+      }
     }
 
+    // 2. Vérifier qu'au moins un critère a été saisi
     if (Object.keys(criteria).length === 0) {
-      return res.json({ results: [], total: 0 });
+      return res.status(400).json({
+        error: 'Saisis au moins un critère de recherche.'
+      });
     }
 
-    // Appel distant : ne conserve pas les profils reçus.
+    // 3. Paramètres de pagination
+    criteria.page = 1;
+    criteria.per_page = 20;
+    criteria.flexible = false;
+
+    // 4. Appel de l'API BrixHub
     const response = await fetch(
       'https://api.brixhub.ru/api/v1/search',
       {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          nom_famille: 'TEST',
-          per_page: 1
-        }),
-        signal: AbortSignal.timeout(10000)
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify(criteria),
+        signal: AbortSignal.timeout(15000)
       }
     );
 
-    const payload = await response.json();
-
-    console.log('Diagnostic BrixHub:', {
-      status: response.status,
-      maintenance: payload.meta?.maintenance,
-      message: payload.message
-    });
+    // 5. Lire la réponse de l'API
+    const payload = await response.json().catch(() => null);
 
     if (!response.ok) {
+      console.error('Erreur BrixHub :', {
+        status: response.status,
+        message: payload?.message
+      });
+
       return res.status(502).json({
-        error: 'Service BrixHub indisponible ou en maintenance',
+        error: 'La recherche distante a échoué.',
         upstreamStatus: response.status,
-        maintenance: payload.meta?.maintenance ?? false
+        message: payload?.message || null
       });
     }
 
-    // Jeu de données fictives pour tester le formulaire.
-    const demoData = [
-      {
-        last_name: 'Martin',
-        first_name: 'Alex',
-        city: 'Paris',
-        postal_code: '75000',
-        source: 'Données de démonstration'
-      },
-      {
-        last_name: 'Dupont',
-        first_name: 'Camille',
-        city: 'Lyon',
-        postal_code: '69000',
-        source: 'Données de démonstration'
-      }
-    ];
+    // 6. Gérer la maintenance annoncée par l'API
+    if (payload?.meta?.maintenance === true) {
+      return res.status(503).json({
+        error: 'Le service de recherche est en maintenance.',
+        maintenance: true
+      });
+    }
 
-    const mapping = {
-      nom: 'last_name',
-      prenom: 'first_name',
-      ville: 'city',
-      code_postal: 'postal_code'
-    };
+    // 7. Extraire les résultats selon la structure documentée
+    const results = payload?.data?.results;
 
-    const results = demoData.filter(person =>
-      Object.entries(criteria).every(([key, value]) =>
-        String(person[mapping[key]] || '')
-          .toLowerCase()
-          .includes(value.toLowerCase())
-      )
-    );
+    if (!Array.isArray(results)) {
+      console.error('Réponse BrixHub inattendue.');
 
-    const query = Object.values(criteria).join(' ');
+      return res.status(502).json({
+        error: 'Le format de réponse du service distant est inattendu.'
+      });
+    }
+
+    // 8. Enregistrer l'historique de recherche
+    const query = Object.values(allowedFields)
+      .map(apiField => criteria[apiField])
+      .filter(Boolean)
+      .join(' ');
 
     searchHistory.push({
       username: req.session.username,
@@ -450,20 +458,29 @@ app.get('/api/search', requireAuth, async (req, res) => {
     if (searchHistory.length > MAX_SEARCH_HISTORY) {
       searchHistory.shift();
     }
+
     trimUserHistory(req.session.username);
 
+    // 9. Renvoyer les résultats au formulaire
     return res.json({
       results,
-      total: results.length,
-      query,
-      demo: true,
-      upstreamStatus: response.status
+      total: payload?.meta?.total ?? results.length,
+      page: payload?.meta?.page ?? 1,
+      pages: payload?.meta?.pages ?? 1,
+      query
     });
+
   } catch (err) {
-    console.error('Erreur recherche BrixHub:', err.message);
+    console.error('Erreur /api/search :', err.message);
+
+    if (err.name === 'TimeoutError' || err.name === 'AbortError') {
+      return res.status(504).json({
+        error: 'Le service distant met trop de temps à répondre.'
+      });
+    }
 
     return res.status(502).json({
-      error: 'Impossible de joindre le service distant'
+      error: 'Impossible de contacter le service distant.'
     });
   }
 });
