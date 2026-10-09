@@ -362,65 +362,74 @@ app.delete('/api/avatar', requireAuth, (req, res) => {
 
 app.get('/api/search', requireAuth, async (req, res) => {
   try {
-    const q = String(req.query.q || '').trim();
-    if (!q) return res.json({ results: [], total: 0, query: q });
+    const allowedFields = [
+      'nom', 'prenom', 'ville', 'code_postal'
+    ];
 
-    // BrixHub reçoit les critères sous forme de champs séparés.
-    // La recherche actuelle transmet une chaîne : on l'envoie comme nom.
-    const payload = {
-      nom_famille: q,
-      per_page: 50
-    };
-
-    const response = await fetch('https://api.brixhub.ru/api/v1/search', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload),
-      signal: AbortSignal.timeout(15000)
-    });
-
-    const body = await response.json();
-
-    if (!response.ok) {
-      return res.status(response.status).json({
-        error: body.message || 'Erreur BrixHub'
-      });
+    const criteria = {};
+    for (const field of allowedFields) {
+      const value = String(req.query[field] || '').trim();
+      if (value) criteria[field] = value;
     }
 
-    const results = (body.data?.results || []).map(p => ({
-      last_name: p.nom_famille || '',
-      first_name: p.prenom || '',
-      email: p.email || '',
-      phone: p.telephone || '',
-      address: p.adresse || '',
-      postal_code: p.code_postal || '',
-      city: p.ville || '',
-      birth_date: p.date_naissance || '',
-      department: p.departement || '',
-      source: (p._sources || []).join(', ') || 'BrixHub'
-    }));
+    if (Object.keys(criteria).length === 0) {
+      return res.json({ results: [], total: 0 });
+    }
 
+    // Résultats fictifs pour vérifier le formulaire et l'affichage.
+    const demoData = [
+      {
+        last_name: 'Martin',
+        first_name: 'Alex',
+        city: 'Paris',
+        postal_code: '75000',
+        source: 'Données de démonstration'
+      },
+      {
+        last_name: 'Dupont',
+        first_name: 'Camille',
+        city: 'Lyon',
+        postal_code: '69000',
+        source: 'Données de démonstration'
+      }
+    ];
+
+    const results = demoData.filter(person =>
+      Object.entries(criteria).every(([key, value]) => {
+        const mapping = {
+          nom: 'last_name',
+          prenom: 'first_name',
+          ville: 'city',
+          code_postal: 'postal_code'
+        };
+        return String(person[mapping[key]] || '')
+          .toLowerCase()
+          .includes(value.toLowerCase());
+      })
+    );
+
+    const query = Object.values(criteria).join(' ');
     searchHistory.push({
       username: req.session.username,
-      query: q,
+      query,
       resultsCount: results.length,
       timestamp: Date.now()
     });
 
-    if (searchHistory.length > MAX_SEARCH_HISTORY) searchHistory.shift();
+    if (searchHistory.length > MAX_SEARCH_HISTORY) {
+      searchHistory.shift();
+    }
     trimUserHistory(req.session.username);
 
     return res.json({
       results,
-      total: body.meta?.total ?? results.length,
-      query: q,
-      maintenance: body.meta?.maintenance === true
+      total: results.length,
+      query,
+      demo: true
     });
   } catch (err) {
-    console.error('Erreur BrixHub:', err);
-    return res.status(502).json({
-      error: 'BrixHub indisponible ou délai dépassé'
-    });
+    console.error('Erreur recherche:', err);
+    return res.status(500).json({ error: 'Erreur serveur' });
   }
 });
 
