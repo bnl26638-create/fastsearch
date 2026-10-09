@@ -1554,34 +1554,43 @@ function formatDate(value){
   return s;
 }
 
-function buildFiche(p, index){
-  const initiales = ((p.first_name && p.first_name[0] || '') + (p.last_name && p.last_name[0] || '')).toUpperCase() || '?';
-  const titre = [p.first_name, p.last_name].filter(Boolean).join(' ') || 'Sans nom';
+function buildFiche(p, index) {
+  const firstName = p.first_name || p.prenom || '';
+  const lastName = p.last_name || p.nom_famille || p.nom || '';
+  const source = p.source || (Array.isArray(p._sources) ? p._sources.join(', ') : p._sources) || 'Source non renseignée';
+
+  const initiales =
+    ((firstName[0] || '') + (lastName[0] || '')).toUpperCase() || '?';
+
+  const titre = [firstName, lastName].filter(Boolean).join(' ') || 'Sans nom';
   const delay = Math.min(index * 40, 400);
+
   const f = (label, value, mono) => {
-    const v = value ? escapeHtml(value) : '<span class="empty">—</span>';
-    return '<div class="fiche-field"><div class="lbl">' + label + '</div><div class="val' + (mono ? ' mono' : '') + (value ? '' : ' empty') + '">' + v + '</div></div>';
+    const v = value != null && value !== ''
+      ? escapeHtml(value)
+      : '<span class="empty">—</span>';
+
+    return '<div class="fiche-field">' +
+      '<div class="lbl">' + label + '</div>' +
+      '<div class="val' + (mono ? ' mono' : '') +
+      (value ? '' : ' empty') + '">' + v + '</div>' +
+      '</div>';
   };
+
   return '<div class="fiche" style="animation-delay:' + delay + 'ms">' +
     '<div class="fiche-top">' +
       '<div class="fiche-avatar">' + escapeHtml(initiales) + '</div>' +
       '<div>' +
         '<div class="fiche-name">' + escapeHtml(titre) + '</div>' +
-        '<div class="fiche-sub">' + escapeHtml(p.source || 'SOURCE INCONNUE') + '</div>' +
-      '</div>' +
-      '<div class="fiche-actions">' +
-        '<button class="fiche-copy-btn" onclick="copyFiche(' + index + ', this)">' +
-          '<svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>' +
-          'Copier' +
-        '</button>' +
+        '<div class="fiche-sub">' + escapeHtml(source) + '</div>' +
       '</div>' +
     '</div>' +
     '<div class="fiche-grid">' +
-      f('Nom', p.last_name) +
-      f('Prénom', p.first_name) +
+      f('Nom', lastName) +
+      f('Prénom', firstName) +
       f('Date de naissance', formatDate(p.birth_date || p.date_naissance)) +
       f('Email', p.email) +
-      f('Téléphone', p.phone || p.telephone) +
+      f('Téléphone', p.phone || p.telephone || p.tel_mobile || p.tel_fixe) +
       f('Adresse', p.address || p.adresse) +
       f('Ville', p.city || p.ville) +
       f('Code postal', p.postal_code || p.code_postal) +
