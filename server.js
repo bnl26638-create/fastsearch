@@ -362,26 +362,36 @@ app.delete('/api/avatar', requireAuth, (req, res) => {
 
 app.get('/api/search', requireAuth, async (req, res) => {
   try {
-    const q = (req.query.q || '').trim();
+    const q = String(req.query.q || '').trim();
 
     if (!q) {
       return res.json({ results: [], total: 0, query: q });
     }
 
-    const search = '%' + q + '%';
+    const terms = [...new Set(
+      q.split(/\s+/).map(term => term.trim()).filter(Boolean)
+    )].slice(0, 12);
+
+    const columns = [
+      'last_name', 'first_name', 'email', 'address',
+      'postal_code', 'city', 'birth_date', 'department',
+      'phone', 'source'
+    ];
+
+    const params = [];
+    const where = terms.map(term => {
+      params.push('%' + term + '%');
+      const p = '$' + params.length;
+      return '(' + columns.map(c => `${c} ILIKE ${p}`).join(' OR ') + ')';
+    }).join(' AND ');
 
     const sql =
-      'SELECT ' +
-      'id, last_name, first_name, email, address, postal_code, city, ' +
+      'SELECT id, last_name, first_name, email, address, postal_code, city, ' +
       'birth_date, department, phone, source ' +
-      'FROM people ' +
-      'WHERE ' +
-      'last_name ILIKE $1 OR first_name ILIKE $1 OR email ILIKE $1 ' +
-      'OR address ILIKE $1 OR postal_code ILIKE $1 OR city ILIKE $1 ' +
-      'OR birth_date ILIKE $1 OR department ILIKE $1 OR phone ILIKE $1 ' +
-      'ORDER BY id LIMIT 50';
+      'FROM people WHERE ' + where +
+      ' ORDER BY id LIMIT 50';
 
-    const result = await pool.query(sql, [search]);
+    const result = await pool.query(sql, params);
 
     searchHistory.push({
       username: req.session.username,
