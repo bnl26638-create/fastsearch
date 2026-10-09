@@ -357,63 +357,70 @@ app.delete('/api/avatar', requireAuth, (req, res) => {
 });
 
 // ============================================================
-// RECHERCHE POSTGRESQL (formulaire classique)
+// RECHERCHE — BRIXHUB
 // ============================================================
 
 app.get('/api/search', requireAuth, async (req, res) => {
   try {
     const q = String(req.query.q || '').trim();
+    if (!q) return res.json({ results: [], total: 0, query: q });
 
-    if (!q) {
-      return res.json({ results: [], total: 0, query: q });
+    // BrixHub reçoit les critères sous forme de champs séparés.
+    // La recherche actuelle transmet une chaîne : on l'envoie comme nom.
+    const payload = {
+      nom_famille: q,
+      per_page: 50
+    };
+
+    const response = await fetch('https://api.brixhub.ru/api/v1/search', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+      signal: AbortSignal.timeout(15000)
+    });
+
+    const body = await response.json();
+
+    if (!response.ok) {
+      return res.status(response.status).json({
+        error: body.message || 'Erreur BrixHub'
+      });
     }
 
-    const terms = [...new Set(
-      q.split(/\s+/).map(term => term.trim()).filter(Boolean)
-    )].slice(0, 12);
-
-    const columns = [
-      'last_name', 'first_name', 'email', 'address',
-      'postal_code', 'city', 'birth_date', 'department',
-      'phone', 'source'
-    ];
-
-    const params = [];
-    const where = terms.map(term => {
-      params.push('%' + term + '%');
-      const p = '$' + params.length;
-      return '(' + columns.map(c => `${c} ILIKE ${p}`).join(' OR ') + ')';
-    }).join(' AND ');
-
-    const sql =
-      'SELECT id, last_name, first_name, email, address, postal_code, city, ' +
-      'birth_date, department, phone, source ' +
-      'FROM people WHERE ' + where +
-      ' ORDER BY id LIMIT 50';
-
-    const result = await pool.query(sql, params);
+    const results = (body.data?.results || []).map(p => ({
+      last_name: p.nom_famille || '',
+      first_name: p.prenom || '',
+      email: p.email || '',
+      phone: p.telephone || '',
+      address: p.adresse || '',
+      postal_code: p.code_postal || '',
+      city: p.ville || '',
+      birth_date: p.date_naissance || '',
+      department: p.departement || '',
+      source: (p._sources || []).join(', ') || 'BrixHub'
+    }));
 
     searchHistory.push({
       username: req.session.username,
       query: q,
-      resultsCount: result.rows.length,
+      resultsCount: results.length,
       timestamp: Date.now()
     });
 
-    if (searchHistory.length > MAX_SEARCH_HISTORY) {
-      searchHistory.shift();
-    }
-
+    if (searchHistory.length > MAX_SEARCH_HISTORY) searchHistory.shift();
     trimUserHistory(req.session.username);
 
-    res.json({
-      results: result.rows,
-      total: result.rows.length,
-      query: q
+    return res.json({
+      results,
+      total: body.meta?.total ?? results.length,
+      query: q,
+      maintenance: body.meta?.maintenance === true
     });
   } catch (err) {
-    console.error('Erreur recherche:', err);
-    res.status(500).json({ error: 'Erreur lors de la recherche' });
+    console.error('Erreur BrixHub:', err);
+    return res.status(502).json({
+      error: 'BrixHub indisponible ou délai dépassé'
+    });
   }
 });
 
