@@ -1615,9 +1615,8 @@ resultsEl.innerHTML =
   '<div class="noResult"><div class="loader"></div></div>';
 
 try {
-  const r = await fetch('/api/search?q=' + encodeURIComponent(
-    Object.values(data).join(' ')
-  ));
+  const params = new URLSearchParams(data);
+  const r = await fetch('/api/search?' + params.toString());
     const resp = await r.json();
     if(!r.ok){
       resultsEl.innerHTML = '<div class="noResult"><div class="ico">'+WARN_ICON+'</div><div class="title">Erreur serveur</div><div class="hint">'+escapeHtml(resp.error||'Réessaie')+'</div></div>';
