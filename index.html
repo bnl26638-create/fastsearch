@@ -1576,6 +1576,21 @@ function buildFiche(p, index) {
       (value ? '' : ' empty') + '">' + v + '</div>' +
       '</div>';
   };
+  const fields = [
+    ['Nom', lastName],
+    ['Prénom', firstName],
+    ['Date de naissance', formatDate(p.birth_date || p.date_naissance)],
+    ['Ville', p.city || p.ville],
+    ['Code postal', p.postal_code || p.code_postal],
+    ['Profession', p.profession],
+    ['Employeur', p.employeur]
+  ];
+
+  const grid = fields
+    .filter(([label, value]) => value != null && value !== '')
+    .map(([label, value]) => f(label, value))
+    .join('');
+  
 
   return '<div class="fiche" style="animation-delay:' + delay + 'ms">' +
     '<div class="fiche-top">' +
@@ -1585,17 +1600,7 @@ function buildFiche(p, index) {
         '<div class="fiche-sub">' + escapeHtml(source) + '</div>' +
       '</div>' +
     '</div>' +
-    '<div class="fiche-grid">' +
-      f('Nom', lastName) +
-      f('Prénom', firstName) +
-      f('Date de naissance', formatDate(p.birth_date || p.date_naissance)) +
-      f('Email', p.email) +
-      f('Téléphone', p.phone || p.telephone || p.tel_mobile || p.tel_fixe) +
-      f('Adresse', p.address || p.adresse) +
-      f('Ville', p.city || p.ville) +
-      f('Code postal', p.postal_code || p.code_postal) +
-      f('Département', p.department || p.dept) +
-    '</div>' +
+    '<div class="fiche-grid">' + grid + '</div>' +
   '</div>';
 }
 
