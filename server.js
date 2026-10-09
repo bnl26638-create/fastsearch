@@ -426,10 +426,7 @@ app.get('/api/search', requireAuth, async (req, res) => {
 
     // 6. Gérer la maintenance annoncée par l'API
     if (payload?.meta?.maintenance === true) {
-      return res.status(503).json({
-        error: 'Le service de recherche est en maintenance.',
-        maintenance: true
-      });
+      console.warn('BrixHub signale une maintenance, résultats non garantis.');
     }
 
     // 7. Extraire les résultats selon la structure documentée
