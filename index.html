@@ -2171,11 +2171,13 @@ function initCsintPage(){
     }
 
     const blocks = CSINT_FIVEM_DB[value];
-    if(!blocks || blocks.length === 0){
-      renderNoResult(value);
-      return;
-    }
-    renderBlocks(blocks);
+
+if(!blocks || blocks.length === 0){
+  renderNotAvailable('FiveM');
+  return;
+}
+
+renderBlocks(blocks);
   };
 
   btnEl.addEventListener('click', doSearch);
