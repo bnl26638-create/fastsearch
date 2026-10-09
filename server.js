@@ -356,17 +356,16 @@ app.delete('/api/avatar', requireAuth, (req, res) => {
   res.json({ success: true });
 });
 
-// ============================================================
-// RECHERCHE — BRIXHUB
+
+/ ============================================================
+// RECHERCHE — BRIXHUB (diagnostic et données de test)
 // ============================================================
 
 app.get('/api/search', requireAuth, async (req, res) => {
   try {
-    const allowedFields = [
-      'nom', 'prenom', 'ville', 'code_postal'
-    ];
-
+    const allowedFields = ['nom', 'prenom', 'ville', 'code_postal'];
     const criteria = {};
+
     for (const field of allowedFields) {
       const value = String(req.query[field] || '').trim();
       if (value) criteria[field] = value;
@@ -376,7 +375,31 @@ app.get('/api/search', requireAuth, async (req, res) => {
       return res.json({ results: [], total: 0 });
     }
 
-    // Résultats fictifs pour vérifier le formulaire et l'affichage.
+    // Appel distant : ne conserve pas les profils reçus.
+    const response = await fetch(
+      'https://api.brixhub.ru/api/v1/search',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          nom_famille: 'TEST',
+          per_page: 1
+        }),
+        signal: AbortSignal.timeout(10000)
+      }
+    );
+
+    const payload = await response.json();
+
+    if (!response.ok || payload.meta?.maintenance) {
+      return res.status(502).json({
+        error: 'Service BrixHub indisponible ou en maintenance',
+        upstreamStatus: response.status,
+        maintenance: payload.meta?.maintenance ?? false
+      });
+    }
+
+    // Jeu de données fictives pour tester le formulaire.
     const demoData = [
       {
         last_name: 'Martin',
@@ -394,21 +417,23 @@ app.get('/api/search', requireAuth, async (req, res) => {
       }
     ];
 
+    const mapping = {
+      nom: 'last_name',
+      prenom: 'first_name',
+      ville: 'city',
+      code_postal: 'postal_code'
+    };
+
     const results = demoData.filter(person =>
-      Object.entries(criteria).every(([key, value]) => {
-        const mapping = {
-          nom: 'last_name',
-          prenom: 'first_name',
-          ville: 'city',
-          code_postal: 'postal_code'
-        };
-        return String(person[mapping[key]] || '')
+      Object.entries(criteria).every(([key, value]) =>
+        String(person[mapping[key]] || '')
           .toLowerCase()
-          .includes(value.toLowerCase());
-      })
+          .includes(value.toLowerCase())
+      )
     );
 
     const query = Object.values(criteria).join(' ');
+
     searchHistory.push({
       username: req.session.username,
       query,
@@ -425,11 +450,15 @@ app.get('/api/search', requireAuth, async (req, res) => {
       results,
       total: results.length,
       query,
-      demo: true
+      demo: true,
+      upstreamStatus: response.status
     });
   } catch (err) {
-    console.error('Erreur recherche:', err);
-    return res.status(500).json({ error: 'Erreur serveur' });
+    console.error('Erreur recherche BrixHub:', err.message);
+
+    return res.status(502).json({
+      error: 'Impossible de joindre le service distant'
+    });
   }
 });
 
