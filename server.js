@@ -391,6 +391,12 @@ app.get('/api/search', requireAuth, async (req, res) => {
 
     const payload = await response.json();
 
+    console.log('Diagnostic BrixHub:', {
+      status: response.status,
+      maintenance: payload.meta?.maintenance,
+      message: payload.message
+    });
+
     if (!response.ok || payload.meta?.maintenance) {
       return res.status(502).json({
         error: 'Service BrixHub indisponible ou en maintenance',
