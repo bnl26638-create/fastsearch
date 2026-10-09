@@ -1604,11 +1604,20 @@ async function doAdvSearch(){
   const oldHtml = btn.innerHTML;
   btn.innerHTML = 'Recherche...';
   const resumeParts = [];
-  for(const key in data){ if(FIELD_LABELS[key]) resumeParts.push(data[key]); }
-  const resume = resumeParts.join(', ');
-  resultsEl.innerHTML = '<div class="noResult"><div class="loader"></div></div>';
-  try {
-    const r = await fetch('/api/search?q=' + encodeURIComponent(resume));
+for (const key in data) {
+  if (FIELD_LABELS[key]) {
+    resumeParts.push(FIELD_LABELS[key] + ': ' + data[key]);
+  }
+}
+const resume = resumeParts.join(', ');
+
+resultsEl.innerHTML =
+  '<div class="noResult"><div class="loader"></div></div>';
+
+try {
+  const r = await fetch('/api/search?q=' + encodeURIComponent(
+    Object.values(data).join(' ')
+  ));
     const resp = await r.json();
     if(!r.ok){
       resultsEl.innerHTML = '<div class="noResult"><div class="ico">'+WARN_ICON+'</div><div class="title">Erreur serveur</div><div class="hint">'+escapeHtml(resp.error||'Réessaie')+'</div></div>';
